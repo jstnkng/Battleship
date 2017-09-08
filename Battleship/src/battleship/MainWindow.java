@@ -9,6 +9,8 @@ public class MainWindow {
 		//hi this is a comment 
 		//hello
 		System.out.println("Test push");
+		
+		System.out.println("Test push");
 	}
 
 }
