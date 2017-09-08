@@ -8,6 +8,8 @@ public class MainWindow {
 		System.out.println("This line was changed");
 		//hi this is a comment
 		System.out.println("Test push");
+		
+		System.out.println("Test push");
 	}
 
 }
