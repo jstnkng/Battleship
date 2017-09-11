@@ -44,6 +44,7 @@ public class Board extends JFrame {
 			}
 		}
 		
+		
 		Player2Board = new JPanel();
 		Player2Board.setLayout(boardLayout);
 		Player2Board.setBorder(new EmptyBorder(10,10,10,10));
@@ -67,6 +68,7 @@ public class Board extends JFrame {
 		setContentPane(contentPane);
 	}
 	
+	//Get letter from number
 	private String Letter(int i) {
 	    return i > 0 && i < 27 ? String.valueOf((char)(i + 64)) : null;
 	}
