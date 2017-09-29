@@ -13,6 +13,8 @@ import javax.swing.border.EmptyBorder;
 public class Grid extends JPanel{
 	
 	private static JLabel[][] grid = new JLabel[10][10];
+	
+	public int[][] value = new int[10][10];
 
 	public Grid (int boardSize){
 		
@@ -45,6 +47,7 @@ public class Grid extends JPanel{
 				this.add(box, new Integer(0));
 
 				grid[x][y] = box;
+				value[x][y] = 0;
 
 				//JButton button = new JButton("");
 				//button.setEnabled(false);

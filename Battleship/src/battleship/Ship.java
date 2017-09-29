@@ -13,10 +13,84 @@ import javax.swing.JPanel;
 public class Ship extends JPanel{
 	private BufferedImage imageH;
 	private BufferedImage imageV;
+	public int height;
+	public int width;
+	public int x;
+	public int y;
+	public String pathH;
+	public String pathV;
+	public String imagePath;
+	public int size;
 	private boolean rotate = false;
 	
+	public Ship(ShipType type) {
+		if (type == ShipType.AircraftCarrier) {
+			pathH = "res\\AC_H.png";
+			pathV = "res\\AC_V.png";
+			
+			x = 0;
+			y = 0;
+			width = 350;
+			height = 50;
+			size = 5;
+			imagePath = pathH;
+			SetImages(pathH, pathV);
+		}
+		else if (type == ShipType.Battleship) {
+			pathH = "res\\BS_H.png";
+			pathV = "res\\BS_V.png";
+			
+			x = 0;
+			y = 100;
+			width = 300;
+			height = 50;
+			size = 4;
+			imagePath = pathH;
+			SetImages(pathH, pathV);
+		}
+		else if (type == ShipType.Cruiser) {
+			pathH = "res\\C_H.png";
+			pathV = "res\\C_V.png";
+			//these values can be changed as needed, just used the same numbers you had for the battleship for now
+			x = 0;
+			y = 100;
+			width = 300;
+			height = 50;
+			size = 3;
+			//When you rotate a ship, you can just change the image path to either the _h or _v
+			imagePath = pathH;
+			SetImages(pathH, pathV);
+		}
+		else if (type == ShipType.PatrolBoat) {
+			pathH = "res\\PB_H.png";
+			pathV = "res\\PB_V.png";
+			//these values can be changed as needed, just used the same numbers you had for the battleship for now
+			x = 0;
+			y = 100;
+			width = 300;
+			height = 50;
+			size = 2;
+			//When you rotate a ship, you can just change the image path to either the _h or _v
+			imagePath = pathH;
+			SetImages(pathH, pathV);
+			
+		}
+		else if (type == ShipType.Submarine) {
+			pathH = "res\\S_H.png";
+			pathV = "res\\S_V.png";
+			//these values can be changed as needed, just used the same numbers you had for the battleship for now
+			x = 0;
+			y = 100;
+			width = 300;
+			height = 50;
+			size = 3;
+			//When you rotate a ship, you can just change the image path to either the _h or _v
+			imagePath = pathH;
+			SetImages(pathH, pathV);
+		}
+	}
 	
-	public Ship(String pathH, String pathV) {
+	public void SetImages(String pathH, String pathV) {
 		
 		try {
 			imageH = ImageIO.read(new File(pathH));

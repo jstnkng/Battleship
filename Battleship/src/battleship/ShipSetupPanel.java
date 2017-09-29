@@ -22,10 +22,6 @@ import javax.swing.border.EmptyBorder;
 
 public class ShipSetupPanel extends JPanel implements MouseListener, MouseMotionListener {
 	
-	private int ACX, ACY;
-	private int ACWidth, ACHeight;
-	private int BSX, BSY;
-	private int BSWidth, BSHeight;
 	private int mx, my;
 	private int dragFromX, dragFromY;
 	private boolean ACcanDrag = false;
@@ -34,17 +30,20 @@ public class ShipSetupPanel extends JPanel implements MouseListener, MouseMotion
 	private int boardSize = 10;
 	
 	private JLayeredPane layeredPane;
-	private JPanel board;
+	private Grid board;
 	
 	private Ship AircraftCarrier;
 	private Ship BattleShip;
+	private Ship Cruiser;
+	private Ship PatrolBoat;
+	private Ship Submarine;
 	private boolean flip = true;
 	
 	private JButton submit;
 	
 	private JLabel[][] grid = new JLabel[boardSize][boardSize];
-	private int[][] value = new int[boardSize][boardSize];
 	
+	private Ship[] Ships = new Ship[5];
 	
 	public ShipSetupPanel(){
 		
@@ -60,7 +59,9 @@ public class ShipSetupPanel extends JPanel implements MouseListener, MouseMotion
 		layeredPane.setLayout(gridbag);
 		
 		//create first ship
-		AircraftCarrier = createAircraftCarrier();
+		//AircraftCarrier = createAircraftCarrier();
+		AircraftCarrier = new Ship(ShipType.AircraftCarrier);
+		Ships[0] = AircraftCarrier;
 		
 		//add first ship to layered pane
 		c.gridx = 0;
@@ -72,7 +73,8 @@ public class ShipSetupPanel extends JPanel implements MouseListener, MouseMotion
 		
 	
 		//create second ship
-		BattleShip = createBattleShip();
+		BattleShip = new Ship(ShipType.Battleship);
+		Ships[1] = BattleShip;
 		
 		//add second ship to layered pane
 		c.gridx = 0;
@@ -81,6 +83,15 @@ public class ShipSetupPanel extends JPanel implements MouseListener, MouseMotion
 		c.weighty = .33;
 		c.fill = GridBagConstraints.BOTH;
 		layeredPane.add(BattleShip, c, 1);
+		
+		Cruiser = new Ship(ShipType.Cruiser);
+		Ships[2] = Cruiser;
+		
+		PatrolBoat = new Ship(ShipType.PatrolBoat);
+		Ships[3] = PatrolBoat;
+		
+		Submarine = new Ship(ShipType.Submarine);
+		Ships[4] = Submarine;
 		
 		//create and add submit button
 		submit = new JButton();
@@ -132,17 +143,17 @@ public class ShipSetupPanel extends JPanel implements MouseListener, MouseMotion
 		my = e.getY();
 		
 		if(ACcanDrag) {
-			ACX = mx - dragFromX;
-			ACY = my - dragFromY;
+			AircraftCarrier.x = mx - dragFromX;
+			AircraftCarrier.y = my - dragFromY;
 			
-			AircraftCarrier.setLocation(ACX, ACY);
+			AircraftCarrier.setLocation(AircraftCarrier.x, AircraftCarrier.y);
 		}
 		
 		if(BScanDrag) {
-			BSX = mx - dragFromX;
-			BSY = my - dragFromY;
+			BattleShip.x = mx - dragFromX;
+			BattleShip.y = my - dragFromY;
 			
-			BattleShip.setLocation(BSX, BSY);
+			BattleShip.setLocation(BattleShip.x, BattleShip.y);
 		}
 	}
 
@@ -156,12 +167,12 @@ public class ShipSetupPanel extends JPanel implements MouseListener, MouseMotion
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
-		if (mx >= ACX && mx <= (ACX + ACWidth) && my >= ACY && my <= (ACY + ACHeight)) {
+		if (mx >= AircraftCarrier.x && mx <= (AircraftCarrier.x + AircraftCarrier.width) && my >= AircraftCarrier.y && my <= (AircraftCarrier.y + AircraftCarrier.height)) {
 			AircraftCarrier.rotate(flip);
-			AircraftCarrier.setSize(ACHeight, ACWidth);
-			int temp = ACHeight;
-			ACHeight = ACWidth;
-			ACWidth = temp;
+			AircraftCarrier.setSize(AircraftCarrier.height, AircraftCarrier.width);
+			int temp = AircraftCarrier.height;
+			AircraftCarrier.height = AircraftCarrier.width;
+			AircraftCarrier.width = temp;
 			
 			if (flip == true) {
 				flip = false;
@@ -194,23 +205,23 @@ public class ShipSetupPanel extends JPanel implements MouseListener, MouseMotion
 		my = e.getY();
 		
 		//Location for BattleShip
-		BSX = BattleShip.getLocationOnScreen().x;
-		BSY = BattleShip.getLocationOnScreen().y;
+		BattleShip.x = BattleShip.getLocationOnScreen().x;
+		BattleShip.y = BattleShip.getLocationOnScreen().y;
 		
-		if (mx >= ACX && mx <= (ACX + BSWidth) && my >= ACY && my <= (ACY + ACHeight)) {
+		if (mx >= AircraftCarrier.x && mx <= (AircraftCarrier.x + BattleShip.width) && my >= AircraftCarrier.y && my <= (AircraftCarrier.y + AircraftCarrier.height)) {
 			ACcanDrag = true;
-			dragFromX = mx - ACX;
-			dragFromY = my - ACY;
+			dragFromX = mx - AircraftCarrier.x;
+			dragFromY = my - AircraftCarrier.y;
 			
 			
 		}else {
 			ACcanDrag = false;
 		}
 		
-		if (mx >= BSX && mx <= (BSX + BSWidth) && my >= BSY && my <= (BSY + BSHeight)) {
+		if (mx >= BattleShip.x && mx <= (BattleShip.x + BattleShip.width) && my >= BattleShip.y && my <= (BattleShip.y + BattleShip.height)) {
 			BScanDrag = true;
-			dragFromX = mx - BSX;
-			dragFromY = my - BSY;
+			dragFromX = mx - BattleShip.x;
+			dragFromY = my - BattleShip.y;
 		}else {
 			BScanDrag = false;
 		}
@@ -232,7 +243,7 @@ public class ShipSetupPanel extends JPanel implements MouseListener, MouseMotion
 			for (int y = 0; y < boardSize; y++) {
 				
 				if(grid[x][y].getBounds().intersects(AircraftCarrier.getBounds())) {
-					value[x][y] = 1;
+					board.value[x][y] = 1;
 				} /*else if (grid[x][y].getBounds().intersects(BattleShip.getBounds())) {
 					value[x][y] = 1;
 				}*/
@@ -254,107 +265,13 @@ public class ShipSetupPanel extends JPanel implements MouseListener, MouseMotion
 		
 		System.out.print(AircraftCarrier.getBounds().toString());
 		
+		GameBoard playingBoard = new GameBoard(GameMode.OnePlayerMode, board.value, Ships );
+		playingBoard.setVisible(true);
 		
 	}
 	
-	//Make Aircraft Carrier
-	private Ship createAircraftCarrier() {
-		
-		String pathH = "res\\AC_H.png";
-		String pathV = "res\\AC_V.png";
-		
-		//first ship info
-		ACX = 0;
-		ACY = 0;
-		ACWidth = 350;
-		ACHeight = 50;
-		
-		BoatInformation AircraftInfo = new BoatInformation(ACX, ACY, ACWidth, ACHeight, pathH);
-		
-		//create first ship as paintComponent
-		Ship AC = new Ship(pathH, pathV);
-		AC.setSize(ACWidth, ACHeight);
-		
-		return AC;
-	}
+
 	
-	//Make Battleship
-	private Ship createBattleShip() {
-		
-		String pathH = "res\\BS_H.png";
-		String pathV = "res\\BS_V.png";
-		
-		//second ship info
-		BSX = 0;
-		BSY = 100;
-		BSWidth = 300;
-		BSHeight = 50;
-		
-		BoatInformation BatteshipInfo = new BoatInformation(BSX, BSY, BSWidth, BSHeight, pathH);
-
-		//create second ship as paint component
-		Ship BS = new Ship(pathH, pathV);
-		BS.setSize(BSWidth, BSHeight);
-		
-		return BS;
-
-	}
-	
-
-	//Make the Board
-//	private JPanel createBoard() {
-//
-//		//make grid layout for board panel
-//		GridLayout boardLayout = new GridLayout(boardSize + 1, boardSize + 1);
-//
-//		//create board
-//		JPanel gameBoard = new JPanel();
-//		gameBoard.setLayout(boardLayout);
-//		gameBoard.setBorder(new EmptyBorder(10,10,10,10));
-//		gameBoard.add(new JLabel());
-//
-//		//create border
-//		Border boardBorder = BorderFactory.createLineBorder(Color.BLACK);
-//
-//		for (int x = 1; x < boardSize + 1; x++ ) {
-//			JLabel letterButton = new JLabel(Letter(x), SwingConstants.CENTER);
-//			gameBoard.add(letterButton, new Integer(0));
-//		}
-//
-//		for (int x = 0; x < boardLayout.getColumns()-1; x ++) {
-//			gameBoard.add(new JLabel("" + (x + 1), SwingConstants.CENTER));
-//			for (int y = 0; y < boardLayout.getRows()-1; y ++) {
-//
-//				JLabel box = new JLabel();
-//				box.setBackground(Color.LIGHT_GRAY);
-//				box.setOpaque(true);
-//				box.setText(x + "," + y);
-//				box.setHorizontalAlignment(SwingConstants.CENTER);
-//				box.setForeground(Color.BLUE);
-//				box.setBorder(boardBorder);
-//				gameBoard.add(box, new Integer(0));
-//
-//				grid[x][y] = box;
-//				value[x][y] = 0;
-//
-//				//JButton button = new JButton("");
-//				//button.setEnabled(false);
-//				//button.setBackground(Color.DARK_GRAY);
-//				//board.add(button, new Integer(0));
-//
-//			}
-//		}
-//
-//
-//		gameBoard.setBackground(Color.CYAN);
-//
-//		return gameBoard;
-//	}
-	
-	//Get letter from number
-
-
-
 	//Create the Frame
 	public static void main(String[] args) {
 		//Create a new JFrame
