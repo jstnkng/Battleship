@@ -260,8 +260,8 @@ public class ShipSetupPanel extends JPanel implements MouseListener, MouseMotion
 	//Make Aircraft Carrier
 	private Ship createAircraftCarrier() {
 		
-		String pathH = "C:\\Users\\jstnd\\git\\Battleship\\Battleship\\src\\battleship\\images\\battleships\\AC_H.png";
-		String pathV = "C:\\Users\\jstnd\\git\\Battleship\\Battleship\\src\\battleship\\images\\battleships\\AC_V.png";
+		String pathH = "res\\AC_H.png";
+		String pathV = "res\\AC_V.png";
 		
 		//first ship info
 		ACX = 0;
@@ -281,8 +281,8 @@ public class ShipSetupPanel extends JPanel implements MouseListener, MouseMotion
 	//Make Battleship
 	private Ship createBattleShip() {
 		
-		String pathH = "C:\\Users\\jstnd\\git\\Battleship\\Battleship\\src\\battleship\\images\\battleships\\BS_H.png";
-		String pathV = "C:\\Users\\jstnd\\git\\Battleship\\Battleship\\src\\battleship\\images\\battleships\\BS_V.png";
+		String pathH = "res\\BS_H.png";
+		String pathV = "res\\BS_V.png";
 		
 		//second ship info
 		BSX = 0;
