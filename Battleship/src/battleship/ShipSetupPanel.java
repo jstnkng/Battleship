@@ -225,6 +225,7 @@ public class ShipSetupPanel extends JPanel implements MouseListener, MouseMotion
 	public void submit() {
 		board.setBackground(Color.GREEN);
 		
+		
 		for (int x = 0; x < boardSize; x++) {
 			for (int y = 0; y < boardSize; y++) {
 				
@@ -241,12 +242,15 @@ public class ShipSetupPanel extends JPanel implements MouseListener, MouseMotion
 		for (int x = 0; x < boardSize; x++) {
 			for (int y = 0; y < boardSize; y++) {
 				
-				System.out.print(value[x][y] + " ");
+				//System.out.print(value[x][y] + " ");
+				System.out.print(grid[x][y].getBounds().toString());
 				
 			}
 			
 			System.out.println("");
 		}
+		
+		System.out.print(AircraftCarrier.getBounds().toString());
 		
 		
 	}
@@ -351,7 +355,9 @@ public class ShipSetupPanel extends JPanel implements MouseListener, MouseMotion
 	public static void main(String[] args) {
 		//Create a new JFrame
 		JFrame frame = new JFrame("Ship Setup");
-		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		//frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		frame.setSize(1200, 700);
+		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 
