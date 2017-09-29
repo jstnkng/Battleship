@@ -101,7 +101,9 @@ public class ShipSetupPanel extends JPanel implements MouseListener, MouseMotion
 		
 		
 		//create board
-		board = createBoard();
+		//board = createBoard();
+		board = new Grid(boardSize);
+		grid = Grid.getGrid();
 		
 		//add board to the layeredPane
 		c.gridx = 1;
@@ -300,59 +302,57 @@ public class ShipSetupPanel extends JPanel implements MouseListener, MouseMotion
 	
 
 	//Make the Board
-	private JPanel createBoard() {
-
-		//make grid layout for board panel
-		GridLayout boardLayout = new GridLayout(boardSize + 1, boardSize + 1);
-
-		//create board
-		JPanel gameBoard = new JPanel();
-		gameBoard.setLayout(boardLayout);
-		gameBoard.setBorder(new EmptyBorder(10,10,10,10));
-		gameBoard.add(new JLabel());
-
-		//create border
-		Border boardBorder = BorderFactory.createLineBorder(Color.BLACK);
-
-		for (int x = 1; x < boardSize + 1; x++ ) {
-			JLabel letterButton = new JLabel(Letter(x), SwingConstants.CENTER);
-			gameBoard.add(letterButton, new Integer(0));
-		}
-
-		for (int x = 0; x < boardLayout.getColumns()-1; x ++) {
-			gameBoard.add(new JLabel("" + (x + 1), SwingConstants.CENTER));
-			for (int y = 0; y < boardLayout.getRows()-1; y ++) {
-
-				JLabel box = new JLabel();
-				box.setBackground(Color.LIGHT_GRAY);
-				box.setOpaque(true);
-				box.setText(x + "," + y);
-				box.setHorizontalAlignment(SwingConstants.CENTER);
-				box.setForeground(Color.BLUE);
-				box.setBorder(boardBorder);
-				gameBoard.add(box, new Integer(0));
-
-				grid[x][y] = box;
-				value[x][y] = 0;
-
-				//JButton button = new JButton("");
-				//button.setEnabled(false);
-				//button.setBackground(Color.DARK_GRAY);
-				//board.add(button, new Integer(0));
-
-			}
-		}
-
-
-		gameBoard.setBackground(Color.CYAN);
-
-		return gameBoard;
-	}
+//	private JPanel createBoard() {
+//
+//		//make grid layout for board panel
+//		GridLayout boardLayout = new GridLayout(boardSize + 1, boardSize + 1);
+//
+//		//create board
+//		JPanel gameBoard = new JPanel();
+//		gameBoard.setLayout(boardLayout);
+//		gameBoard.setBorder(new EmptyBorder(10,10,10,10));
+//		gameBoard.add(new JLabel());
+//
+//		//create border
+//		Border boardBorder = BorderFactory.createLineBorder(Color.BLACK);
+//
+//		for (int x = 1; x < boardSize + 1; x++ ) {
+//			JLabel letterButton = new JLabel(Letter(x), SwingConstants.CENTER);
+//			gameBoard.add(letterButton, new Integer(0));
+//		}
+//
+//		for (int x = 0; x < boardLayout.getColumns()-1; x ++) {
+//			gameBoard.add(new JLabel("" + (x + 1), SwingConstants.CENTER));
+//			for (int y = 0; y < boardLayout.getRows()-1; y ++) {
+//
+//				JLabel box = new JLabel();
+//				box.setBackground(Color.LIGHT_GRAY);
+//				box.setOpaque(true);
+//				box.setText(x + "," + y);
+//				box.setHorizontalAlignment(SwingConstants.CENTER);
+//				box.setForeground(Color.BLUE);
+//				box.setBorder(boardBorder);
+//				gameBoard.add(box, new Integer(0));
+//
+//				grid[x][y] = box;
+//				value[x][y] = 0;
+//
+//				//JButton button = new JButton("");
+//				//button.setEnabled(false);
+//				//button.setBackground(Color.DARK_GRAY);
+//				//board.add(button, new Integer(0));
+//
+//			}
+//		}
+//
+//
+//		gameBoard.setBackground(Color.CYAN);
+//
+//		return gameBoard;
+//	}
 	
 	//Get letter from number
-	private String Letter(int i) {
-		return i > 0 && i < 27 ? String.valueOf((char)(i + 64)) : null;
-	}
+
 
 
 	//Create the Frame
