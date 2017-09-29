@@ -258,14 +258,16 @@ public class ShipSetupPanel extends JPanel implements MouseListener, MouseMotion
 	//Make Aircraft Carrier
 	private Ship createAircraftCarrier() {
 		
-		String pathH = "C:\\Users\\Sam Carson\\git\\Battleship\\Battleship\\src\\battleship\\images\\battleships\\AC_H.png";
-		String pathV = "C:\\Users\\Sam Carson\\git\\Battleship\\Battleship\\src\\battleship\\images\\battleships\\AC_V.png";
+		String pathH = "C:\\Users\\jstnd\\git\\Battleship\\Battleship\\src\\battleship\\images\\battleships\\AC_H.png";
+		String pathV = "C:\\Users\\jstnd\\git\\Battleship\\Battleship\\src\\battleship\\images\\battleships\\AC_V.png";
 		
 		//first ship info
 		ACX = 0;
 		ACY = 0;
 		ACWidth = 350;
 		ACHeight = 50;
+		
+		BoatInformation AircraftInfo = new BoatInformation(ACX, ACY, ACWidth, ACHeight, pathH);
 		
 		//create first ship as paintComponent
 		Ship AC = new Ship(pathH, pathV);
@@ -277,14 +279,16 @@ public class ShipSetupPanel extends JPanel implements MouseListener, MouseMotion
 	//Make Battleship
 	private Ship createBattleShip() {
 		
-		String pathH = "C:\\Users\\Sam Carson\\git\\Battleship\\Battleship\\src\\battleship\\images\\battleships\\BS_H.png";
-		String pathV = "C:\\Users\\Sam Carson\\git\\Battleship\\Battleship\\src\\battleship\\images\\battleships\\BS_V.png";
+		String pathH = "C:\\Users\\jstnd\\git\\Battleship\\Battleship\\src\\battleship\\images\\battleships\\BS_H.png";
+		String pathV = "C:\\Users\\jstnd\\git\\Battleship\\Battleship\\src\\battleship\\images\\battleships\\BS_V.png";
 		
 		//second ship info
 		BSX = 0;
 		BSY = 100;
 		BSWidth = 300;
 		BSHeight = 50;
+		
+		BoatInformation BatteshipInfo = new BoatInformation(BSX, BSY, BSWidth, BSHeight, pathH);
 
 		//create second ship as paint component
 		Ship BS = new Ship(pathH, pathV);
