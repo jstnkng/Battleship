@@ -279,6 +279,7 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 			playingBoard.player2Values = board.values;
 			this.setVisible(false);
 			playingBoard.setVisible(true);
+			playingBoard.beginGame();
 		}
 		
 	}

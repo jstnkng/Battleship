@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Random;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -20,6 +21,10 @@ public class GameBoard extends JFrame {
 	public Ship[] player1Ships = new Ship[5];
 	public Ship[] player2Ships = new Ship[5];
 	
+	public boolean player1Turn = true;
+	public boolean player2Turn = false;
+	
+	public GameMode currentMode;
 	
 	//Two player constructor
 	public GameBoard(GameMode mode) {
@@ -28,6 +33,7 @@ public class GameBoard extends JFrame {
 		//Boats[2] is Cruiser
 		//Boats[3] is PatrolBoat
 		//Boats[4] is Submarine
+		currentMode = mode;
 		this.setSize(1200,700);
 		this.setLayout(new GridLayout(0,2));
 	}
@@ -58,7 +64,9 @@ public class GameBoard extends JFrame {
 					public void actionPerformed(ActionEvent e) {
 						button.setText(button.getName());
 						button.setBackground(Color.GRAY);
-						
+						player2Turn = !player2Turn;
+						player1Turn = !player1Turn;
+						if (currentMode == GameMode.OnePlayerMode) cpuFire();
 					}
 				});
 				button.setName(player2Values[y][x] + "");
@@ -72,6 +80,20 @@ public class GameBoard extends JFrame {
 			x = 0;
 		}
 		this.add(player2Board);
+	}
+	
+	public void cpuFire() {
+		player2Board.setEnabled(false);		
+		int minimum = 0;
+		int maximum = 9;
+		Random rn = new Random();
+		int range = maximum - minimum + 1;
+		int randomX =  rn.nextInt(range) + minimum;
+		int randomY = rn.nextInt(range) + minimum;
+		
+		player1Board.labelGrid[randomX][randomY].setBackground(Color.white);
+		player2Board.setEnabled(true);
+		
 	}
 	
 }
