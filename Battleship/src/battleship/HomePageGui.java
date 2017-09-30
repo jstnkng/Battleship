@@ -64,8 +64,6 @@ public class HomePageGui extends JFrame{
 		btnPassPlay.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
-				ShipSetupFrame p2 = new ShipSetupFrame(GameMode.TwoPlayerPassAndPlay, 2);
 				ShipSetupFrame p1 = new ShipSetupFrame(GameMode.TwoPlayerPassAndPlay, 1);						
 			}
 		});
