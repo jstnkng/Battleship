@@ -156,12 +156,28 @@ public class ShipSetupPanel extends JPanel implements MouseListener, MouseMotion
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
+		//aircraft carrier
 		if (mx >= ACX && mx <= (ACX + ACWidth) && my >= ACY && my <= (ACY + ACHeight)) {
 			AircraftCarrier.rotate(flip);
 			AircraftCarrier.setSize(ACHeight, ACWidth);
 			int temp = ACHeight;
 			ACHeight = ACWidth;
 			ACWidth = temp;
+			
+			if (flip == true) {
+				flip = false;
+			}else {
+				flip = true;
+			}
+		}
+		
+		//battleship
+		if (mx >= BSX && mx <= (BSX + BSWidth) && my >= BSY && my <= (BSY + BSHeight)) {
+			BattleShip.rotate(flip);
+			BattleShip.setSize(BSHeight, BSWidth);
+			int temp = BSHeight;
+			BSHeight = BSWidth;
+			BSWidth = temp;
 			
 			if (flip == true) {
 				flip = false;
@@ -227,19 +243,28 @@ public class ShipSetupPanel extends JPanel implements MouseListener, MouseMotion
 	public void submit() {
 		board.setBackground(Color.GREEN);
 		
+		int xOnScreen;
+		int yOnScreen;
 		
 		for (int x = 0; x < boardSize; x++) {
 			for (int y = 0; y < boardSize; y++) {
 				
+				xOnScreen = (int) grid[x][y].getLocationOnScreen().getX();
+				yOnScreen = (int) grid[x][y].getLocationOnScreen().getY();
+				
+				grid[x][y].setBounds(xOnScreen, yOnScreen, 67, 59);
+				
 				if(grid[x][y].getBounds().intersects(AircraftCarrier.getBounds())) {
 					value[x][y] = 1;
-				} /*else if (grid[x][y].getBounds().intersects(BattleShip.getBounds())) {
-					value[x][y] = 1;
-				}*/
+				}
 				
-				
+				if(grid[x][y].getBounds().intersects(BattleShip.getBounds())) {
+					value[x][y] =1;
+				}
 			}
 		}
+		
+		
 		
 		for (int x = 0; x < boardSize; x++) {
 			for (int y = 0; y < boardSize; y++) {
@@ -252,8 +277,19 @@ public class ShipSetupPanel extends JPanel implements MouseListener, MouseMotion
 			System.out.println("");
 		}
 		
-		System.out.print(AircraftCarrier.getBounds().toString());
+		for (int x = 0; x < boardSize; x++) {
+			for (int y = 0; y < boardSize; y++) {
+				
+				System.out.print(value[x][y] + " ");
+				
+				
+			}
+			
+			System.out.println("");
+		}
 		
+		System.out.println(AircraftCarrier.getBounds().toString());
+		System.out.println(BattleShip.getBounds().toString());
 		
 	}
 	
@@ -272,8 +308,10 @@ public class ShipSetupPanel extends JPanel implements MouseListener, MouseMotion
 		BoatInformation AircraftInfo = new BoatInformation(ACX, ACY, ACWidth, ACHeight, pathH);
 		
 		//create first ship as paintComponent
-		Ship AC = new Ship(pathH, pathV);
-		AC.setSize(ACWidth, ACHeight);
+		Ship AC = new Ship(pathH, pathV, ACX, ACY, ACWidth, ACHeight);
+		//AC.setSize(ACWidth, ACHeight);
+		
+		AC.setBounds(ACX, ACY, ACWidth, ACHeight);
 		
 		return AC;
 	}
@@ -293,8 +331,10 @@ public class ShipSetupPanel extends JPanel implements MouseListener, MouseMotion
 		BoatInformation BatteshipInfo = new BoatInformation(BSX, BSY, BSWidth, BSHeight, pathH);
 
 		//create second ship as paint component
-		Ship BS = new Ship(pathH, pathV);
-		BS.setSize(BSWidth, BSHeight);
+		Ship BS = new Ship(pathH, pathV, BSX, BSY, BSWidth, BSHeight);
+		//BS.setSize(BSWidth, BSHeight);
+		
+		BS.setBounds(BSX, BSY, BSWidth, BSHeight);
 		
 		return BS;
 
