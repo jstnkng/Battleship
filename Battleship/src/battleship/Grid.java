@@ -3,8 +3,12 @@ package battleship;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridLayout;
+import java.awt.Image;
+import java.io.File;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -56,7 +60,12 @@ public class Grid extends JPanel{
 					JButton box = new JButton();
 					//box.setText(x + "," + y);
 					box.setHorizontalAlignment(SwingConstants.CENTER);
-					box.setForeground(Color.BLUE);
+					  try {
+						    Image img = ImageIO.read(new File("res\\waves.png"));
+						    box.setIcon(new ImageIcon(img));
+						  } catch (Exception ex) {
+						    System.out.println(ex);
+						  }
 					box.setBorder(boardBorder);
 					this.add(box, new Integer(0));
 					this.buttonGrid[x][y] = box;
