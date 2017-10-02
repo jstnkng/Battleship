@@ -80,7 +80,6 @@ public class Grid extends JPanel{
 			}
 		}
 		
-		this.setBackground(Color.CYAN);
 
 	}
 	

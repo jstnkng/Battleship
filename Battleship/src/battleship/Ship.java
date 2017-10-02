@@ -57,12 +57,12 @@ public class Ship extends JPanel{
 			
 			x = 0;
 			y = 0;
-			width = 250;
+			width = 258;
 			height = 50;
-			widthH = 250;
+			widthH = 258;
 			heightH = 50;
 			widthV = 50;
-			heightV = 220;
+			heightV = 222;
 			size = 4;
 			imagePath = pathH;
 			SetImages(pathH, pathV);
@@ -72,13 +72,13 @@ public class Ship extends JPanel{
 			pathV = "res\\C_V.png";
 			//these values can be changed as needed, just used the same numbers you had for the battleship for now
 			x = 0;
-			y = 100;
-			width = 300;
+			y = 0;
+			width = 191;
 			height = 50;
-			widthH = 300;
+			widthH = 191;
 			heightH = 50;
 			widthV = 50;
-			heightV = 250;
+			heightV = 164;
 			size = 3;
 			//When you rotate a ship, you can just change the image path to either the _h or _v
 			imagePath = pathH;
@@ -90,12 +90,12 @@ public class Ship extends JPanel{
 			//these values can be changed as needed, just used the same numbers you had for the battleship for now
 			x = 0;
 			y = 100;
-			width = 300;
+			width = 124;
 			height = 50;
-			widthH = 300;
+			widthH = 124;
 			heightH = 50;
 			widthV = 50;
-			heightV = 250;
+			heightV = 106;
 			size = 2;
 			//When you rotate a ship, you can just change the image path to either the _h or _v
 			imagePath = pathH;
@@ -108,12 +108,12 @@ public class Ship extends JPanel{
 			//these values can be changed as needed, just used the same numbers you had for the battleship for now
 			x = 0;
 			y = 100;
-			width = 300;
+			width = 191;
 			height = 50;
-			widthH = 300;
+			widthH = 191;
 			heightH = 50;
 			widthV = 50;
-			heightV = 250;
+			heightV = 164;
 			size = 3;
 			//When you rotate a ship, you can just change the image path to either the _h or _v
 			imagePath = pathH;
@@ -147,11 +147,12 @@ public class Ship extends JPanel{
 			System.err.println("V image not found: " + pathV);
 		}
 		
-		//this.setOpaque(false);
-		this.setBackground(Color.MAGENTA);
+		this.setOpaque(false);
+		
 	}
 	
 	public void draw() {
+
 		repaint();
 	}
 	
@@ -175,12 +176,10 @@ public class Ship extends JPanel{
 		//g.drawImage(image, 0, 0, this);
 		
 		if(isHorizontal == true) {
-			
 			g.drawImage(scaledH, 0, 0, this);
 			
 		}
 		if (isHorizontal == false) {
-			
 			g.drawImage(scaledV, 0, 0, this);
 		}
 		

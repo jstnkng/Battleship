@@ -23,6 +23,9 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 	private int dragFromX, dragFromY;
 	private boolean ACcanDrag = false;
 	private boolean BScanDrag = false;
+	private boolean CcanDrag = false;
+	private boolean ScanDrag = false;
+	private boolean PBcanDrag = false;
 	
 	private int boardSize = 10;
 	private JLayeredPane layeredPane;
@@ -62,45 +65,79 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 		GridBagConstraints c = new GridBagConstraints();
 		layeredPane = new JLayeredPane();
 		layeredPane.setLayout(gridbag);
+		
+		//create Aircraft Carrier
 		AircraftCarrier = new Ship(ShipType.AircraftCarrier);
 		Ships[0] = AircraftCarrier;
 		
-		//add first ship to layered pane
+		//add Aircraft Carrier ship to layered pane
 		c.gridx = 0;
 		c.gridy = 0;
 		c.weightx = .4;
-		c.weighty = .33;
+		c.weighty = .16;
 		c.fill = GridBagConstraints.BOTH;
-		layeredPane.add(AircraftCarrier, c, 1);
-		
+		layeredPane.add(AircraftCarrier, c);
+		layeredPane.setLayer(AircraftCarrier, 1, 0);
 	
-		//create second ship
+		//create Battle Ship 
 		BattleShip = new Ship(ShipType.Battleship);
 		Ships[1] = BattleShip;
 		
-		//add second ship to layered pane
+		//add Battle Ship to layered pane
 		c.gridx = 0;
 		c.gridy = 1;
 		c.weightx = .4;
-		c.weighty = .33;
+		c.weighty = .16;
 		c.fill = GridBagConstraints.BOTH;
-		layeredPane.add(BattleShip, c, 1);
+		layeredPane.add(BattleShip, c);
+		layeredPane.setLayer(BattleShip, 1, 1);
 		
+		//create cruiser
 		Cruiser = new Ship(ShipType.Cruiser);
 		Ships[2] = Cruiser;
 		
+		//add cruiser to layered pane
+		c.gridx = 0;
+		c.gridy = 2;
+		c.weightx = .4;
+		c.weighty = .16;
+		c.fill = GridBagConstraints.BOTH;
+		layeredPane.add(Cruiser, c);
+		layeredPane.setLayer(Cruiser, 1, 2);
+		
+		//create submarine
+		Submarine = new Ship(ShipType.Submarine);
+		Ships[4] = Submarine;
+		
+		//add submarine to layered pane
+		c.gridx = 0;
+		c.gridy = 3;
+		c.weightx = .4;
+		c.weighty = .16;
+		c.fill = GridBagConstraints.BOTH;
+		layeredPane.add(Submarine, c);
+		layeredPane.setLayer(Submarine, 1, 3);
+		
+		//create patrol boat
 		PatrolBoat = new Ship(ShipType.PatrolBoat);
 		Ships[3] = PatrolBoat;
 		
-		Submarine = new Ship(ShipType.Submarine);
-		Ships[4] = Submarine;
+		//add patrol boat to layered pane
+		c.gridx = 0;
+		c.gridy = 4;
+		c.weightx = .4;
+		c.weighty = .16;
+		c.fill = GridBagConstraints.BOTH;
+		layeredPane.add(PatrolBoat, c);
+		layeredPane.setLayer(PatrolBoat, 1, 1);
+		
 		
 		submit = new JButton();
 		submit.setText("Submit");
 		c.gridx = 0;
-		c.gridy = 2;
+		c.gridy = 5;
 		c.weightx = .4;
-		c.weighty = .33;
+		c.weighty = .16;
 		c.fill = GridBagConstraints.BOTH;
 		layeredPane.add(submit,  c, 1);
 		submit.addMouseListener(new MouseAdapter() {
@@ -120,20 +157,22 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 		c.gridy = 0;
 		c.weightx = .6;
 		c.weighty = 1;
-		c.gridheight = 3;
+		c.gridheight = 6;
 		c.fill = GridBagConstraints.BOTH;
-		layeredPane.add(board, c, -1);
+		layeredPane.add(board, c);
+		layeredPane.setLayer(board, -1);
 		
 		//add layered pane to the JPanel
 		this.add(layeredPane);
 		
-		addMouseListener(this);
-		addMouseMotionListener(this);
+		layeredPane.addMouseListener(this);
+		layeredPane.addMouseMotionListener(this);
 //		contentPane.setOpaque(true);
 //		this.setContentPane(contentPane);
 		
 		//Display;
 		this.setSize(1200,700);
+		this.setResizable(false);
 		this.setVisible(true);	
 		
 		//used to fix x and y location of ships
@@ -141,17 +180,33 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 		
 	}
 	
-	
+	//sets the ships x and y values to be relative to the screen instead of the parent's coordinate space
 	public void setBounds() {
 		
-		//This sets the ships x and y values to be relative to the screen instead of the parent's coordinate space
+		//AircraftCarrier
 		AircraftCarrier.x = AircraftCarrier.getLocationOnScreen().x;
 		AircraftCarrier.y = AircraftCarrier.getLocationOnScreen().y;
 		AircraftCarrier.setBounds(AircraftCarrier.x, AircraftCarrier.y, AircraftCarrier.width, AircraftCarrier.height);
 		
+		//BattleShip
 		BattleShip.x = BattleShip.getLocationOnScreen().x;
 		BattleShip.y = BattleShip.getLocationOnScreen().y;
 		BattleShip.setBounds(BattleShip.x, BattleShip.y, BattleShip.width, BattleShip.height);
+		
+		//Cruiser
+		Cruiser.x = Cruiser.getLocationOnScreen().x;
+		Cruiser.y = Cruiser.getLocationOnScreen().y;
+		Cruiser.setBounds(Cruiser.x, Cruiser.y, Cruiser.width, Cruiser.height);
+		
+		//Submarine
+		Submarine.x = Submarine.getLocationOnScreen().x;
+		Submarine.y = Submarine.getLocationOnScreen().y;
+		Submarine.setBounds(Submarine.x, Submarine.y, Submarine.width, Submarine.height);
+		
+		//PatrolBoat
+		PatrolBoat.x = PatrolBoat.getLocationOnScreen().x;
+		PatrolBoat.y = PatrolBoat.getLocationOnScreen().y;
+		PatrolBoat.setBounds(PatrolBoat.x, PatrolBoat.y, PatrolBoat.width, PatrolBoat.height);
 	}
 	
 
@@ -160,21 +215,35 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 		mx = e.getX();
 		my = e.getY();
 		
+		
 		if(ACcanDrag) {
 			AircraftCarrier.x = mx - dragFromX;
 			AircraftCarrier.y = my - dragFromY;
-			
 			AircraftCarrier.setBounds(AircraftCarrier.x, AircraftCarrier.y, AircraftCarrier.width, AircraftCarrier.height);
+			
+		}else if(BScanDrag) {
+			BattleShip.x = mx - dragFromX;
+			BattleShip.y = my - dragFromY;
+			BattleShip.setBounds(BattleShip.x, BattleShip.y, BattleShip.width, BattleShip.height);
+			
+		}else if(CcanDrag) {
+			Cruiser.x = mx - dragFromX;
+			Cruiser.y = my - dragFromY;
+			Cruiser.setBounds(Cruiser.x, Cruiser.y, Cruiser.width, Cruiser.height);
+			
+		}else if(ScanDrag) {
+			Submarine.x = mx - dragFromX;
+			Submarine.y = my - dragFromY;
+			Submarine.setBounds(Submarine.x, Submarine.y, Submarine.width, Submarine.height);
+			
+		}else if(PBcanDrag) {
+			PatrolBoat.x = mx - dragFromX;
+			PatrolBoat.y = my - dragFromY;
+			PatrolBoat.setBounds(PatrolBoat.x, PatrolBoat.y, PatrolBoat.width, PatrolBoat.height);
 			
 		}
 		
-		if(BScanDrag) {
-			BattleShip.x = mx - dragFromX;
-			BattleShip.y = my - dragFromY;
-			
-			BattleShip.setBounds(BattleShip.x, BattleShip.y, BattleShip.width, BattleShip.height);
-			
-		}
+		
 		
 	}
 
@@ -187,6 +256,7 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		
+		//Aircraft Carrier
 		int ACX = AircraftCarrier.x;
 		int ACY = AircraftCarrier.y;
 		int ACW = AircraftCarrier.width;
@@ -203,10 +273,11 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 			}else {
 				AircraftCarrier.isHorizontal = true;
 				AircraftCarrier.rotate();
-				AircraftCarrier.setSize(AircraftCarrier.width, AircraftCarrier.height);
+				AircraftCarrier.setSize(AircraftCarrier.widthH, AircraftCarrier.heightH);
 			}
 		}
 		
+		//BattleShip
 		int BSX = BattleShip.x;
 		int BSY = BattleShip.y;
 		int BSW = BattleShip.width;
@@ -223,23 +294,92 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 			}else {
 				BattleShip.isHorizontal = true;
 				BattleShip.rotate();
-				BattleShip.setSize(BattleShip.width, BattleShip.height);
+				BattleShip.setSize(BattleShip.widthH, BattleShip.heightH);
 			}
 		}
+		
+		//Cruiser
+		int CX = Cruiser.x;
+		int CY = Cruiser.y;
+		int CW = Cruiser.width;
+		int CH = Cruiser.height;
+
+		if (mx >= CX && mx <= (CX + CW) && my >= CY && my <= (CY + CH)) {
+
+			if (Cruiser.isHorizontal == true) {
+				Cruiser.isHorizontal = false;
+				Cruiser.rotate();
+				Cruiser.setSize(Cruiser.widthV, Cruiser.heightV);
+
+
+			}else {
+				Cruiser.isHorizontal = true;
+				Cruiser.rotate();
+				Cruiser.setSize(Cruiser.widthH, Cruiser.heightH);
+			}
+		}
+		
+		//Submarine
+		int SX = Submarine.x;
+		int SY = Submarine.y;
+		int SW = Submarine.width;
+		int SH = Submarine.height;
+
+		if (mx >= SX && mx <= (SX + SW) && my >= SY && my <= (SY + SH)) {
+
+			if (Submarine.isHorizontal == true) {
+				Submarine.isHorizontal = false;
+				Submarine.rotate();
+				Submarine.setSize(Submarine.widthV, Submarine.heightV);
+
+
+			}else {
+				Submarine.isHorizontal = true;
+				Submarine.rotate();
+				Submarine.setSize(Submarine.widthH, Submarine.heightH);
+			}
+		}
+		
+		//PatrolBoat
+		int PBX = PatrolBoat.x;
+		int PBY = PatrolBoat.y;
+		int PBW = PatrolBoat.width;
+		int PBH = PatrolBoat.height;
+
+		if (mx >= PBX && mx <= (PBX + PBW) && my >= PBY && my <= (PBY + PBH)) {
+
+			if (PatrolBoat.isHorizontal == true) {
+				PatrolBoat.isHorizontal = false;
+				PatrolBoat.rotate();
+				PatrolBoat.setSize(PatrolBoat.widthV, PatrolBoat.heightV);
+
+
+			}else {
+				PatrolBoat.isHorizontal = true;
+				PatrolBoat.rotate();
+				PatrolBoat.setSize(PatrolBoat.widthH, PatrolBoat.heightH);
+			}
+		}
+				
+				
 		
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
+		
 		mx = e.getX();
 		my = e.getY();
 		
+		//Aircraft Carrier
 		int ACX = AircraftCarrier.x;
 		int ACY = AircraftCarrier.y;
 		int ACW = AircraftCarrier.width;
 		int ACH = AircraftCarrier.height;
 		
 		if (mx >= ACX && mx <= (ACX + ACW) && my >= ACY && my <= (ACY + ACH)) {
+			
+			layeredPane.moveToFront(AircraftCarrier);
 			ACcanDrag = true;
 			dragFromX = mx - ACX;
 			dragFromY = my - ACY;
@@ -247,12 +387,15 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 			ACcanDrag = false;
 		}
 		
+		//BattleShip
 		int BSX = BattleShip.x;
 		int BSY = BattleShip.y;
 		int BSW = BattleShip.width;
 		int BSH = BattleShip.height;
 		
 		if (mx >= BSX && mx <= (BSX + BSW) && my >= BSY && my <= (BSY + BSH)) {
+			
+			layeredPane.moveToFront(BattleShip);
 			BScanDrag = true;
 			dragFromX = mx - BSX;
 			dragFromY = my - BSY;
@@ -261,11 +404,62 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 			BScanDrag = false;
 		}
 		
+		//Cruiser
+		int CX = Cruiser.x;
+		int CY = Cruiser.y;
+		int CW = Cruiser.width;
+		int CH = Cruiser.height;
+
+		if (mx >= CX && mx <= (CX + CW) && my >= CY && my <= (CY + CH)) {
+			
+			layeredPane.moveToFront(Cruiser);
+			CcanDrag = true;
+			dragFromX = mx - CX;
+			dragFromY = my - CY;
+
+		}else {
+			CcanDrag = false;
+		}
+		
+		//Submarine
+		int SX = Submarine.x;
+		int SY = Submarine.y;
+		int SW = Submarine.width;
+		int SH = Submarine.height;
+
+		if (mx >= SX && mx <= (SX + SW) && my >= SY && my <= (SY + SH)) {
+			
+			layeredPane.moveToFront(Submarine);
+			ScanDrag = true;
+			dragFromX = mx - SX;
+			dragFromY = my - SY;
+
+		}else {
+			ScanDrag = false;
+		}
+		
+		//PatrolBoat
+		int PBX = PatrolBoat.x;
+		int PBY = PatrolBoat.y;
+		int PBW = PatrolBoat.width;
+		int PBH = PatrolBoat.height;
+
+		if (mx >= PBX && mx <= (PBX + PBW) && my >= PBY && my <= (PBY + PBH)) {
+			
+			layeredPane.moveToFront(PatrolBoat);
+			PBcanDrag = true;
+			dragFromX = mx - PBX;
+			dragFromY = my - PBY;
+
+		}else {
+			PBcanDrag = false;
+		}
+		
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		board.setBackground(Color.CYAN);
+		
 	}
 
 	@Override
@@ -282,6 +476,8 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 	
 	public void submit() {
 		board.setBackground(Color.GREEN);
+		
+		
 		
 		//fixes ship locations
 		setBounds();
@@ -301,60 +497,60 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 					values[x][y] = 1;
 				} else if (grid[x][y].getBounds().intersects(BattleShip.getBounds())) {
 					values[x][y] = 1;
+				}else if (grid[x][y].getBounds().intersects(Cruiser.getBounds())) {
+					values[x][y] = 1;
+				}else if (grid[x][y].getBounds().intersects(Submarine.getBounds())) {
+					values[x][y] = 1;
+				}else if (grid[x][y].getBounds().intersects(PatrolBoat.getBounds())) {
+					values[x][y] = 1;
 				}
 			}
 		}
 		
-		
-		//troubleshooting
-		for (int x = 0; x < boardSize; x++) {
-			for (int y = 0; y < boardSize; y++) {
-				
-				System.out.print(grid[x][y].getBounds().toString());
-				
-			}
-			
-			System.out.println("");
-		}
+		//Count the number of 1 values
+		int count = 0;
 		
 		for (int x = 0; x < boardSize; x++) {
 			for (int y = 0; y < boardSize; y++) {
-				
-				System.out.print(values[x][y] + " ");
-				
+				if (values[x][y] == 1) {
+					count++;
+				}
 			}
+		}
+		
+		//count is = to 17 if all ships are placed correctly
+		if(count == 17) {
+		
+			GameBoard playingBoard = new GameBoard(mode);
+			if (this.getTitle().contains("1") && mode == GameMode.OnePlayerMode) {
+				playingBoard.player1Ships = Ships;
+				playingBoard.player1Values = board.values;
+				playingBoard.player2Values = setCpuValues();
+
+				this.setVisible(false);
+				playingBoard.setVisible(true);
+				playingBoard.beginGame();
+			}
+			else if (this.getTitle().contains("1") && mode == GameMode.TwoPlayerPassAndPlay) {
+				playingBoard.player1Ships = Ships;
+				playingBoard.player1Values = board.values;
+				this.setTitle("Player 2 Set Ships");
+				this.getContentPane().removeAll();
+				ShipSetup(mode, 2);
+			}
+			else {
+				playingBoard.player2Ships = Ships;
+				playingBoard.player2Values = board.values;
+				this.setVisible(false);
+				playingBoard.setVisible(true);
+				playingBoard.beginGame();
+			}
+		} else {
 			
-			System.out.println("");
-		}
-		
-		System.out.println(AircraftCarrier.getBounds().toString());
-		System.out.println(BattleShip.getBounds().toString());
-		
-		
-		
-		GameBoard playingBoard = new GameBoard(mode);
-		if (this.getTitle().contains("1") && mode == GameMode.OnePlayerMode) {
-			playingBoard.player1Ships = Ships;
-			playingBoard.player1Values = board.values;
-			playingBoard.player2Values = setCpuValues();
+			//if the ships aren't placed correctly
+			board.setBackground(Color.RED);
+			System.err.println("Ships placed Incorrectley");
 			
-			this.setVisible(false);
-			playingBoard.setVisible(true);
-			playingBoard.beginGame();
-		}
-		else if (this.getTitle().contains("1") && mode == GameMode.TwoPlayerPassAndPlay) {
-			playingBoard.player1Ships = Ships;
-			playingBoard.player1Values = board.values;
-			this.setTitle("Player 2 Set Ships");
-			this.getContentPane().removeAll();
-			ShipSetup(mode, 2);
-		}
-		else {
-			playingBoard.player2Ships = Ships;
-			playingBoard.player2Values = board.values;
-			this.setVisible(false);
-			playingBoard.setVisible(true);
-			playingBoard.beginGame();
 		}
 		
 	}
