@@ -64,17 +64,26 @@ public class HomePageGui extends JFrame{
 		btnPassPlay.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
-				ShipSetupFrame p1 = new ShipSetupFrame();
-				
-			
-				
+				ShipSetupFrame p1 = new ShipSetupFrame(GameMode.TwoPlayerPassAndPlay, 1);						
 			}
 		});
+		
 		GridBagConstraints gbc_btnPassPlay = new GridBagConstraints();
 		gbc_btnPassPlay.gridx = 1;
 		gbc_btnPassPlay.gridy = 1;
 		contentPane.add(btnPassPlay, gbc_btnPassPlay);
+		
+		JButton btnOnePlayer = new JButton("One Player");
+		btnOnePlayer.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				ShipSetupFrame p1 = new ShipSetupFrame(GameMode.OnePlayerMode, 0);						
+			}
+		});
+		GridBagConstraints gbc_btnOnePlayer = new GridBagConstraints();
+		gbc_btnOnePlayer.gridx = 1;
+		gbc_btnOnePlayer.gridy = 2;
+		contentPane.add(btnOnePlayer, gbc_btnOnePlayer);
 	}
 
 }
