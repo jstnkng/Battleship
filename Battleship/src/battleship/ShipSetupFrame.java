@@ -275,6 +275,8 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 				AircraftCarrier.rotate();
 				AircraftCarrier.setSize(AircraftCarrier.widthH, AircraftCarrier.heightH);
 			}
+			checkForShipOverLap(AircraftCarrier);
+			checkForShipOffGrid(AircraftCarrier);
 		}
 		
 		//BattleShip
@@ -296,6 +298,8 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 				BattleShip.rotate();
 				BattleShip.setSize(BattleShip.widthH, BattleShip.heightH);
 			}
+			checkForShipOverLap(BattleShip);
+			checkForShipOffGrid(BattleShip);
 		}
 		
 		//Cruiser
@@ -317,6 +321,8 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 				Cruiser.rotate();
 				Cruiser.setSize(Cruiser.widthH, Cruiser.heightH);
 			}
+			checkForShipOverLap(Cruiser);
+			checkForShipOffGrid(Cruiser);
 		}
 		
 		//Submarine
@@ -338,6 +344,8 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 				Submarine.rotate();
 				Submarine.setSize(Submarine.widthH, Submarine.heightH);
 			}
+			checkForShipOverLap(Submarine);
+			checkForShipOffGrid(Submarine);
 		}
 		
 		//PatrolBoat
@@ -359,6 +367,8 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 				PatrolBoat.rotate();
 				PatrolBoat.setSize(PatrolBoat.widthH, PatrolBoat.heightH);
 			}
+			checkForShipOverLap(PatrolBoat);
+			checkForShipOffGrid(PatrolBoat);
 		}
 				
 				
@@ -459,7 +469,266 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
+		mx = e.getX();
+		my = e.getY();
 		
+		
+		
+		//Aircraft Carrier
+		int ACX = AircraftCarrier.x;
+		int ACY = AircraftCarrier.y;
+		int ACW = AircraftCarrier.width;
+		int ACH = AircraftCarrier.height;
+		
+		if (mx >= ACX && mx <= (ACX + ACW) && my >= ACY && my <= (ACY + ACH)) {
+			
+			snapShipToY(AircraftCarrier);
+			snapShipToX(AircraftCarrier);
+		}
+		
+		//BattleShip
+		int BSX = BattleShip.x;
+		int BSY = BattleShip.y;
+		int BSW = BattleShip.width;
+		int BSH = BattleShip.height;
+		
+		if (mx >= BSX && mx <= (BSX + BSW) && my >= BSY && my <= (BSY + BSH)) {
+			
+			snapShipToY(BattleShip);
+			snapShipToX(BattleShip);
+		}
+		
+		//Cruiser
+		int CX = Cruiser.x;
+		int CY = Cruiser.y;
+		int CW = Cruiser.width;
+		int CH = Cruiser.height;
+
+		if (mx >= CX && mx <= (CX + CW) && my >= CY && my <= (CY + CH)) {
+			
+			snapShipToY(Cruiser);
+			snapShipToX(Cruiser);
+		}
+		
+		//Submarine
+		int SX = Submarine.x;
+		int SY = Submarine.y;
+		int SW = Submarine.width;
+		int SH = Submarine.height;
+
+		if (mx >= SX && mx <= (SX + SW) && my >= SY && my <= (SY + SH)) {
+			
+			snapShipToY(Submarine);
+			snapShipToX(Submarine);
+		}
+		
+		//PatrolBoat
+		int PBX = PatrolBoat.x;
+		int PBY = PatrolBoat.y;
+		int PBW = PatrolBoat.width;
+		int PBH = PatrolBoat.height;
+
+		if (mx >= PBX && mx <= (PBX + PBW) && my >= PBY && my <= (PBY + PBH)) {
+			
+			snapShipToY(PatrolBoat);
+			snapShipToX(PatrolBoat);
+		}
+	}
+	public void snapShipToX(Ship shipToSnap) {
+		if (shipToSnap.getX() >= 476 && shipToSnap.getX() <= 549) {
+			shipToSnap.x = 516;
+			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y, shipToSnap.width, shipToSnap.height);
+		}
+		else if (shipToSnap.getX() > 549 && shipToSnap.getX() <= 615) {
+			shipToSnap.x = 583;
+			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y, shipToSnap.width, shipToSnap.height);
+		}
+		else if (shipToSnap.getX() > 615 && shipToSnap.getX() <= 681) {
+			shipToSnap.x = 650;
+			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y, shipToSnap.width, shipToSnap.height);
+		}
+		else if (shipToSnap.getX() > 681 && shipToSnap.getX() <= 747) {
+			shipToSnap.x = 717;
+			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y, shipToSnap.width, shipToSnap.height);
+		}
+		else if (shipToSnap.getX() > 747 && shipToSnap.getX() <= 813) {
+			shipToSnap.x = 784;
+			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y, shipToSnap.width, shipToSnap.height);
+		}
+		else if (shipToSnap.getX() > 813 && shipToSnap.getX() <= 879) {
+			shipToSnap.x = 851;
+			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y, shipToSnap.width, shipToSnap.height);
+		}
+		else if (shipToSnap.getX() > 879 && shipToSnap.getX() <= 945) {
+			shipToSnap.x = 918;
+			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y, shipToSnap.width, shipToSnap.height);
+		}
+		else if (shipToSnap.getX() > 945 && shipToSnap.getX() <= 1011) {
+			shipToSnap.x = 985;
+			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y, shipToSnap.width, shipToSnap.height);
+		}
+		else if (shipToSnap.getX() > 1011 && shipToSnap.getX() <= 1077) {
+			shipToSnap.x = 1052;
+			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y, shipToSnap.width, shipToSnap.height);
+		}
+		checkForShipOffGrid(shipToSnap);
+		if (shipToSnap.getX() < 476 || shipToSnap.getX() > 1140) {
+			returnShipToStart(shipToSnap);
+		}
+	}
+	
+	public void snapShipToY(Ship shipToSnap) {
+		if (shipToSnap.getY() >= 30 && shipToSnap.getY() <= 105) {
+			shipToSnap.y = 76;
+			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y, shipToSnap.width, shipToSnap.height);
+		}
+		else if (shipToSnap.getY() > 105 && shipToSnap.getY() <= 163) {
+			shipToSnap.y = 134;
+			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y, shipToSnap.width, shipToSnap.height);
+		}
+		else if (shipToSnap.getY() > 163 && shipToSnap.getY() <= 221) {
+			shipToSnap.y = 192;
+			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y, shipToSnap.width, shipToSnap.height);
+		}
+		else if (shipToSnap.getY() > 221 && shipToSnap.getY() <= 279) {
+			shipToSnap.y = 250;
+			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y, shipToSnap.width, shipToSnap.height);
+		}
+		else if (shipToSnap.getY() > 279 && shipToSnap.getY() <= 337) {
+			shipToSnap.y = 308;
+			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y, shipToSnap.width, shipToSnap.height);
+		}
+		else if (shipToSnap.getY() > 337 && shipToSnap.getY() <= 395) {
+			shipToSnap.y = 366;
+			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y, shipToSnap.width, shipToSnap.height);
+		}
+		else if (shipToSnap.getY() > 395 && shipToSnap.getY() <= 453) {
+			shipToSnap.y = 424;
+			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y, shipToSnap.width, shipToSnap.height);
+		}
+		else if (shipToSnap.getY() > 453 && shipToSnap.getY() <= 511) {
+			shipToSnap.y = 482;
+			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y, shipToSnap.width, shipToSnap.height);
+		}
+		else if (shipToSnap.getY() > 511 && shipToSnap.getY() <= 569) {
+			shipToSnap.y = 540;
+			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y, shipToSnap.width, shipToSnap.height);
+		}
+		else if (shipToSnap.getY() > 569 && shipToSnap.getY() <= 615) {
+			shipToSnap.y = 598;
+			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y, shipToSnap.width, shipToSnap.height);
+		}
+		checkForShipOffGrid(shipToSnap);
+		if (shipToSnap.getY() < 30 || shipToSnap.getY() > 615) {
+			returnShipToStart(shipToSnap);
+		}
+		checkForShipOverLap(shipToSnap);
+	}
+	
+	public void checkForShipOffGrid(Ship shipToSnap) {
+		if ((shipToSnap.getY() + shipToSnap.getHeight()) > 650) {
+			returnShipToStart(shipToSnap);
+		}
+		else if ((shipToSnap.getX() + shipToSnap.getWidth()) > 1177) {
+			returnShipToStart(shipToSnap);
+		}
+	}
+	
+	public void checkForShipOverLap(Ship shipToSnap) {
+		if (shipToSnap.typeOfShip == ShipType.AircraftCarrier) {
+			if (shipToSnap.getBounds().intersects(BattleShip.getBounds())) {
+				returnShipToStart(shipToSnap);
+			}
+			else if (shipToSnap.getBounds().intersects(Cruiser.getBounds())) {
+				returnShipToStart(shipToSnap);
+			}
+			else if (shipToSnap.getBounds().intersects(Submarine.getBounds())) {
+				returnShipToStart(shipToSnap);
+			}
+			if (shipToSnap.getBounds().intersects(PatrolBoat.getBounds())) {
+				returnShipToStart(shipToSnap);
+			}
+		}
+		else if (shipToSnap.typeOfShip == ShipType.Battleship) {
+			if (shipToSnap.getBounds().intersects(AircraftCarrier.getBounds())) {
+				returnShipToStart(shipToSnap);
+			}
+			else if (shipToSnap.getBounds().intersects(Cruiser.getBounds())) {
+				returnShipToStart(shipToSnap);
+			}
+			else if (shipToSnap.getBounds().intersects(Submarine.getBounds())) {
+				returnShipToStart(shipToSnap);
+			}
+			if (shipToSnap.getBounds().intersects(PatrolBoat.getBounds())) {
+				returnShipToStart(shipToSnap);
+			}
+		}
+		else if (shipToSnap.typeOfShip == ShipType.Cruiser) {
+			if (shipToSnap.getBounds().intersects(AircraftCarrier.getBounds())) {
+				returnShipToStart(shipToSnap);
+			}
+			else if (shipToSnap.getBounds().intersects(BattleShip.getBounds())) {
+				returnShipToStart(shipToSnap);
+			}
+			else if (shipToSnap.getBounds().intersects(Submarine.getBounds())) {
+				returnShipToStart(shipToSnap);
+			}
+			if (shipToSnap.getBounds().intersects(PatrolBoat.getBounds())) {
+				returnShipToStart(shipToSnap);
+			}
+		}
+		else if (shipToSnap.typeOfShip == ShipType.Submarine) {
+			if (shipToSnap.getBounds().intersects(AircraftCarrier.getBounds())) {
+				returnShipToStart(shipToSnap);
+			}
+			else if (shipToSnap.getBounds().intersects(BattleShip.getBounds())) {
+				returnShipToStart(shipToSnap);
+			}
+			else if (shipToSnap.getBounds().intersects(Cruiser.getBounds())) {
+				returnShipToStart(shipToSnap);
+			}
+			if (shipToSnap.getBounds().intersects(PatrolBoat.getBounds())) {
+				returnShipToStart(shipToSnap);
+			}
+		}
+		else if (shipToSnap.typeOfShip == ShipType.PatrolBoat) {
+			if (shipToSnap.getBounds().intersects(AircraftCarrier.getBounds())) {
+				returnShipToStart(shipToSnap);
+			}
+			else if (shipToSnap.getBounds().intersects(BattleShip.getBounds())) {
+				returnShipToStart(shipToSnap);
+			}
+			else if (shipToSnap.getBounds().intersects(Cruiser.getBounds())) {
+				returnShipToStart(shipToSnap);
+			}
+			if (shipToSnap.getBounds().intersects(Submarine.getBounds())) {
+				returnShipToStart(shipToSnap);
+			}
+		}
+	}
+	
+	public void returnShipToStart(Ship shipToSnap) {
+		if (shipToSnap.typeOfShip == ShipType.AircraftCarrier) {
+			shipToSnap.x = 0;
+			shipToSnap.y = 1;
+		}
+		else if (shipToSnap.typeOfShip == ShipType.Battleship) {
+			shipToSnap.x = 0;
+			shipToSnap.y = 100;
+		}
+		else if (shipToSnap.typeOfShip == ShipType.Cruiser) {
+			shipToSnap.x = 0;
+			shipToSnap.y = 200;
+		}
+		else if (shipToSnap.typeOfShip == ShipType.Submarine) {
+			shipToSnap.x = 0;
+			shipToSnap.y = 300;
+		}
+		else if (shipToSnap.typeOfShip == ShipType.PatrolBoat) {
+			shipToSnap.x = 0;
+			shipToSnap.y = 400;
+		}
+		shipToSnap.setBounds(shipToSnap.x, shipToSnap.y, shipToSnap.width, shipToSnap.height);
 	}
 
 	@Override
@@ -492,7 +761,6 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 		//checks to see if ships intersect with grid cells. sets values to 1
 		for (int x = 0; x < boardSize; x++) {
 			for (int y = 0; y < boardSize; y++) {
-				
 				if(grid[x][y].getBounds().intersects(AircraftCarrier.getBounds())) {
 					values[x][y] = 1;
 				} else if (grid[x][y].getBounds().intersects(BattleShip.getBounds())) {

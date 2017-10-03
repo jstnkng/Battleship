@@ -28,13 +28,13 @@ public class Ship extends JPanel{
 	public String imagePath;
 	public int size;
 	public boolean isHorizontal = true;
-	
+	public ShipType typeOfShip;
 	
 	private Image scaledH;
 	private Image scaledV;
 	
 	public Ship(ShipType type) {
-		
+		typeOfShip = type;
 		if (type == ShipType.AircraftCarrier) {
 			pathH = "res\\AC_H.png";
 			pathV = "res\\AC_V.png";
@@ -52,6 +52,7 @@ public class Ship extends JPanel{
 			SetImages(pathH, pathV);
 		}
 		else if (type == ShipType.Battleship) {
+		
 			pathH = "res\\BS_H.png";
 			pathV = "res\\BS_V.png";
 			
