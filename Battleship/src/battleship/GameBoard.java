@@ -3,9 +3,11 @@ package battleship;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
@@ -27,6 +29,7 @@ public class GameBoard extends JFrame {
 	
 	public boolean player1Turn = true;
 	public boolean player2Turn = false;
+	private ArrayList<Point> cpuShots = new ArrayList<Point>();
 	
 	public GameMode currentMode;
 	
@@ -77,7 +80,7 @@ public class GameBoard extends JFrame {
 						}
 						player2Turn = !player2Turn;
 						player1Turn = !player1Turn;
-						if (currentMode == GameMode.OnePlayerMode) cpuFire();
+						if (currentMode == GameMode.OnePlayerMode) chooseShot();
 					}
 				});
 				button.setName(player2Values[y][x] + "");
@@ -93,18 +96,41 @@ public class GameBoard extends JFrame {
 		this.add(player2Board);
 	}
 	
-	public void cpuFire() {
+	public void cpuFire(Point point) {
 		player2Board.setEnabled(false);		
-		int minimum = 0;
+		/*int minimum = 0;
 		int maximum = 9;
 		Random rn = new Random();
 		int range = maximum - minimum + 1;
 		int randomX =  rn.nextInt(range) + minimum;
-		int randomY = rn.nextInt(range) + minimum;
+		int randomY = rn.nextInt(range) + minimum;*/
+		
+		int randomX = (int)point.getX();
+		int randomY = (int)point.getY();
 		
 		player1Board.labelGrid[randomX][randomY].setBackground(Color.white);
 		player2Board.setEnabled(true);
 		
+	}
+	
+	//Picks the point for the cpu to shoot making sure it always picks a different spot
+	public void chooseShot() {
+		
+		int minimum = 0;
+		int maximum = 9;
+		Random rn = new Random();
+		int range = maximum - minimum + 1;
+		int x =  rn.nextInt(range) + minimum;
+		int y = rn.nextInt(range) + minimum;
+		
+		Point point = new Point(x,y);
+		
+		if(cpuShots.contains(point)) {
+			chooseShot();
+		}else {
+			cpuShots.add(point);
+			cpuFire(point);
+		}
 	}
 	
 }
