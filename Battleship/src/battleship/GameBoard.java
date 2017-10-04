@@ -98,12 +98,6 @@ public class GameBoard extends JFrame {
 	
 	public void cpuFire(Point point) {
 		player2Board.setEnabled(false);		
-		/*int minimum = 0;
-		int maximum = 9;
-		Random rn = new Random();
-		int range = maximum - minimum + 1;
-		int randomX =  rn.nextInt(range) + minimum;
-		int randomY = rn.nextInt(range) + minimum;*/
 		
 		int randomX = (int)point.getX();
 		int randomY = (int)point.getY();
