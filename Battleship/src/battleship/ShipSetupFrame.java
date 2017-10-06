@@ -175,53 +175,14 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 		this.setResizable(false);
 		this.setVisible(true);	
 		
-		//used to fix x and y location of ships
-		setBounds();
-		AircraftCarrier.setSize(AircraftCarrier.widthH, AircraftCarrier.heightH);
+		//Set Ships to starting locations
 		returnShipToStart(AircraftCarrier);
-		BattleShip.setSize(BattleShip.widthH, BattleShip.heightH);
 		returnShipToStart(BattleShip);
-		Cruiser.setSize(Cruiser.widthH, Cruiser.heightH);
 		returnShipToStart(Cruiser);
-		Submarine.setSize(Submarine.widthH, Submarine.heightH);
 		returnShipToStart(Submarine);
-		PatrolBoat.rotate();
-		PatrolBoat.setSize(PatrolBoat.widthH, PatrolBoat.heightH);
 		returnShipToStart(PatrolBoat);
 		
 	}
-	
-	//sets the ships x and y values to be relative to the screen instead of the parent's coordinate space
-	public void setBounds() {
-		
-		//AircraftCarrier
-//		AircraftCarrier.x = AircraftCarrier.getLocationOnScreen().x;
-//		AircraftCarrier.y = AircraftCarrier.getLocationOnScreen().y;
-		AircraftCarrier.setBounds(AircraftCarrier.x, AircraftCarrier.y, AircraftCarrier.width, AircraftCarrier.height);
-		
-		//BattleShip
-		BattleShip.x = BattleShip.getLocationOnScreen().x;
-		BattleShip.y = BattleShip.getLocationOnScreen().y;
-		BattleShip.setBounds(BattleShip.x, BattleShip.y, BattleShip.width, BattleShip.height);
-		
-		//Cruiser
-		Cruiser.x = Cruiser.getLocationOnScreen().x;
-		Cruiser.y = Cruiser.getLocationOnScreen().y;
-		Cruiser.setBounds(Cruiser.x, Cruiser.y, Cruiser.width, Cruiser.height);
-		
-		//Submarine
-		Submarine.x = Submarine.getLocationOnScreen().x;
-		Submarine.y = Submarine.getLocationOnScreen().y;
-		Submarine.setBounds(Submarine.x, Submarine.y, Submarine.width, Submarine.height);
-		
-		//PatrolBoat
-		PatrolBoat.x = PatrolBoat.getLocationOnScreen().x;
-		PatrolBoat.y = PatrolBoat.getLocationOnScreen().y;
-	//	PatrolBoat.setBounds(PatrolBoat.x, PatrolBoat.y, PatrolBoat.width, PatrolBoat.height);
-		System.out.println("Patrol boat.y : " + PatrolBoat.y);
-		System.out.println("Patrol boat location.y:" + PatrolBoat.getLocationOnScreen().y);
-	}
-//	
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
