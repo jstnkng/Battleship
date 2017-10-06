@@ -44,13 +44,7 @@ public class GameBoard extends JFrame {
 	private int PatrolBoatHits = 0;
 	public GameMode currentMode;
 	
-	//Two player constructor
 	public GameBoard(GameMode mode) {
-		//Boats[0] is AircraftCarrier
-		//Boats[1] is Battleship
-		//Boats[2] is Cruiser
-		//Boats[3] is PatrolBoat
-		//Boats[4] is Submarine
 		currentMode = mode;
 		this.setSize(1200,700);
 		this.setLayout(new GridLayout(0,2));
@@ -62,8 +56,8 @@ public class GameBoard extends JFrame {
 		int x2 = 0;
 		int y2 = 0;
 		for (JLabel[] row  : player1Board.labelGrid) {
-			for (JLabel label : row) {
-				label.setText(player1Values[y2][x2] + "");
+			for (JLabel box : row) {
+				box.setText(player1Values[y2][x2] + "");
 				x2 ++;
 			}
 			y2 ++;

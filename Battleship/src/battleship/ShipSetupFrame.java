@@ -177,6 +177,17 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 		
 		//used to fix x and y location of ships
 		setBounds();
+		AircraftCarrier.setSize(AircraftCarrier.widthH, AircraftCarrier.heightH);
+		returnShipToStart(AircraftCarrier);
+		BattleShip.setSize(BattleShip.widthH, BattleShip.heightH);
+		returnShipToStart(BattleShip);
+		Cruiser.setSize(Cruiser.widthH, Cruiser.heightH);
+		returnShipToStart(Cruiser);
+		Submarine.setSize(Submarine.widthH, Submarine.heightH);
+		returnShipToStart(Submarine);
+		PatrolBoat.rotate();
+		PatrolBoat.setSize(PatrolBoat.widthH, PatrolBoat.heightH);
+		returnShipToStart(PatrolBoat);
 		
 	}
 	
@@ -184,8 +195,8 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 	public void setBounds() {
 		
 		//AircraftCarrier
-		AircraftCarrier.x = AircraftCarrier.getLocationOnScreen().x;
-		AircraftCarrier.y = AircraftCarrier.getLocationOnScreen().y;
+//		AircraftCarrier.x = AircraftCarrier.getLocationOnScreen().x;
+//		AircraftCarrier.y = AircraftCarrier.getLocationOnScreen().y;
 		AircraftCarrier.setBounds(AircraftCarrier.x, AircraftCarrier.y, AircraftCarrier.width, AircraftCarrier.height);
 		
 		//BattleShip
@@ -206,9 +217,11 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 		//PatrolBoat
 		PatrolBoat.x = PatrolBoat.getLocationOnScreen().x;
 		PatrolBoat.y = PatrolBoat.getLocationOnScreen().y;
-		PatrolBoat.setBounds(PatrolBoat.x, PatrolBoat.y, PatrolBoat.width, PatrolBoat.height);
+	//	PatrolBoat.setBounds(PatrolBoat.x, PatrolBoat.y, PatrolBoat.width, PatrolBoat.height);
+		System.out.println("Patrol boat.y : " + PatrolBoat.y);
+		System.out.println("Patrol boat location.y:" + PatrolBoat.getLocationOnScreen().y);
 	}
-	
+//	
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
@@ -714,19 +727,19 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 		}
 		else if (shipToSnap.typeOfShip == ShipType.Battleship) {
 			shipToSnap.x = 0;
-			shipToSnap.y = 100;
+			shipToSnap.y = 110;
 		}
 		else if (shipToSnap.typeOfShip == ShipType.Cruiser) {
 			shipToSnap.x = 0;
-			shipToSnap.y = 200;
+			shipToSnap.y = 220;
 		}
 		else if (shipToSnap.typeOfShip == ShipType.Submarine) {
 			shipToSnap.x = 0;
-			shipToSnap.y = 300;
+			shipToSnap.y = 330;
 		}
 		else if (shipToSnap.typeOfShip == ShipType.PatrolBoat) {
 			shipToSnap.x = 0;
-			shipToSnap.y = 400;
+			shipToSnap.y = 432;
 		}
 		shipToSnap.setBounds(shipToSnap.x, shipToSnap.y, shipToSnap.width, shipToSnap.height);
 	}
@@ -749,7 +762,7 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 		
 		
 		//fixes ship locations
-		setBounds();
+		//setBounds();
 		
 		//sets grid locations relative to the screen instead of parent
 		for (int x = 0; x < boardSize; x++) {

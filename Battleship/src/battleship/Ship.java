@@ -35,6 +35,7 @@ public class Ship extends JPanel{
 	
 	public Ship(ShipType type) {
 		typeOfShip = type;
+		this.setBackground(Color.PINK);
 		if (type == ShipType.AircraftCarrier) {
 			pathH = "res\\AC_H.png";
 			pathV = "res\\AC_V.png";
@@ -90,7 +91,7 @@ public class Ship extends JPanel{
 			pathV = "res\\PB_V.png";
 			//these values can be changed as needed, just used the same numbers you had for the battleship for now
 			x = 0;
-			y = 100;
+			y = 0;
 			width = 124;
 			height = 50;
 			widthH = 124;
@@ -108,7 +109,7 @@ public class Ship extends JPanel{
 			pathV = "res\\S_V.png";
 			//these values can be changed as needed, just used the same numbers you had for the battleship for now
 			x = 0;
-			y = 100;
+			y = 0;
 			width = 191;
 			height = 50;
 			widthH = 191;
