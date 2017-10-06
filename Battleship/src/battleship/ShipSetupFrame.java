@@ -762,13 +762,13 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 		for (int x = 0; x < boardSize; x++) {
 			for (int y = 0; y < boardSize; y++) {
 				if(grid[x][y].getBounds().intersects(AircraftCarrier.getBounds())) {
-					values[x][y] = 1;
+					values[x][y] = 5;
 				} else if (grid[x][y].getBounds().intersects(BattleShip.getBounds())) {
-					values[x][y] = 1;
+					values[x][y] = 4;
 				}else if (grid[x][y].getBounds().intersects(Cruiser.getBounds())) {
-					values[x][y] = 1;
+					values[x][y] = 3;
 				}else if (grid[x][y].getBounds().intersects(Submarine.getBounds())) {
-					values[x][y] = 1;
+					values[x][y] = 2;
 				}else if (grid[x][y].getBounds().intersects(PatrolBoat.getBounds())) {
 					values[x][y] = 1;
 				}
@@ -780,7 +780,7 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 		
 		for (int x = 0; x < boardSize; x++) {
 			for (int y = 0; y < boardSize; y++) {
-				if (values[x][y] == 1) {
+				if (values[x][y] != 0) {
 					count++;
 				}
 			}
@@ -843,11 +843,11 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 			if (shipVertical == true) {
 				if (randomX > 5) continue; //Too far down the grid to place AC vertically, try again
 				else {	//Place the AC (this is the first ship to be placed, don't need to check for other ships
-					values[randomX][randomY] = 1;
-					values[randomX + 1][randomY] = 1;
-					values[randomX + 2][randomY] = 1;
-					values[randomX + 3][randomY] = 1;
-					values[randomX + 4][randomY] = 1;
+					values[randomX][randomY] = 5;
+					values[randomX + 1][randomY] = 5;
+					values[randomX + 2][randomY] = 5;
+					values[randomX + 3][randomY] = 5;
+					values[randomX + 4][randomY] = 5;
 					aircraftCarrierSet = true;
 					System.out.println("");
 					System.out.println("");
@@ -866,11 +866,11 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 			else if (shipVertical == false) {
 				if (randomY > 5) continue; //Too far across the grid to place AC horizontally, try again
 				else {	//Place the AC (again, don't need to check for other ships right now
-					values[randomX][randomY] = 1;
-					values[randomX][randomY + 1] = 1;
-					values[randomX][randomY + 2] = 1;
-					values[randomX][randomY + 3] = 1;
-					values[randomX][randomY + 4] = 1;
+					values[randomX][randomY] = 5;
+					values[randomX][randomY + 1] = 5;
+					values[randomX][randomY + 2] = 5;
+					values[randomX][randomY + 3] = 5;
+					values[randomX][randomY + 4] = 5;
 					aircraftCarrierSet = true;
 					System.out.println("");
 					System.out.println("");
@@ -902,10 +902,10 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 				else {	//Place the BS if there aren't any ships in the way
 					if (values[randomX][randomY] == 0 && values[randomX + 1][randomY] == 0
 							&& values[randomX + 2][randomY] == 0 && values[randomX + 3][randomY] == 0) {
-						values[randomX][randomY] = 1;
-						values[randomX + 1][randomY] = 1;
-						values[randomX + 2][randomY] = 1;
-						values[randomX + 3][randomY] = 1;
+						values[randomX][randomY] = 4;
+						values[randomX + 1][randomY] = 4;
+						values[randomX + 2][randomY] = 4;
+						values[randomX + 3][randomY] = 4;
 						battleShipSet = true;
 						System.out.println("");
 						System.out.println("");
@@ -928,10 +928,10 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 				else {	//Place the BS if there arent any ships in the way
 					if (values[randomX][randomY] == 0 && values[randomX][randomY  + 1] == 0
 							&& values[randomX][randomY  + 2] == 0 && values[randomX][randomY + 3] == 0) {
-						values[randomX][randomY] = 1;
-						values[randomX][randomY + 1] = 1;
-						values[randomX][randomY + 2] = 1;
-						values[randomX][randomY + 3] = 1;
+						values[randomX][randomY] = 4;
+						values[randomX][randomY + 1] = 4;
+						values[randomX][randomY + 2] = 4;
+						values[randomX][randomY + 3] = 4;
 						battleShipSet = true;
 						System.out.println("");
 						System.out.println("");
@@ -965,9 +965,9 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 				else {	//Place the cruiser if there aren't any ships in the way
 					if (values[randomX][randomY] == 0 && values[randomX + 1][randomY] == 0
 							&& values[randomX + 2][randomY] == 0) {
-						values[randomX][randomY] = 1;
-						values[randomX + 1][randomY] = 1;
-						values[randomX + 2][randomY] = 1;
+						values[randomX][randomY] = 3;
+						values[randomX + 1][randomY] = 3;
+						values[randomX + 2][randomY] = 3;
 						cruiserSet = true;
 						System.out.println("");
 						System.out.println("");
@@ -990,9 +990,9 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 				else {	//Place the cruiser if there arent any ships in the way
 					if (values[randomX][randomY] == 0 && values[randomX][randomY + 1] == 0
 							&& values[randomX][randomY + 2] == 0) {
-						values[randomX][randomY] = 1;
-						values[randomX][randomY + 1] = 1;
-						values[randomX][randomY + 2] = 1;
+						values[randomX][randomY] = 3;
+						values[randomX][randomY + 1] = 3;
+						values[randomX][randomY + 2] = 3;
 						cruiserSet = true;
 						System.out.println("");
 						System.out.println("");
@@ -1026,9 +1026,9 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 				else {	//Place the sub if there aren't any ships in the way
 					if (values[randomX][randomY] == 0 && values[randomX + 1][randomY] == 0
 							&& values[randomX + 2][randomY] == 0) {
-						values[randomX][randomY] = 1;
-						values[randomX + 1][randomY] = 1;
-						values[randomX + 2][randomY] = 1;
+						values[randomX][randomY] = 2;
+						values[randomX + 1][randomY] = 2;
+						values[randomX + 2][randomY] = 2;
 						submarineSet = true;
 						System.out.println("");
 						System.out.println("");
@@ -1051,9 +1051,9 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 				else {	//Place the sub if there arent any ships in the way
 					if (values[randomX][randomY] == 0 && values[randomX][randomY + 1] == 0
 							&& values[randomX][randomY + 2] == 0) {
-						values[randomX][randomY] = 1;
-						values[randomX][randomY + 1] = 1;
-						values[randomX][randomY + 2] = 1;
+						values[randomX][randomY] = 2;
+						values[randomX][randomY + 1] = 2;
+						values[randomX][randomY + 2] = 2;
 						submarineSet = true;
 						System.out.println("");
 						System.out.println("");
