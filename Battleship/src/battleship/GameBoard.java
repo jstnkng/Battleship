@@ -6,6 +6,8 @@ import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Random;
@@ -15,9 +17,11 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
-public class GameBoard extends JFrame {
+public class GameBoard extends JFrame implements MouseListener{
 
 	private JPanel left = new JPanel();
 	private Grid player1Board;
@@ -51,11 +55,7 @@ public class GameBoard extends JFrame {
 	}
 	
 	public void beginGame() {
-		player1Ships[0].x = 20;
-		player1Ships[0].y = 20;
-
-		this.add(left);
-		left.add(player1Ships[0]);
+		
 		player1Board = new Grid(10, "Label");
 		player1Board.values = player1Values;
 		int x2 = 0;
@@ -76,57 +76,7 @@ public class GameBoard extends JFrame {
 		int y = 0;
 		for (JButton[] row  : player2Board.buttonGrid) {
 			for (JButton button : row) {
-				button.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						  try {
-							    Image hit = ImageIO.read(new File("res\\waves_reddot.png"));
-							    Image miss = ImageIO.read(new File("res\\waves_whitedot.png"));
-							    if (button.getName().contains("0")) button.setIcon(new ImageIcon(miss));
-							    else { 
-							    	button.setIcon(new ImageIcon(hit));
-							    	if (button.getName().contains("5")) {
-							    		AircraftCarrierHits++;
-										if (AircraftCarrierHits == 5) {
-											System.out.println("Aircraft Carrier sunk");
-										}
-							    	}
-							    	else if (button.getName().contains("4")) {
-							    		BattleShipHits++;
-										if (BattleShipHits == 4) {
-											System.out.println("BattleShip sunk");
-										}
-							    	}
-							    	else if (button.getName().contains("3")) {
-							    		CruiserHits++;
-										if (CruiserHits == 3) {
-											System.out.println("Cruiser sunk");
-										}
-							    	}
-							    	else if (button.getName().contains("2")) {
-							    		SubmarineHits++;
-										if (SubmarineHits == 3) {
-											System.out.println("Submarine sunk");
-										}
-							    	}
-							    	else if (button.getName().contains("1")) {
-							    		PatrolBoatHits++;
-										if (PatrolBoatHits == 2) {
-											System.out.println("Patrol Boat sunk");
-										}
-							    	}
-							    }
-							  } catch (Exception ex) {
-							    System.out.println(ex);
-						}
-						if (AircraftCarrierHits + BattleShipHits + CruiserHits + SubmarineHits + PatrolBoatHits == 17) {
-							System.out.println("Player 1 wins!");
-						}
-						player2Turn = !player2Turn;
-						player1Turn = !player1Turn;
-						if (currentMode == GameMode.OnePlayerMode) chooseShot();
-					}
-				});
+				button.addMouseListener(this);
 				button.setName(player2Values[y][x] + "");
 				if (player2Values[y][x] == 1) {
 					button.setForeground(Color.RED);
@@ -138,7 +88,85 @@ public class GameBoard extends JFrame {
 			x = 0;
 		}
 		this.add(player2Board);
+		
 	}
+	
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		JButton button = (JButton) e.getSource();
+		playerShot(button);
+	}
+	
+	public void playerShot(JButton button) {
+		try {
+			Image hit = ImageIO.read(new File("res\\waves_reddot.png"));
+			Image miss = ImageIO.read(new File("res\\waves_whitedot.png"));
+			if (!button.getName().contains("shot")) {
+				if (button.getName().contains("0")) {
+					button.setIcon(new ImageIcon(miss));
+					button.setName("shot");
+				}
+				else { 
+					button.setIcon(new ImageIcon(hit));
+					if (button.getName().contains("5")) {
+						button.setName("shot");
+						AircraftCarrierHits++;
+						if (AircraftCarrierHits == 5) {
+							//System.out.println("Aircraft Carrier sunk");
+							JOptionPane.showMessageDialog(null, "Aircraft Carrier Sunk");
+						}
+					}
+					else if (button.getName().contains("4")) {
+						button.setName("shot");
+						BattleShipHits++;
+						if (BattleShipHits == 4) {
+							//System.out.println("BattleShip sunk");
+							JOptionPane.showMessageDialog(null, "BattleShip Sunk");
+						}
+					}
+					else if (button.getName().contains("3")) {
+						button.setName("shot");
+						SubmarineHits++;
+						if (SubmarineHits == 3) {
+							//System.out.println("Submarine sunk");
+							JOptionPane.showMessageDialog(null, "Submarine Sunk");
+						}
+					}
+					else if (button.getName().contains("2")) {
+						button.setName("shot");
+						CruiserHits++;
+						if (CruiserHits == 3) {
+							//System.out.println("Cruiser sunk");
+							JOptionPane.showMessageDialog(null, "Cruiser Sunk");
+						}
+					}
+					else if (button.getName().contains("1")) {
+						button.setName("shot");
+						PatrolBoatHits++;
+						if (PatrolBoatHits == 2) {
+							//System.out.println("Patrol Boat sunk");
+							JOptionPane.showMessageDialog(null, "Patrol Boat Sunk");
+						}
+					}
+				}
+			}else {
+				//TODO handle already shot locations
+				JOptionPane.showMessageDialog(null, "You already shot here, choose a different location");
+				return;
+			}
+		} catch (Exception ex) {
+			System.out.println(ex);
+		}
+		if (AircraftCarrierHits + BattleShipHits + CruiserHits + SubmarineHits + PatrolBoatHits == 17) {
+			System.out.println("Player 1 wins!");
+			JOptionPane.showMessageDialog(null, "You Win!");
+		}
+		player2Turn = !player2Turn;
+		player1Turn = !player1Turn;
+		if (currentMode == GameMode.OnePlayerMode) chooseShot();
+	}
+		
 	
 	public void cpuFire(Point point) {
 		player2Board.setEnabled(false);		
@@ -148,6 +176,7 @@ public class GameBoard extends JFrame {
 		
 		if (player1Board.labelGrid[randomX][randomY].getText().contains("1")) {
 			player1Board.labelGrid[randomX][randomY].setBackground(Color.RED);
+			player1Board.labelGrid[randomX][randomY].setForeground(Color.RED);
 			cpuPatrolBoatHits++;
 			if (cpuPatrolBoatHits == 2) {
 				System.out.println("Your patrol boat has been sunk");
@@ -155,6 +184,7 @@ public class GameBoard extends JFrame {
 		}
 		else if (player1Board.labelGrid[randomX][randomY].getText().contains("2")) {
 			player1Board.labelGrid[randomX][randomY].setBackground(Color.RED);
+			player1Board.labelGrid[randomX][randomY].setForeground(Color.RED);
 			cpuSubmarineHits++;
 			if (cpuSubmarineHits == 3) {
 				System.out.println("Your submarine has been sunk");
@@ -162,6 +192,7 @@ public class GameBoard extends JFrame {
 		}
 		else if (player1Board.labelGrid[randomX][randomY].getText().contains("3")) {
 			player1Board.labelGrid[randomX][randomY].setBackground(Color.RED);
+			player1Board.labelGrid[randomX][randomY].setForeground(Color.RED);
 			cpuCruiserHits++;
 			if (cpuCruiserHits == 3) {
 				System.out.println("Your cruiser has been sunk");
@@ -169,6 +200,7 @@ public class GameBoard extends JFrame {
 		}
 		else if (player1Board.labelGrid[randomX][randomY].getText().contains("4")) {
 			player1Board.labelGrid[randomX][randomY].setBackground(Color.RED);
+			player1Board.labelGrid[randomX][randomY].setForeground(Color.RED);
 			cpuBattleShipHits++;
 			if (cpuBattleShipHits == 4) {
 				System.out.println("Your battleship has been sunk");
@@ -176,17 +208,20 @@ public class GameBoard extends JFrame {
 		}
 		else if (player1Board.labelGrid[randomX][randomY].getText().contains("5")) {
 			player1Board.labelGrid[randomX][randomY].setBackground(Color.RED);
+			player1Board.labelGrid[randomX][randomY].setForeground(Color.RED);
 			cpuAircraftCarrierHits++;
 			if (cpuAircraftCarrierHits == 5) {
 				System.out.println("Your aircraft carrier has been sunk");
 			}
 		}
 		else {
-			player1Board.labelGrid[randomX][randomY].setBackground(Color.white);
+			player1Board.labelGrid[randomX][randomY].setBackground(Color.GRAY);
+			player1Board.labelGrid[randomX][randomY].setForeground(Color.GRAY);
 		}
 		
 		if (cpuAircraftCarrierHits + cpuBattleShipHits + cpuCruiserHits + cpuSubmarineHits + cpuPatrolBoatHits == 17) {
 			System.out.println("Player 2 Wins!");
+			JOptionPane.showMessageDialog(null, "You Lose");
 		}
 		player2Board.setEnabled(true);
 		
@@ -211,5 +246,31 @@ public class GameBoard extends JFrame {
 			cpuFire(point);
 		}
 	}
+
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 }
