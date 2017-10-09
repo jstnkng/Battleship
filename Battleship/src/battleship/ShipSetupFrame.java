@@ -40,11 +40,14 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 	
 	private JButton submit;
 	private GameMode mode;
+	private int currentPlayer;
 	
 	private JLabel[][] grid = new JLabel[boardSize][boardSize];
-	private int[][] values = new int[boardSize][boardSize];
+	private int[][] player1Values = new int[boardSize][boardSize];
+	private int[][] player2Values = new int[boardSize][boardSize];
 	
-	private Ship[] Ships = new Ship[5];
+	private Ship[] player1Ships = new Ship[5];
+	private Ship[] player2Ships = new Ship[5];
 
 	public ShipSetupFrame(GameMode currentMode, int player) {
 		ShipSetup(currentMode, player);
@@ -57,6 +60,7 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 		else this.setTitle("Player 1 Set Ships");
 		
 		mode = currentMode;
+		currentPlayer = player;
 		//JComponent contentPane = new ShipSetupPanel(currentMode);
 		getContentPane().setLayout(
 			    new BoxLayout(getContentPane(), BoxLayout.PAGE_AXIS)
@@ -65,10 +69,9 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 		GridBagConstraints c = new GridBagConstraints();
 		layeredPane = new JLayeredPane();
 		layeredPane.setLayout(gridbag);
-		
 		//create Aircraft Carrier
 		AircraftCarrier = new Ship(ShipType.AircraftCarrier);
-		Ships[0] = AircraftCarrier;
+		player1Ships[0] = AircraftCarrier;
 		
 		//add Aircraft Carrier ship to layered pane
 		c.gridx = 0;
@@ -81,7 +84,7 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 	
 		//create Battle Ship 
 		BattleShip = new Ship(ShipType.Battleship);
-		Ships[1] = BattleShip;
+		player1Ships[1] = BattleShip;
 		
 		//add Battle Ship to layered pane
 		c.gridx = 0;
@@ -94,7 +97,7 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 		
 		//create cruiser
 		Cruiser = new Ship(ShipType.Cruiser);
-		Ships[2] = Cruiser;
+		player1Ships[2] = Cruiser;
 		
 		//add cruiser to layered pane
 		c.gridx = 0;
@@ -107,7 +110,7 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 		
 		//create submarine
 		Submarine = new Ship(ShipType.Submarine);
-		Ships[4] = Submarine;
+		player1Ships[4] = Submarine;
 		
 		//add submarine to layered pane
 		c.gridx = 0;
@@ -120,7 +123,7 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 		
 		//create patrol boat
 		PatrolBoat = new Ship(ShipType.PatrolBoat);
-		Ships[3] = PatrolBoat;
+		player1Ships[3] = PatrolBoat;
 		
 		//add patrol boat to layered pane
 		c.gridx = 0;
@@ -150,8 +153,15 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 		
 		board = new Grid(boardSize, "Label");
 		grid = Grid.getLabelGrid();
-		values = board.getValues();
-		
+		if (currentPlayer == 1) {
+			player1Values = board.getValues();
+		}
+
+//		for (JLabel[] row  : board.labelGrid) {
+//			for (JLabel box : row) {
+//				System.out.println(box.getSize().toString());
+//			}
+//		}		
 		//add board to the layeredPane
 		c.gridx = 1;
 		c.gridy = 0;
@@ -164,7 +174,6 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 		
 		//add layered pane to the JPanel
 		this.add(layeredPane);
-		
 		layeredPane.addMouseListener(this);
 		layeredPane.addMouseMotionListener(this);
 //		contentPane.setOpaque(true);
@@ -174,7 +183,6 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 		this.setSize(1200,700);
 		this.setResizable(false);
 		this.setVisible(true);	
-		
 		//Set Ships to starting locations
 		returnShipToStart(AircraftCarrier);
 		returnShipToStart(BattleShip);
@@ -512,41 +520,56 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 		if (shipToSnap.getX() >= 476 && shipToSnap.getX() <= 549) {
 			shipToSnap.x = 516;
 			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y, shipToSnap.width, shipToSnap.height);
+			shipToSnap.column = 0;
 		}
 		else if (shipToSnap.getX() > 549 && shipToSnap.getX() <= 615) {
-			shipToSnap.x = 583;
+			shipToSnap.x = 583; 
 			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y, shipToSnap.width, shipToSnap.height);
+			shipToSnap.column = 1;
 		}
 		else if (shipToSnap.getX() > 615 && shipToSnap.getX() <= 681) {
-			shipToSnap.x = 650;
+			shipToSnap.x = 650; 
 			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y, shipToSnap.width, shipToSnap.height);
+			shipToSnap.column = 2;
 		}
 		else if (shipToSnap.getX() > 681 && shipToSnap.getX() <= 747) {
 			shipToSnap.x = 717;
 			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y, shipToSnap.width, shipToSnap.height);
+			shipToSnap.column = 3;
 		}
 		else if (shipToSnap.getX() > 747 && shipToSnap.getX() <= 813) {
-			shipToSnap.x = 784;
+			shipToSnap.x = 784; 
 			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y, shipToSnap.width, shipToSnap.height);
+			shipToSnap.column = 4;
 		}
 		else if (shipToSnap.getX() > 813 && shipToSnap.getX() <= 879) {
-			shipToSnap.x = 851;
+			shipToSnap.x = 851; 
 			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y, shipToSnap.width, shipToSnap.height);
+			shipToSnap.column = 5;
 		}
 		else if (shipToSnap.getX() > 879 && shipToSnap.getX() <= 945) {
 			shipToSnap.x = 918;
 			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y, shipToSnap.width, shipToSnap.height);
+			shipToSnap.column = 6;
 		}
 		else if (shipToSnap.getX() > 945 && shipToSnap.getX() <= 1011) {
 			shipToSnap.x = 985;
 			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y, shipToSnap.width, shipToSnap.height);
+			shipToSnap.column = 7;
 		}
 		else if (shipToSnap.getX() > 1011 && shipToSnap.getX() <= 1077) {
 			shipToSnap.x = 1052;
 			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y, shipToSnap.width, shipToSnap.height);
+			shipToSnap.column = 8;
+		}
+		else if (shipToSnap.getX() > 1077 && shipToSnap.getX() <= 1153) {
+			shipToSnap.x = 1119;
+			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y, shipToSnap.width, shipToSnap.height);
+			shipToSnap.column = 9;
 		}
 		checkForShipOffGrid(shipToSnap);
-		if (shipToSnap.getX() < 476 || shipToSnap.getX() > 1140) {
+		if (shipToSnap.getX() < 476 || shipToSnap.getX() > 1153) {
+			System.out.println("Ship x: " + shipToSnap.getX());
 			returnShipToStart(shipToSnap);
 		}
 	}
@@ -555,42 +578,52 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 		if (shipToSnap.getY() >= 30 && shipToSnap.getY() <= 105) {
 			shipToSnap.y = 76;
 			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y, shipToSnap.width, shipToSnap.height);
+			shipToSnap.row = 0;
 		}
 		else if (shipToSnap.getY() > 105 && shipToSnap.getY() <= 163) {
 			shipToSnap.y = 134;
 			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y, shipToSnap.width, shipToSnap.height);
+			shipToSnap.row = 1;
 		}
 		else if (shipToSnap.getY() > 163 && shipToSnap.getY() <= 221) {
 			shipToSnap.y = 192;
 			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y, shipToSnap.width, shipToSnap.height);
+			shipToSnap.row = 2;
 		}
 		else if (shipToSnap.getY() > 221 && shipToSnap.getY() <= 279) {
 			shipToSnap.y = 250;
 			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y, shipToSnap.width, shipToSnap.height);
+			shipToSnap.row = 3;
 		}
 		else if (shipToSnap.getY() > 279 && shipToSnap.getY() <= 337) {
 			shipToSnap.y = 308;
 			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y, shipToSnap.width, shipToSnap.height);
+			shipToSnap.row = 4;
 		}
 		else if (shipToSnap.getY() > 337 && shipToSnap.getY() <= 395) {
 			shipToSnap.y = 366;
 			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y, shipToSnap.width, shipToSnap.height);
+			shipToSnap.row = 5;
 		}
 		else if (shipToSnap.getY() > 395 && shipToSnap.getY() <= 453) {
 			shipToSnap.y = 424;
 			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y, shipToSnap.width, shipToSnap.height);
+			shipToSnap.row = 6;
 		}
 		else if (shipToSnap.getY() > 453 && shipToSnap.getY() <= 511) {
 			shipToSnap.y = 482;
 			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y, shipToSnap.width, shipToSnap.height);
+			shipToSnap.row = 7;
 		}
 		else if (shipToSnap.getY() > 511 && shipToSnap.getY() <= 569) {
 			shipToSnap.y = 540;
 			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y, shipToSnap.width, shipToSnap.height);
+			shipToSnap.row = 8;
 		}
 		else if (shipToSnap.getY() > 569 && shipToSnap.getY() <= 615) {
 			shipToSnap.y = 598;
 			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y, shipToSnap.width, shipToSnap.height);
+			shipToSnap.row = 9;
 		}
 		checkForShipOffGrid(shipToSnap);
 		if (shipToSnap.getY() < 30 || shipToSnap.getY() > 615) {
@@ -603,7 +636,7 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 		if ((shipToSnap.getY() + shipToSnap.getHeight()) > 650) {
 			returnShipToStart(shipToSnap);
 		}
-		else if ((shipToSnap.getX() + shipToSnap.getWidth()) > 1177) {
+		else if ((shipToSnap.getX() + shipToSnap.getWidth()) > 1200) {
 			returnShipToStart(shipToSnap);
 		}
 	}
@@ -732,21 +765,20 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 			}
 		}
 		
-		//checks to see if ships intersect with grid cells. sets values to 1
-		for (int x = 0; x < boardSize; x++) {
-			for (int y = 0; y < boardSize; y++) {
-				if(grid[x][y].getBounds().intersects(AircraftCarrier.getBounds())) {
-					values[x][y] = 5;
-				} else if (grid[x][y].getBounds().intersects(BattleShip.getBounds())) {
-					values[x][y] = 4;
-				}else if (grid[x][y].getBounds().intersects(Cruiser.getBounds())) {
-					values[x][y] = 3;
-				}else if (grid[x][y].getBounds().intersects(Submarine.getBounds())) {
-					values[x][y] = 2;
-				}else if (grid[x][y].getBounds().intersects(PatrolBoat.getBounds())) {
-					values[x][y] = 1;
-				}
+
+		setValues(AircraftCarrier);
+		setValues(BattleShip);
+		setValues(Cruiser);
+		setValues(Submarine);
+		setValues(PatrolBoat);
+
+		System.out.println("Player 1 Ships");
+		for (int x = 0; x < 10; x++) {
+			for (int y = 0; y < 10; y++) {
+				System.out.print(player1Values[x][y]);
 			}
+			
+			System.out.println("");
 		}
 		
 		//Count the number of 1 values
@@ -754,7 +786,7 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 		
 		for (int x = 0; x < boardSize; x++) {
 			for (int y = 0; y < boardSize; y++) {
-				if (values[x][y] != 0) {
+				if (player1Values[x][y] != 0) {
 					count++;
 				}
 			}
@@ -765,23 +797,34 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 		
 			GameBoard playingBoard = new GameBoard(mode);
 			if (this.getTitle().contains("1") && mode == GameMode.OnePlayerMode) {
-				playingBoard.player1Ships = Ships;
-				playingBoard.player1Values = board.values;
-				playingBoard.player2Values = setCpuValues();
-
+				playingBoard.player1Ships = player1Ships;
+				playingBoard.player1Values = player1Values;
+				setCpuValues();
+				playingBoard.player2Values = player2Values;
+				System.out.println("");
+				System.out.println("Player 2 Ships");
+				for (int x = 0; x < 10; x++) {
+					for (int y = 0; y < 10; y++) {
+						
+						//System.out.print(value[x][y] + " ");
+						System.out.print(player2Values[x][y]);
+					}
+					
+					System.out.println("");
+				}
 				this.setVisible(false);
 				playingBoard.setVisible(true);
 				playingBoard.beginGame();
 			}
 			else if (this.getTitle().contains("1") && mode == GameMode.TwoPlayerPassAndPlay) {
-				playingBoard.player1Ships = Ships;
+				playingBoard.player1Ships = player1Ships;
 				playingBoard.player1Values = board.values;
 				this.setTitle("Player 2 Set Ships");
 				this.getContentPane().removeAll();
 				ShipSetup(mode, 2);
 			}
 			else {
-				playingBoard.player2Ships = Ships;
+				playingBoard.player2Ships = player1Ships;
 				playingBoard.player2Values = board.values;
 				this.setVisible(false);
 				playingBoard.setVisible(true);
@@ -791,14 +834,24 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 			
 			//if the ships aren't placed correctly
 			board.setBackground(Color.RED);
-			System.err.println("Ships placed Incorrectley");
+			System.out.println("Ships placed Incorrectly");
 			
 		}
 		
 	}
 	
-	private int[][] setCpuValues() {
-		int[][]values = new int[10][10];
+	public void setValues(Ship shipToSet) {
+		for (int s = 0; s < shipToSet.size; s++) {
+			if (shipToSet.isHorizontal) {
+				player1Values[shipToSet.row][shipToSet.column + s] = shipToSet.value;
+			}
+			else {
+				player1Values[shipToSet.row + s][shipToSet.column] = shipToSet.value;
+			}
+		}
+	}
+	
+	private void setCpuValues() {
 		boolean aircraftCarrierSet = false;
 		boolean battleShipSet = false;
 		boolean cruiserSet = false;
@@ -817,47 +870,23 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 			if (shipVertical == true) {
 				if (randomX > 5) continue; //Too far down the grid to place AC vertically, try again
 				else {	//Place the AC (this is the first ship to be placed, don't need to check for other ships
-					values[randomX][randomY] = 5;
-					values[randomX + 1][randomY] = 5;
-					values[randomX + 2][randomY] = 5;
-					values[randomX + 3][randomY] = 5;
-					values[randomX + 4][randomY] = 5;
+					player2Values[randomX][randomY] = AircraftCarrier.value;
+					player2Values[randomX + 1][randomY] = AircraftCarrier.value;
+					player2Values[randomX + 2][randomY] = AircraftCarrier.value;
+					player2Values[randomX + 3][randomY] = AircraftCarrier.value;
+					player2Values[randomX + 4][randomY] = AircraftCarrier.value;
 					aircraftCarrierSet = true;
-					System.out.println("");
-					System.out.println("");
-					for (int x = 0; x < 10; x++) {
-						for (int y = 0; y < 10; y++) {
-							
-							//System.out.print(value[x][y] + " ");
-							System.out.print(values[x][y]);
-						}
-						
-						System.out.println("");
-					}
-					System.out.println("Aircraft carrier set vertically");
 				}
 			}
 			else if (shipVertical == false) {
 				if (randomY > 5) continue; //Too far across the grid to place AC horizontally, try again
 				else {	//Place the AC (again, don't need to check for other ships right now
-					values[randomX][randomY] = 5;
-					values[randomX][randomY + 1] = 5;
-					values[randomX][randomY + 2] = 5;
-					values[randomX][randomY + 3] = 5;
-					values[randomX][randomY + 4] = 5;
+					player2Values[randomX][randomY] = AircraftCarrier.value;
+					player2Values[randomX][randomY + 1] = AircraftCarrier.value;
+					player2Values[randomX][randomY + 2] = AircraftCarrier.value;
+					player2Values[randomX][randomY + 3] = AircraftCarrier.value;
+					player2Values[randomX][randomY + 4] = AircraftCarrier.value;
 					aircraftCarrierSet = true;
-					System.out.println("");
-					System.out.println("");
-					for (int x = 0; x < 10; x++) {
-						for (int y = 0; y < 10; y++) {
-							
-							//System.out.print(value[x][y] + " ");
-							System.out.print(values[x][y]);
-						}
-						
-						System.out.println("");
-					}
-					System.out.println("Aircraft carrier set horizontally");
 				}
 			}
 		}
@@ -874,25 +903,13 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 			if (shipVertical == true) {
 				if (randomX > 6) continue; //Too far down the grid to place BS vertically, try again
 				else {	//Place the BS if there aren't any ships in the way
-					if (values[randomX][randomY] == 0 && values[randomX + 1][randomY] == 0
-							&& values[randomX + 2][randomY] == 0 && values[randomX + 3][randomY] == 0) {
-						values[randomX][randomY] = 4;
-						values[randomX + 1][randomY] = 4;
-						values[randomX + 2][randomY] = 4;
-						values[randomX + 3][randomY] = 4;
+					if (player2Values[randomX][randomY] == 0 && player2Values[randomX + 1][randomY] == 0
+							&& player2Values[randomX + 2][randomY] == 0 && player2Values[randomX + 3][randomY] == 0) {
+						player2Values[randomX][randomY] = BattleShip.value;
+						player2Values[randomX + 1][randomY] = BattleShip.value;
+						player2Values[randomX + 2][randomY] = BattleShip.value;
+						player2Values[randomX + 3][randomY] = BattleShip.value;
 						battleShipSet = true;
-						System.out.println("");
-						System.out.println("");
-						for (int x = 0; x < 10; x++) {
-							for (int y = 0; y < 10; y++) {
-								
-								//System.out.print(value[x][y] + " ");
-								System.out.print(values[x][y]);
-							}
-							
-							System.out.println("");
-						}
-						System.out.println("Battleship set vertically");
 					}
 					else continue; //there is a ship in the way of this one, try a new location
 				}
@@ -900,25 +917,13 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 			else if (shipVertical == false) {
 				if (randomY > 6) continue; //Too far across the grid to place BS horizontally, try again
 				else {	//Place the BS if there arent any ships in the way
-					if (values[randomX][randomY] == 0 && values[randomX][randomY  + 1] == 0
-							&& values[randomX][randomY  + 2] == 0 && values[randomX][randomY + 3] == 0) {
-						values[randomX][randomY] = 4;
-						values[randomX][randomY + 1] = 4;
-						values[randomX][randomY + 2] = 4;
-						values[randomX][randomY + 3] = 4;
+					if (player2Values[randomX][randomY] == 0 && player2Values[randomX][randomY  + 1] == 0
+							&& player2Values[randomX][randomY  + 2] == 0 && player2Values[randomX][randomY + 3] == 0) {
+						player2Values[randomX][randomY] = BattleShip.value;
+						player2Values[randomX][randomY + 1] = BattleShip.value;
+						player2Values[randomX][randomY + 2] = BattleShip.value;
+						player2Values[randomX][randomY + 3] = BattleShip.value;
 						battleShipSet = true;
-						System.out.println("");
-						System.out.println("");
-						for (int x = 0; x < 10; x++) {
-							for (int y = 0; y < 10; y++) {
-								
-								//System.out.print(value[x][y] + " ");
-								System.out.print(values[x][y]);
-							}
-							
-							System.out.println("");
-						}
-						System.out.println("Battleship set horizontally");
 					}
 					else continue; //there is a ship in the way of this one, try a new location
 				}
@@ -937,24 +942,12 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 			if (shipVertical == true) {
 				if (randomX > 7) continue; //Too far down the grid to place cruiser vertically, try again
 				else {	//Place the cruiser if there aren't any ships in the way
-					if (values[randomX][randomY] == 0 && values[randomX + 1][randomY] == 0
-							&& values[randomX + 2][randomY] == 0) {
-						values[randomX][randomY] = 3;
-						values[randomX + 1][randomY] = 3;
-						values[randomX + 2][randomY] = 3;
+					if (player2Values[randomX][randomY] == 0 && player2Values[randomX + 1][randomY] == 0
+							&& player2Values[randomX + 2][randomY] == 0) {
+						player2Values[randomX][randomY] = Cruiser.value;
+						player2Values[randomX + 1][randomY] = Cruiser.value;
+						player2Values[randomX + 2][randomY] = Cruiser.value;
 						cruiserSet = true;
-						System.out.println("");
-						System.out.println("");
-						for (int x = 0; x < 10; x++) {
-							for (int y = 0; y < 10; y++) {
-								
-								//System.out.print(value[x][y] + " ");
-								System.out.print(values[x][y]);
-							}
-							
-							System.out.println("");
-						}
-						System.out.println("Cruiser set vertically");
 					}
 					else continue; //there is a ship in the way of this one, try a new location
 				}
@@ -962,24 +955,12 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 			else if (shipVertical == false) {
 				if (randomY > 7) continue; //Too far across the grid to place cruiser horizontally, try again
 				else {	//Place the cruiser if there arent any ships in the way
-					if (values[randomX][randomY] == 0 && values[randomX][randomY + 1] == 0
-							&& values[randomX][randomY + 2] == 0) {
-						values[randomX][randomY] = 3;
-						values[randomX][randomY + 1] = 3;
-						values[randomX][randomY + 2] = 3;
+					if (player2Values[randomX][randomY] == 0 && player2Values[randomX][randomY + 1] == 0
+							&& player2Values[randomX][randomY + 2] == 0) {
+						player2Values[randomX][randomY] = Cruiser.value;
+						player2Values[randomX][randomY + 1] = Cruiser.value;
+						player2Values[randomX][randomY + 2] = Cruiser.value;
 						cruiserSet = true;
-						System.out.println("");
-						System.out.println("");
-						for (int x = 0; x < 10; x++) {
-							for (int y = 0; y < 10; y++) {
-								
-								//System.out.print(value[x][y] + " ");
-								System.out.print(values[x][y]);
-							}
-							
-							System.out.println("");
-						}
-						System.out.println("Cruiser set horizontally");
 					}
 					else continue; //there is a ship in the way of this one, try a new location
 				}
@@ -998,24 +979,12 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 			if (shipVertical == true) {
 				if (randomX > 7) continue; //Too far down the grid to place sub vertically, try again
 				else {	//Place the sub if there aren't any ships in the way
-					if (values[randomX][randomY] == 0 && values[randomX + 1][randomY] == 0
-							&& values[randomX + 2][randomY] == 0) {
-						values[randomX][randomY] = 2;
-						values[randomX + 1][randomY] = 2;
-						values[randomX + 2][randomY] = 2;
+					if (player2Values[randomX][randomY] == 0 && player2Values[randomX + 1][randomY] == 0
+							&& player2Values[randomX + 2][randomY] == 0) {
+						player2Values[randomX][randomY] = Submarine.value;
+						player2Values[randomX + 1][randomY] = Submarine.value;
+						player2Values[randomX + 2][randomY] = Submarine.value;
 						submarineSet = true;
-						System.out.println("");
-						System.out.println("");
-						for (int x = 0; x < 10; x++) {
-							for (int y = 0; y < 10; y++) {
-								
-								//System.out.print(value[x][y] + " ");
-								System.out.print(values[x][y]);
-							}
-							
-							System.out.println("");
-						}
-						System.out.println("Submarine set vertically");
 					}
 					else continue; //there is a ship in the way of this one, try a new location
 				}
@@ -1023,24 +992,12 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 			else if (shipVertical == false) {
 				if (randomY > 7) continue; //Too far across the grid to place sub horizontally, try again
 				else {	//Place the sub if there arent any ships in the way
-					if (values[randomX][randomY] == 0 && values[randomX][randomY + 1] == 0
-							&& values[randomX][randomY + 2] == 0) {
-						values[randomX][randomY] = 2;
-						values[randomX][randomY + 1] = 2;
-						values[randomX][randomY + 2] = 2;
+					if (player2Values[randomX][randomY] == 0 && player2Values[randomX][randomY + 1] == 0
+							&& player2Values[randomX][randomY + 2] == 0) {
+						player2Values[randomX][randomY] = Submarine.value;
+						player2Values[randomX][randomY + 1] = Submarine.value;
+						player2Values[randomX][randomY + 2] = Submarine.value;
 						submarineSet = true;
-						System.out.println("");
-						System.out.println("");
-						for (int x = 0; x < 10; x++) {
-							for (int y = 0; y < 10; y++) {
-								
-								//System.out.print(value[x][y] + " ");
-								System.out.print(values[x][y]);
-							}
-							
-							System.out.println("");
-						}
-						System.out.println("Submarine set horizontally");
 					}
 					else continue; //there is a ship in the way of this one, try a new location
 				}
@@ -1059,22 +1016,10 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 			if (shipVertical == true) {
 				if (randomX > 8) continue; //Too far down the grid to place pb vertically, try again
 				else {	//Place the pb if there aren't any ships in the way
-					if (values[randomX][randomY] == 0 && values[randomX + 1][randomY] == 0) {
-						values[randomX][randomY] = 1;
-						values[randomX + 1][randomY] = 1;
+					if (player2Values[randomX][randomY] == 0 && player2Values[randomX + 1][randomY] == 0) {
+						player2Values[randomX][randomY] = PatrolBoat.value;
+						player2Values[randomX + 1][randomY] = PatrolBoat.value;
 						patrolBoatSet = true;
-						System.out.println("");
-						System.out.println("");
-						for (int x = 0; x < 10; x++) {
-							for (int y = 0; y < 10; y++) {
-								
-								//System.out.print(value[x][y] + " ");
-								System.out.print(values[x][y]);
-							}
-							
-							System.out.println("");
-						}
-						System.out.println("Patrol Boat set vertically");
 					}
 					else continue; //there is a ship in the way of this one, try a new location
 				}
@@ -1082,32 +1027,16 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 			else if (shipVertical == false) {
 				if (randomY > 8) continue; //Too far across the grid to place PB horizontally, try again
 				else {	//Place the PB if there arent any ships in the way
-					if (values[randomX][randomY] == 0 && values[randomX][randomY + 1] == 0) {
-						values[randomX][randomY] = 1;
-						values[randomX][randomY + 1] = 1;
+					if (player2Values[randomX][randomY] == 0 && player2Values[randomX][randomY + 1] == 0) {
+						player2Values[randomX][randomY] = PatrolBoat.value;
+						player2Values[randomX][randomY + 1] = PatrolBoat.value;
 						patrolBoatSet = true;
-						System.out.println("");
-						System.out.println("");
-						for (int x = 0; x < 10; x++) {
-							for (int y = 0; y < 10; y++) {
-								
-								//System.out.print(value[x][y] + " ");
-								System.out.print(values[x][y]);
-							}
-							
-							System.out.println("");
-						}
-						System.out.println("Patrol boat set horizontally");
 					}
 					else continue; //there is a ship in the way of this one, try a new location
 				}
 			}
 		}
-		
-
-		return values;
-
-		
+				
 	}
 	
 }

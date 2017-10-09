@@ -19,7 +19,7 @@ import javax.swing.JPanel;
 
 public class GameBoard extends JFrame {
 
-//	private JPanel content = new JPanel();
+	private JPanel left = new JPanel();
 	private Grid player1Board;
 	private Grid player2Board;
 	public int[][] player1Values = new int[10][10];
@@ -51,6 +51,11 @@ public class GameBoard extends JFrame {
 	}
 	
 	public void beginGame() {
+		player1Ships[0].x = 20;
+		player1Ships[0].y = 20;
+
+		this.add(left);
+		left.add(player1Ships[0]);
 		player1Board = new Grid(10, "Label");
 		player1Board.values = player1Values;
 		int x2 = 0;
@@ -93,15 +98,15 @@ public class GameBoard extends JFrame {
 										}
 							    	}
 							    	else if (button.getName().contains("3")) {
-							    		SubmarineHits++;
-										if (SubmarineHits == 3) {
-											System.out.println("Submarine sunk");
-										}
-							    	}
-							    	else if (button.getName().contains("2")) {
 							    		CruiserHits++;
 										if (CruiserHits == 3) {
 											System.out.println("Cruiser sunk");
+										}
+							    	}
+							    	else if (button.getName().contains("2")) {
+							    		SubmarineHits++;
+										if (SubmarineHits == 3) {
+											System.out.println("Submarine sunk");
 										}
 							    	}
 							    	else if (button.getName().contains("1")) {
@@ -150,16 +155,16 @@ public class GameBoard extends JFrame {
 		}
 		else if (player1Board.labelGrid[randomX][randomY].getText().contains("2")) {
 			player1Board.labelGrid[randomX][randomY].setBackground(Color.RED);
-			cpuCruiserHits++;
-			if (cpuCruiserHits == 3) {
-				System.out.println("Your cruiser has been sunk");
+			cpuSubmarineHits++;
+			if (cpuSubmarineHits == 3) {
+				System.out.println("Your submarine has been sunk");
 			}
 		}
 		else if (player1Board.labelGrid[randomX][randomY].getText().contains("3")) {
 			player1Board.labelGrid[randomX][randomY].setBackground(Color.RED);
-			cpuSubmarineHits++;
-			if (cpuSubmarineHits == 3) {
-				System.out.println("Your submarine has been sunk");
+			cpuCruiserHits++;
+			if (cpuCruiserHits == 3) {
+				System.out.println("Your cruiser has been sunk");
 			}
 		}
 		else if (player1Board.labelGrid[randomX][randomY].getText().contains("4")) {

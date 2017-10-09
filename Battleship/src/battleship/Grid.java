@@ -2,6 +2,7 @@ package battleship;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.io.File;
@@ -47,13 +48,15 @@ public class Grid extends JPanel{
 
 				if (type == "Label") {					
 					JLabel box = new JLabel();
-					box.setBackground(Color.LIGHT_GRAY);
+					box.setBackground(Color.WHITE);
 					box.setOpaque(true);
 					box.setText(x + "," + y);
 					box.setHorizontalAlignment(SwingConstants.CENTER);
-					box.setForeground(Color.BLUE);
+					box.setForeground(Color.WHITE);
 					box.setBorder(boardBorder);
+					
 					this.add(box, new Integer(0));
+					//this.add(box);
 					this.labelGrid[x][y] = box;
 				}
 				else if (type == "Button"){

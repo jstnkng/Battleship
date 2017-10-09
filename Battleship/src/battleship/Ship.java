@@ -23,6 +23,9 @@ public class Ship extends JPanel{
 	public int widthH;
 	public int x;
 	public int y;
+	public int row;
+	public int column;
+	public int value;
 	public String pathH;
 	public String pathV;
 	public String imagePath;
@@ -38,8 +41,7 @@ public class Ship extends JPanel{
 		this.setBackground(Color.PINK);
 		if (type == ShipType.AircraftCarrier) {
 			pathH = "res\\AC_H.png";
-			pathV = "res\\AC_V.png";
-			
+			pathV = "res\\AC_V.png";			
 			x = 0;
 			y = 0;
 			width = 325;
@@ -47,16 +49,16 @@ public class Ship extends JPanel{
 			widthH = 325;
 			heightH = 50;
 			widthV = 50;
-			heightV = 280;
+			heightV = 280;		
 			size = 5;
+			value = 5;
 			imagePath = pathH;
 			SetImages(pathH, pathV);
 		}
 		else if (type == ShipType.Battleship) {
 		
 			pathH = "res\\BS_H.png";
-			pathV = "res\\BS_V.png";
-			
+			pathV = "res\\BS_V.png";		
 			x = 0;
 			y = 0;
 			width = 258;
@@ -66,6 +68,7 @@ public class Ship extends JPanel{
 			widthV = 50;
 			heightV = 222;
 			size = 4;
+			value = 4;
 			imagePath = pathH;
 			SetImages(pathH, pathV);
 		}
@@ -82,6 +85,25 @@ public class Ship extends JPanel{
 			widthV = 50;
 			heightV = 164;
 			size = 3;
+			value = 3;
+			//When you rotate a ship, you can just change the image path to either the _h or _v
+			imagePath = pathH;
+			SetImages(pathH, pathV);
+		}
+		else if (type == ShipType.Submarine) {
+			pathH = "res\\S_H.png";
+			pathV = "res\\S_V.png";
+			//these values can be changed as needed, just used the same numbers you had for the battleship for now
+			x = 0;
+			y = 0;
+			width = 191;
+			height = 50;
+			widthH = 191;
+			heightH = 50;
+			widthV = 50;
+			heightV = 164;
+			size = 3;
+			value = 2;
 			//When you rotate a ship, you can just change the image path to either the _h or _v
 			imagePath = pathH;
 			SetImages(pathH, pathV);
@@ -99,27 +121,11 @@ public class Ship extends JPanel{
 			widthV = 50;
 			heightV = 106;
 			size = 2;
+			value = 1;
 			//When you rotate a ship, you can just change the image path to either the _h or _v
 			imagePath = pathH;
 			SetImages(pathH, pathV);
 			
-		}
-		else if (type == ShipType.Submarine) {
-			pathH = "res\\S_H.png";
-			pathV = "res\\S_V.png";
-			//these values can be changed as needed, just used the same numbers you had for the battleship for now
-			x = 0;
-			y = 0;
-			width = 191;
-			height = 50;
-			widthH = 191;
-			heightH = 50;
-			widthV = 50;
-			heightV = 164;
-			size = 3;
-			//When you rotate a ship, you can just change the image path to either the _h or _v
-			imagePath = pathH;
-			SetImages(pathH, pathV);
 		}
 	}
 	
