@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -62,7 +63,24 @@ public class GameBoard extends JFrame implements MouseListener{
 		int y2 = 0;
 		for (JLabel[] row  : player1Board.labelGrid) {
 			for (JLabel box : row) {
+				if (player1Values[y2][x2] == 0) {
+				    Image img;
+					try {
+						img = ImageIO.read(new File("res\\waves.png"));
+					    box.setIcon(new ImageIcon(img));
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					box.setForeground(Color.BLUE);
+					box.setBackground(Color.BLUE);
+				}
+				else {
+					box.setForeground(Color.GRAY);
+					box.setBackground(Color.GRAY);
+				}
 				box.setText(player1Values[y2][x2] + "");
+				
 				x2 ++;
 			}
 			y2 ++;
@@ -175,53 +193,100 @@ public class GameBoard extends JFrame implements MouseListener{
 		int randomY = (int)point.getY();
 		
 		if (player1Board.labelGrid[randomX][randomY].getText().contains("1")) {
+			Image hit;
+			try {
+				hit = ImageIO.read(new File("res\\ship_reddot.png"));
+				player1Board.labelGrid[randomX][randomY].setIcon(new ImageIcon(hit));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			player1Board.labelGrid[randomX][randomY].setBackground(Color.RED);
 			player1Board.labelGrid[randomX][randomY].setForeground(Color.RED);
 			cpuPatrolBoatHits++;
 			if (cpuPatrolBoatHits == 2) {
-				System.out.println("Your patrol boat has been sunk");
+				JOptionPane.showMessageDialog(null, "Your patrol boat has been sunk");
 			}
 		}
 		else if (player1Board.labelGrid[randomX][randomY].getText().contains("2")) {
+			Image hit;
+			try {
+				hit = ImageIO.read(new File("res\\ship_reddot.png"));
+				player1Board.labelGrid[randomX][randomY].setIcon(new ImageIcon(hit));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			player1Board.labelGrid[randomX][randomY].setBackground(Color.RED);
 			player1Board.labelGrid[randomX][randomY].setForeground(Color.RED);
 			cpuSubmarineHits++;
 			if (cpuSubmarineHits == 3) {
-				System.out.println("Your submarine has been sunk");
+				JOptionPane.showMessageDialog(null, "Your submarine has been Sunk");
 			}
 		}
 		else if (player1Board.labelGrid[randomX][randomY].getText().contains("3")) {
+			Image hit;
+			try {
+				hit = ImageIO.read(new File("res\\ship_reddot.png"));
+				player1Board.labelGrid[randomX][randomY].setIcon(new ImageIcon(hit));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			player1Board.labelGrid[randomX][randomY].setBackground(Color.RED);
 			player1Board.labelGrid[randomX][randomY].setForeground(Color.RED);
 			cpuCruiserHits++;
 			if (cpuCruiserHits == 3) {
-				System.out.println("Your cruiser has been sunk");
+				JOptionPane.showMessageDialog(null, "Your cruiser has been sunk");
 			}
 		}
 		else if (player1Board.labelGrid[randomX][randomY].getText().contains("4")) {
+			Image hit;
+			try {
+				hit = ImageIO.read(new File("res\\ship_reddot.png"));
+				player1Board.labelGrid[randomX][randomY].setIcon(new ImageIcon(hit));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			player1Board.labelGrid[randomX][randomY].setBackground(Color.RED);
 			player1Board.labelGrid[randomX][randomY].setForeground(Color.RED);
 			cpuBattleShipHits++;
 			if (cpuBattleShipHits == 4) {
-				System.out.println("Your battleship has been sunk");
+				JOptionPane.showMessageDialog(null, "Your battleship has been sunk");
 			}
 		}
 		else if (player1Board.labelGrid[randomX][randomY].getText().contains("5")) {
+			Image hit;
+			try {
+				hit = ImageIO.read(new File("res\\ship_reddot.png"));
+				player1Board.labelGrid[randomX][randomY].setIcon(new ImageIcon(hit));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			player1Board.labelGrid[randomX][randomY].setBackground(Color.RED);
 			player1Board.labelGrid[randomX][randomY].setForeground(Color.RED);
 			cpuAircraftCarrierHits++;
 			if (cpuAircraftCarrierHits == 5) {
-				System.out.println("Your aircraft carrier has been sunk");
+				JOptionPane.showMessageDialog(null, "Your aircraft carrier has been sunk");
 			}
 		}
 		else {
-			player1Board.labelGrid[randomX][randomY].setBackground(Color.GRAY);
-			player1Board.labelGrid[randomX][randomY].setForeground(Color.GRAY);
+			Image miss;
+			try {
+				miss = ImageIO.read(new File("res\\waves_whitedot.png"));
+				player1Board.labelGrid[randomX][randomY].setIcon(new ImageIcon(miss));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			player1Board.labelGrid[randomX][randomY].setBackground(Color.WHITE);
+			player1Board.labelGrid[randomX][randomY].setForeground(Color.WHITE);
 		}
 		
 		if (cpuAircraftCarrierHits + cpuBattleShipHits + cpuCruiserHits + cpuSubmarineHits + cpuPatrolBoatHits == 17) {
-			System.out.println("Player 2 Wins!");
-			JOptionPane.showMessageDialog(null, "You Lose");
+			JOptionPane.showMessageDialog(null, "Player 2 wins");
 		}
 		player2Board.setEnabled(true);
 		
