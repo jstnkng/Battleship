@@ -14,16 +14,25 @@ import javax.swing.JButton;
 import java.awt.Insets;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.IOException;
+/**
+ * 
+ */
+public class HomePageGui extends JFrame {
 
-public class HomePageGui extends JFrame{
-
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
 	private JPanel contentPane;
 
 	/**
 	 * Launch the application.
+	 * @param args command line argument
 	 */
-	public static void main(String[] args) {
+	public static void main(final String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -45,45 +54,52 @@ public class HomePageGui extends JFrame{
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		GridBagLayout gbl_contentPane = new GridBagLayout();
-		gbl_contentPane.columnWidths = new int[]{0, 0, 0};
-		gbl_contentPane.rowHeights = new int[]{0, 0, 0};
-		gbl_contentPane.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
-		contentPane.setLayout(gbl_contentPane);
+		GridBagLayout gbcContentPane = new GridBagLayout();
+		gbcContentPane.columnWidths = new int[]{0, 0, 0};
+		gbcContentPane.rowHeights = new int[]{0, 0, 0};
+		gbcContentPane.columnWeights = new double[]
+				{0.0, 1.0, Double.MIN_VALUE};
+		gbcContentPane.rowWeights = new double[]
+				{0.0, 0.0, Double.MIN_VALUE};
+		contentPane.setLayout(gbcContentPane);
 		
 		JLabel lblBattleship = new JLabel("Battleship");
 		lblBattleship.setFont(new Font("Tahoma", Font.BOLD, 30));
-		GridBagConstraints gbc_lblBattleship = new GridBagConstraints();
-		gbc_lblBattleship.insets = new Insets(0, 0, 5, 0);
-		gbc_lblBattleship.gridx = 1;
-		gbc_lblBattleship.gridy = 0;
-		contentPane.add(lblBattleship, gbc_lblBattleship);
+		GridBagConstraints gbcLblBattleship = new GridBagConstraints();
+		gbcLblBattleship.insets = new Insets(0, 0, 5, 0);
+		gbcLblBattleship.gridx = 1;
+		gbcLblBattleship.gridy = 0;
+		contentPane.add(lblBattleship, gbcLblBattleship);
 		
 		JButton btnPassPlay = new JButton("Pass & Play");
 		btnPassPlay.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
-				ShipSetupFrame p1 = new ShipSetupFrame(GameMode.TwoPlayerPassAndPlay, 1);						
+			public void mouseClicked(final MouseEvent e) {
+				ShipSetupFrame p1 = new ShipSetupFrame(
+					GameMode.TwoPlayerPassAndPlay, 1);
+				p1.setVisible(true);
 			}
 		});
 		
-		GridBagConstraints gbc_btnPassPlay = new GridBagConstraints();
-		gbc_btnPassPlay.gridx = 1;
-		gbc_btnPassPlay.gridy = 1;
-		contentPane.add(btnPassPlay, gbc_btnPassPlay);
+		GridBagConstraints gbBtnPassPlay = new GridBagConstraints();
+		gbBtnPassPlay.gridx = 1;
+		gbBtnPassPlay.gridy = 1;
+		contentPane.add(btnPassPlay, gbBtnPassPlay);
 		
 		JButton btnOnePlayer = new JButton("One Player");
 		btnOnePlayer.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
-				ShipSetupFrame p1 = new ShipSetupFrame(GameMode.OnePlayerMode, 0);						
+			public void mouseClicked(final MouseEvent e) {
+				ShipSetupFrame p1 = new ShipSetupFrame(
+						GameMode.OnePlayerMode, 0);
+				p1.setVisible(true);
 			}
+			
 		});
-		GridBagConstraints gbc_btnOnePlayer = new GridBagConstraints();
-		gbc_btnOnePlayer.gridx = 1;
-		gbc_btnOnePlayer.gridy = 2;
-		contentPane.add(btnOnePlayer, gbc_btnOnePlayer);
+		GridBagConstraints gbcBtnOnePlayer = new GridBagConstraints();
+		gbcBtnOnePlayer.gridx = 1;
+		gbcBtnOnePlayer.gridy = 2;
+		contentPane.add(btnOnePlayer, gbcBtnOnePlayer);
 	}
 
 }

@@ -11,53 +11,129 @@ import java.util.Random;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
-import javax.swing.JPanel;
 
-public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotionListener{
+/**
+ * 
+ */
+public class ShipSetupFrame extends JFrame 
+	implements MouseListener, MouseMotionListener {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
 	private int mx, my;
+	/**
+	 * 
+	 */
 	private int dragFromX, dragFromY;
-	private boolean ACcanDrag = false;
-	private boolean BScanDrag = false;
-	private boolean CcanDrag = false;
-	private boolean ScanDrag = false;
-	private boolean PBcanDrag = false;
-	
+	/**
+	 * 
+	 */
+	private boolean acCcanDrag = false;
+	/**
+	 * 
+	 */
+	private boolean bsCanDrag = false;
+	/**
+	 * 
+	 */
+	private boolean cCanDrag = false;
+	/**
+	 * 
+	 */
+	private boolean sCanDrag = false;
+	/**
+	 * 
+	 */
+	private boolean pbCanDrag = false;
+	/**
+	 * 
+	 */
 	private int boardSize = 10;
+	/**
+	 * 
+	 */
 	private JLayeredPane layeredPane;
+	/**
+	 * 
+	 */
 	private Grid board;
-	
-	private Ship AircraftCarrier;
-	private Ship BattleShip;
-	private Ship Cruiser;
-	private Ship PatrolBoat;
-	private Ship Submarine;
-	private boolean flip = true;
-	
+	/**
+	 * 
+	 */
+	private Ship aircraftCarrier;
+	/**
+	 * 
+	 */
+	private Ship battleShip;
+	/**
+	 * 
+	 */
+	private Ship cruiser;
+	/**
+	 * 
+	 */
+	private Ship patrolBoat;
+	/**
+	 * 
+	 */
+	private Ship submarine;
+	/**
+	 * 
+	 */
 	private JButton submit;
+	/**
+	 * 
+	 */
 	private GameMode mode;
+	/**
+	 * 
+	 */
 	private int currentPlayer;
-	
+	/**
+	 * 
+	 */
 	private JLabel[][] grid = new JLabel[boardSize][boardSize];
+	/**
+	 * 
+	 */
 	private int[][] player1Values = new int[boardSize][boardSize];
+	/**
+	 * 
+	 */
 	private int[][] player2Values = new int[boardSize][boardSize];
-	
+	/**
+	 * 
+	 */
 	private Ship[] player1Ships = new Ship[5];
+	/**
+	 * 
+	 */
 	private Ship[] player2Ships = new Ship[5];
-
-	public ShipSetupFrame(GameMode currentMode, int player) {
-		ShipSetup(currentMode, player);
+	/**
+	 * @param currentMode mode that the game is being played in
+	 * @param player either 1 or 2 to determine current player
+	 */
+	public ShipSetupFrame(final GameMode currentMode, final int player) {
+		shipSetup(currentMode, player);
 	}
-	
-	public void ShipSetup(GameMode currentMode, int player) {
+	/**
+	 * @param currentMode mode that the game is being played in
+	 * @param player either 1 or 2 to determine current player
+	 */
+	public void shipSetup(final GameMode currentMode, final int player) {
 		if (player == 2) {
 			this.setTitle("Player 2 Set Ships");
+		} else {
+			this.setTitle("Player 1 Set Ships");
 		}
-		else this.setTitle("Player 1 Set Ships");
 		
 		mode = currentMode;
 		currentPlayer = player;
@@ -70,69 +146,68 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 		layeredPane = new JLayeredPane();
 		layeredPane.setLayout(gridbag);
 		//create Aircraft Carrier
-		AircraftCarrier = new Ship(ShipType.AircraftCarrier);
-		player1Ships[0] = AircraftCarrier;
-		
+		aircraftCarrier = new Ship(ShipType.AircraftCarrier);
+		player1Ships[0] = aircraftCarrier;
+
 		//add Aircraft Carrier ship to layered pane
 		c.gridx = 0;
 		c.gridy = 0;
 		c.weightx = .4;
 		c.weighty = .16;
 		c.fill = GridBagConstraints.BOTH;
-		layeredPane.add(AircraftCarrier, c);
-		layeredPane.setLayer(AircraftCarrier, 1, 0);
-	
+		layeredPane.add(aircraftCarrier, c);
+		layeredPane.setLayer(aircraftCarrier, 1, 0);
 		//create Battle Ship 
-		BattleShip = new Ship(ShipType.Battleship);
-		player1Ships[1] = BattleShip;
-		
+		battleShip = new Ship(ShipType.Battleship);
+		player1Ships[1] = battleShip;
+
 		//add Battle Ship to layered pane
 		c.gridx = 0;
 		c.gridy = 1;
 		c.weightx = .4;
 		c.weighty = .16;
 		c.fill = GridBagConstraints.BOTH;
-		layeredPane.add(BattleShip, c);
-		layeredPane.setLayer(BattleShip, 1, 1);
+		layeredPane.add(battleShip, c);
+		layeredPane.setLayer(battleShip, 1, 1);
 		
 		//create cruiser
-		Cruiser = new Ship(ShipType.Cruiser);
-		player1Ships[2] = Cruiser;
-		
+		cruiser = new Ship(ShipType.Cruiser);
+		player1Ships[2] = cruiser;
+
 		//add cruiser to layered pane
 		c.gridx = 0;
 		c.gridy = 2;
 		c.weightx = .4;
 		c.weighty = .16;
 		c.fill = GridBagConstraints.BOTH;
-		layeredPane.add(Cruiser, c);
-		layeredPane.setLayer(Cruiser, 1, 2);
+		layeredPane.add(cruiser, c);
+		layeredPane.setLayer(cruiser, 1, 2);
 		
 		//create submarine
-		Submarine = new Ship(ShipType.Submarine);
-		player1Ships[4] = Submarine;
-		
+		submarine = new Ship(ShipType.Submarine);
+		player1Ships[4] = submarine;
+
 		//add submarine to layered pane
 		c.gridx = 0;
 		c.gridy = 3;
 		c.weightx = .4;
 		c.weighty = .16;
 		c.fill = GridBagConstraints.BOTH;
-		layeredPane.add(Submarine, c);
-		layeredPane.setLayer(Submarine, 1, 3);
+		layeredPane.add(submarine, c);
+		layeredPane.setLayer(submarine, 1, 3);
 		
 		//create patrol boat
-		PatrolBoat = new Ship(ShipType.PatrolBoat);
-		player1Ships[3] = PatrolBoat;
-		
+		patrolBoat = new Ship(ShipType.PatrolBoat);
+		player1Ships[3] = patrolBoat;
+
 		//add patrol boat to layered pane
 		c.gridx = 0;
 		c.gridy = 4;
 		c.weightx = .4;
 		c.weighty = .16;
 		c.fill = GridBagConstraints.BOTH;
-		layeredPane.add(PatrolBoat, c);
-		layeredPane.setLayer(PatrolBoat, 1, 1);
+		layeredPane.add(patrolBoat, c);
+		layeredPane.setLayer(patrolBoat, 1, 1);
 		
 		
 		submit = new JButton();
@@ -145,7 +220,7 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 		layeredPane.add(submit,  c, 1);
 		submit.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void mouseClicked(final MouseEvent e) {
 				
 				submit();
 			}
@@ -176,52 +251,89 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 		this.add(layeredPane);
 		layeredPane.addMouseListener(this);
 		layeredPane.addMouseMotionListener(this);
+		
 //		contentPane.setOpaque(true);
 //		this.setContentPane(contentPane);
 		
 		//Display;
-		this.setSize(1200,700);
+		this.setSize(1200, 700);
 		this.setResizable(false);
 		this.setVisible(true);	
 		//Set Ships to starting locations
-		returnShipToStart(AircraftCarrier);
-		returnShipToStart(BattleShip);
-		returnShipToStart(Cruiser);
-		returnShipToStart(Submarine);
-		returnShipToStart(PatrolBoat);
+		returnShipToStart(aircraftCarrier);
+		returnShipToStart(battleShip);
+		returnShipToStart(cruiser);
+		returnShipToStart(submarine);
+		returnShipToStart(patrolBoat);
 		
 	}
 
 	@Override
-	public void mouseDragged(MouseEvent e) {
+	public void mouseDragged(final MouseEvent e) {
 		mx = e.getX();
 		my = e.getY();
-		
-		
-		if(ACcanDrag) {
-			AircraftCarrier.x = mx - dragFromX;
-			AircraftCarrier.y = my - dragFromY;
-			AircraftCarrier.setBounds(AircraftCarrier.x, AircraftCarrier.y, AircraftCarrier.width, AircraftCarrier.height);
+		if (acCcanDrag) {
+			if (aircraftCarrier.isHorizontal()) {
+				aircraftCarrier.setSize(
+						aircraftCarrier.getWidthH(),
+						aircraftCarrier.getHeightH());
+			} else {
+				aircraftCarrier.setSize(
+						aircraftCarrier.getWidthV(),
+						aircraftCarrier.getHeightV());
+			}
+			aircraftCarrier.x = mx - dragFromX;
+			aircraftCarrier.y = my - dragFromY;
+			aircraftCarrier.setLocation(
+					aircraftCarrier.x, aircraftCarrier.y);
 			
-		}else if(BScanDrag) {
-			BattleShip.x = mx - dragFromX;
-			BattleShip.y = my - dragFromY;
-			BattleShip.setBounds(BattleShip.x, BattleShip.y, BattleShip.width, BattleShip.height);
+		} else if (bsCanDrag) {
+			if (battleShip.isHorizontal()) {
+				battleShip.setSize(battleShip.getWidthH(),
+						battleShip.getHeightH());
+			} else {
+				battleShip.setSize(battleShip.getWidthV(),
+						battleShip.getHeightV());
+			}
+			battleShip.x = mx - dragFromX;
+			battleShip.y = my - dragFromY;
+			battleShip.setLocation(battleShip.x, battleShip.y);
 			
-		}else if(CcanDrag) {
-			Cruiser.x = mx - dragFromX;
-			Cruiser.y = my - dragFromY;
-			Cruiser.setBounds(Cruiser.x, Cruiser.y, Cruiser.width, Cruiser.height);
+		} else if (cCanDrag) {
+			cruiser.x = mx - dragFromX;
+			cruiser.y = my - dragFromY;
+			if (cruiser.isHorizontal()) {
+				cruiser.setSize(cruiser.getWidthH(),
+						cruiser.getHeightH());
+			} else {
+				cruiser.setSize(cruiser.getWidthV(),
+						cruiser.getHeightV());
+			}
+			cruiser.setLocation(cruiser.x, cruiser.y);
 			
-		}else if(ScanDrag) {
-			Submarine.x = mx - dragFromX;
-			Submarine.y = my - dragFromY;
-			Submarine.setBounds(Submarine.x, Submarine.y, Submarine.width, Submarine.height);
+		} else if (sCanDrag) {
+			submarine.x = mx - dragFromX;
+			submarine.y = my - dragFromY;
+			if (submarine.isHorizontal()) {
+				submarine.setSize(submarine.getWidthH(),
+						submarine.getHeightH());
+			} else {
+				submarine.setSize(submarine.getWidthV(),
+						submarine.getHeightV());
+			}
+			submarine.setLocation(submarine.x, submarine.y);
 			
-		}else if(PBcanDrag) {
-			PatrolBoat.x = mx - dragFromX;
-			PatrolBoat.y = my - dragFromY;
-			PatrolBoat.setBounds(PatrolBoat.x, PatrolBoat.y, PatrolBoat.width, PatrolBoat.height);
+		} else if (pbCanDrag) {
+			patrolBoat.x = mx - dragFromX;
+			patrolBoat.y = my - dragFromY;
+			if (patrolBoat.isHorizontal()) {
+				patrolBoat.setSize(patrolBoat.getWidthH(),
+						patrolBoat.getHeightH());
+			} else {
+				patrolBoat.setSize(patrolBoat.getWidthV(),
+						patrolBoat.getHeightV());
+			}
+			patrolBoat.setLocation(patrolBoat.x, patrolBoat.y);
 			
 		}
 		
@@ -230,127 +342,144 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 	}
 
 	@Override
-	public void mouseMoved(MouseEvent e) {
+	public void mouseMoved(final MouseEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void mouseClicked(MouseEvent e) {
+	public void mouseClicked(final MouseEvent e) {
 		
 		//Aircraft Carrier
-		int ACX = AircraftCarrier.x;
-		int ACY = AircraftCarrier.y;
-		int ACW = AircraftCarrier.width;
-		int ACH = AircraftCarrier.height;
+		int acX = aircraftCarrier.x;
+		int acY = aircraftCarrier.y;
+		int acW = aircraftCarrier.getWidth();
+		int acH = aircraftCarrier.getHeight();
 		
-		if (mx >= ACX && mx <= (ACX + ACW) && my >= ACY && my <= (ACY + ACH)) {
+		if (mx >= acX && mx <= (acX + acW) 
+				&& my >= acY && my <= (acY + acH)) {
 			
-			if (AircraftCarrier.isHorizontal == true) {
-				AircraftCarrier.isHorizontal = false;
-				AircraftCarrier.rotate();
-				AircraftCarrier.setSize(AircraftCarrier.widthV, AircraftCarrier.heightV);
+			if (aircraftCarrier.isHorizontal()) {
+				aircraftCarrier.setHorizontal(false);
+				aircraftCarrier.rotate();
+				aircraftCarrier.setSize(
+						aircraftCarrier.getWidthV(),
+						aircraftCarrier.getHeightV());
 				
 				
-			}else {
-				AircraftCarrier.isHorizontal = true;
-				AircraftCarrier.rotate();
-				AircraftCarrier.setSize(AircraftCarrier.widthH, AircraftCarrier.heightH);
+			} else {
+				aircraftCarrier.setHorizontal(true);
+				aircraftCarrier.rotate();
+				aircraftCarrier.setSize(
+						aircraftCarrier.getWidthH(),
+						aircraftCarrier.getHeightH());
 			}
-			checkForShipOverLap(AircraftCarrier);
-			checkForShipOffGrid(AircraftCarrier);
+			checkForShipOverLap(aircraftCarrier);
+			checkForShipOffGrid(aircraftCarrier);
 		}
 		
 		//BattleShip
-		int BSX = BattleShip.x;
-		int BSY = BattleShip.y;
-		int BSW = BattleShip.width;
-		int BSH = BattleShip.height;
+		int bsX = battleShip.x;
+		int bsY = battleShip.y;
+		int bsW = battleShip.getWidth();
+		int bsH = battleShip.getHeight();
 		
-		if (mx >= BSX && mx <= (BSX + BSW) && my >= BSY && my <= (BSY + BSH)) {
+		if (mx >= bsX && mx <= (bsX + bsW) 
+				&& my >= bsY && my <= (bsY + bsH)) {
 			
-			if (BattleShip.isHorizontal == true) {
-				BattleShip.isHorizontal = false;
-				BattleShip.rotate();
-				BattleShip.setSize(BattleShip.widthV, BattleShip.heightV);
+			if (battleShip.isHorizontal()) {
+				battleShip.setHorizontal(false);
+				battleShip.rotate();
+				battleShip.setSize(battleShip.getWidthV(),
+						battleShip.getHeightV());
 				
 				
-			}else {
-				BattleShip.isHorizontal = true;
-				BattleShip.rotate();
-				BattleShip.setSize(BattleShip.widthH, BattleShip.heightH);
+			} else {
+				battleShip.setHorizontal(true);
+				battleShip.rotate();
+				battleShip.setSize(battleShip.getWidthH(),
+						battleShip.getHeightH());
 			}
-			checkForShipOverLap(BattleShip);
-			checkForShipOffGrid(BattleShip);
+			checkForShipOverLap(battleShip);
+			checkForShipOffGrid(battleShip);
 		}
 		
 		//Cruiser
-		int CX = Cruiser.x;
-		int CY = Cruiser.y;
-		int CW = Cruiser.width;
-		int CH = Cruiser.height;
+		int cX = cruiser.x;
+		int cY = cruiser.y;
+		int cW = cruiser.getWidth();
+		int cH = cruiser.getHeight();
 
-		if (mx >= CX && mx <= (CX + CW) && my >= CY && my <= (CY + CH)) {
+		if (mx >= cX && mx <= (cX + cW) && my >= cY 
+				&& my <= (cY + cH)) {
 
-			if (Cruiser.isHorizontal == true) {
-				Cruiser.isHorizontal = false;
-				Cruiser.rotate();
-				Cruiser.setSize(Cruiser.widthV, Cruiser.heightV);
+			if (cruiser.isHorizontal()) {
+				cruiser.setHorizontal(false);
+				cruiser.rotate();
+				cruiser.setSize(cruiser.getWidthV(), 
+						cruiser.getHeightV());
 
 
-			}else {
-				Cruiser.isHorizontal = true;
-				Cruiser.rotate();
-				Cruiser.setSize(Cruiser.widthH, Cruiser.heightH);
+			} else {
+				cruiser.setHorizontal(true);
+				cruiser.rotate();
+				cruiser.setSize(cruiser.getWidthH(), 
+						cruiser.getHeightH());
 			}
-			checkForShipOverLap(Cruiser);
-			checkForShipOffGrid(Cruiser);
+			checkForShipOverLap(cruiser);
+			checkForShipOffGrid(cruiser);
 		}
 		
 		//Submarine
-		int SX = Submarine.x;
-		int SY = Submarine.y;
-		int SW = Submarine.width;
-		int SH = Submarine.height;
+		int sX = submarine.x;
+		int sY = submarine.y;
+		int sW = submarine.getWidth();
+		int sH = submarine.getHeight();
 
-		if (mx >= SX && mx <= (SX + SW) && my >= SY && my <= (SY + SH)) {
+		if (mx >= sX && mx <= (sX + sW) && my >= sY 
+				&& my <= (sY + sH)) {
 
-			if (Submarine.isHorizontal == true) {
-				Submarine.isHorizontal = false;
-				Submarine.rotate();
-				Submarine.setSize(Submarine.widthV, Submarine.heightV);
+			if (submarine.isHorizontal()) {
+				submarine.setHorizontal(false);
+				submarine.rotate();
+				submarine.setSize(submarine.getWidthV(), 
+						submarine.getHeightV());
 
 
-			}else {
-				Submarine.isHorizontal = true;
-				Submarine.rotate();
-				Submarine.setSize(Submarine.widthH, Submarine.heightH);
+			} else {
+				submarine.setHorizontal(true);
+				submarine.rotate();
+				submarine.setSize(submarine.getWidthH(),
+						submarine.getHeightH());
 			}
-			checkForShipOverLap(Submarine);
-			checkForShipOffGrid(Submarine);
+			checkForShipOverLap(submarine);
+			checkForShipOffGrid(submarine);
 		}
 		
 		//PatrolBoat
-		int PBX = PatrolBoat.x;
-		int PBY = PatrolBoat.y;
-		int PBW = PatrolBoat.width;
-		int PBH = PatrolBoat.height;
+		int pbX = patrolBoat.x;
+		int pbY = patrolBoat.y;
+		int pbW = patrolBoat.getWidth();
+		int pbH = patrolBoat.getHeight();
 
-		if (mx >= PBX && mx <= (PBX + PBW) && my >= PBY && my <= (PBY + PBH)) {
+		if (mx >= pbX && mx <= (pbX + pbW) 
+				&& my >= pbY && my <= (pbY + pbH)) {
 
-			if (PatrolBoat.isHorizontal == true) {
-				PatrolBoat.isHorizontal = false;
-				PatrolBoat.rotate();
-				PatrolBoat.setSize(PatrolBoat.widthV, PatrolBoat.heightV);
+			if (patrolBoat.isHorizontal()) {
+				patrolBoat.setHorizontal(false);
+				patrolBoat.rotate();
+				patrolBoat.setSize(patrolBoat.getWidthV(),
+						patrolBoat.getHeightV());
 
 
-			}else {
-				PatrolBoat.isHorizontal = true;
-				PatrolBoat.rotate();
-				PatrolBoat.setSize(PatrolBoat.widthH, PatrolBoat.heightH);
+			} else {
+				patrolBoat.setHorizontal(true);
+				patrolBoat.rotate();
+				patrolBoat.setSize(patrolBoat.getWidthH(),
+						patrolBoat.getHeightH());
 			}
-			checkForShipOverLap(PatrolBoat);
-			checkForShipOffGrid(PatrolBoat);
+			checkForShipOverLap(patrolBoat);
+			checkForShipOffGrid(patrolBoat);
 		}
 				
 				
@@ -358,214 +487,247 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 	}
 
 	@Override
-	public void mousePressed(MouseEvent e) {
+	public void mousePressed(final MouseEvent e) {
 		
 		mx = e.getX();
 		my = e.getY();
 		
 		//Aircraft Carrier
-		int ACX = AircraftCarrier.x;
-		int ACY = AircraftCarrier.y;
-		int ACW = AircraftCarrier.width;
-		int ACH = AircraftCarrier.height;
+		int acX = aircraftCarrier.x;
+		int acY = aircraftCarrier.y;
+		int acW = aircraftCarrier.getWidth();
+		int acH = aircraftCarrier.getHeight();
 		
-		if (mx >= ACX && mx <= (ACX + ACW) && my >= ACY && my <= (ACY + ACH)) {
+		if (mx >= acX && mx <= (acX + acW) 
+				&& my >= acY && my <= (acY + acH)) {
 			
-			layeredPane.moveToFront(AircraftCarrier);
-			ACcanDrag = true;
-			dragFromX = mx - ACX;
-			dragFromY = my - ACY;
-		}else {
-			ACcanDrag = false;
+			layeredPane.moveToFront(aircraftCarrier);
+			acCcanDrag = true;
+			dragFromX = mx - acX;
+			dragFromY = my - acY;
+		} else {
+			acCcanDrag = false;
 		}
 		
 		//BattleShip
-		int BSX = BattleShip.x;
-		int BSY = BattleShip.y;
-		int BSW = BattleShip.width;
-		int BSH = BattleShip.height;
+		int bsX = battleShip.x;
+		int bsY = battleShip.y;
+		int bsW = battleShip.getWidth();
+		int bsH = battleShip.getHeight();
 		
-		if (mx >= BSX && mx <= (BSX + BSW) && my >= BSY && my <= (BSY + BSH)) {
+		if (mx >= bsX && mx <= (bsX + bsW) 
+				&& my >= bsY && my <= (bsY + bsH)) {
 			
-			layeredPane.moveToFront(BattleShip);
-			BScanDrag = true;
-			dragFromX = mx - BSX;
-			dragFromY = my - BSY;
+			layeredPane.moveToFront(battleShip);
+			bsCanDrag = true;
+			dragFromX = mx - bsX;
+			dragFromY = my - bsY;
 			
-		}else {
-			BScanDrag = false;
+		} else {
+			bsCanDrag = false;
 		}
 		
 		//Cruiser
-		int CX = Cruiser.x;
-		int CY = Cruiser.y;
-		int CW = Cruiser.width;
-		int CH = Cruiser.height;
+		int cX = cruiser.x;
+		int cY = cruiser.y;
+		int cW = cruiser.getWidth();
+		int cH = cruiser.getHeight();
 
-		if (mx >= CX && mx <= (CX + CW) && my >= CY && my <= (CY + CH)) {
+		if (mx >= cX && mx <= (cX + cW) && my >= cY 
+				&& my <= (cY + cH)) {
 			
-			layeredPane.moveToFront(Cruiser);
-			CcanDrag = true;
-			dragFromX = mx - CX;
-			dragFromY = my - CY;
+			layeredPane.moveToFront(cruiser);
+			cCanDrag = true;
+			dragFromX = mx - cX;
+			dragFromY = my - cY;
 
-		}else {
-			CcanDrag = false;
+		} else {
+			cCanDrag = false;
 		}
 		
 		//Submarine
-		int SX = Submarine.x;
-		int SY = Submarine.y;
-		int SW = Submarine.width;
-		int SH = Submarine.height;
+		int sX = submarine.x;
+		int sY = submarine.y;
+		int sW = submarine.getWidth();
+		int sH = submarine.getHeight();
 
-		if (mx >= SX && mx <= (SX + SW) && my >= SY && my <= (SY + SH)) {
+		if (mx >= sX && mx <= (sX + sW) && my >= sY 
+				&& my <= (sY + sH)) {
 			
-			layeredPane.moveToFront(Submarine);
-			ScanDrag = true;
-			dragFromX = mx - SX;
-			dragFromY = my - SY;
+			layeredPane.moveToFront(submarine);
+			sCanDrag = true;
+			dragFromX = mx - sX;
+			dragFromY = my - sY;
 
-		}else {
-			ScanDrag = false;
+		} else {
+			sCanDrag = false;
 		}
 		
 		//PatrolBoat
-		int PBX = PatrolBoat.x;
-		int PBY = PatrolBoat.y;
-		int PBW = PatrolBoat.width;
-		int PBH = PatrolBoat.height;
+		int pbX = patrolBoat.x;
+		int pbY = patrolBoat.y;
+		int pbW = patrolBoat.getWidth();
+		int pbH = patrolBoat.getHeight();
 
-		if (mx >= PBX && mx <= (PBX + PBW) && my >= PBY && my <= (PBY + PBH)) {
+		if (mx >= pbX && mx <= (pbX + pbW) 
+				&& my >= pbY && my <= (pbY + pbH)) {
 			
-			layeredPane.moveToFront(PatrolBoat);
-			PBcanDrag = true;
-			dragFromX = mx - PBX;
-			dragFromY = my - PBY;
+			layeredPane.moveToFront(patrolBoat);
+			pbCanDrag = true;
+			dragFromX = mx - pbX;
+			dragFromY = my - pbY;
 
-		}else {
-			PBcanDrag = false;
+		} else {
+			pbCanDrag = false;
 		}
 		
 	}
 
 	@Override
-	public void mouseReleased(MouseEvent e) {
+	public void mouseReleased(final MouseEvent e) {
 		mx = e.getX();
 		my = e.getY();
 		
 		
 		
 		//Aircraft Carrier
-		int ACX = AircraftCarrier.x;
-		int ACY = AircraftCarrier.y;
-		int ACW = AircraftCarrier.width;
-		int ACH = AircraftCarrier.height;
+		int acX = aircraftCarrier.x;
+		int acY = aircraftCarrier.y;
+		int acW = aircraftCarrier.getWidth();
+		int acH = aircraftCarrier.getHeight();
 		
-		if (mx >= ACX && mx <= (ACX + ACW) && my >= ACY && my <= (ACY + ACH)) {
+		if (mx >= acX && mx <= (acX + acW) 
+				&& my >= acY && my <= (acY + acH)) {
 			
-			snapShipToY(AircraftCarrier);
-			snapShipToX(AircraftCarrier);
+			snapShipToY(aircraftCarrier);
+			snapShipToX(aircraftCarrier);
 		}
 		
 		//BattleShip
-		int BSX = BattleShip.x;
-		int BSY = BattleShip.y;
-		int BSW = BattleShip.width;
-		int BSH = BattleShip.height;
+		int bsX = battleShip.x;
+		int bsY = battleShip.y;
+		int bsW = battleShip.getWidth();
+		int bsH = battleShip.getHeight();
 		
-		if (mx >= BSX && mx <= (BSX + BSW) && my >= BSY && my <= (BSY + BSH)) {
+		if (mx >= bsX && mx <= (bsX + bsW) 
+				&& my >= bsY && my <= (bsY + bsH)) {
 			
-			snapShipToY(BattleShip);
-			snapShipToX(BattleShip);
+			snapShipToY(battleShip);
+			snapShipToX(battleShip);
 		}
 		
 		//Cruiser
-		int CX = Cruiser.x;
-		int CY = Cruiser.y;
-		int CW = Cruiser.width;
-		int CH = Cruiser.height;
+		int cX = cruiser.x;
+		int cY = cruiser.y;
+		int cW = cruiser.getWidth();
+		int cH = cruiser.getHeight();
 
-		if (mx >= CX && mx <= (CX + CW) && my >= CY && my <= (CY + CH)) {
+		if (mx >= cX && mx <= (cX + cW) && my >= cY 
+				&& my <= (cY + cH)) {
 			
-			snapShipToY(Cruiser);
-			snapShipToX(Cruiser);
+			snapShipToY(cruiser);
+			snapShipToX(cruiser);
 		}
 		
 		//Submarine
-		int SX = Submarine.x;
-		int SY = Submarine.y;
-		int SW = Submarine.width;
-		int SH = Submarine.height;
+		int sX = submarine.x;
+		int sY = submarine.y;
+		int sW = submarine.getWidth();
+		int sH = submarine.getHeight();
 
-		if (mx >= SX && mx <= (SX + SW) && my >= SY && my <= (SY + SH)) {
+		if (mx >= sX && mx <= (sX + sW) && my >= sY 
+				&& my <= (sY + sH)) {
 			
-			snapShipToY(Submarine);
-			snapShipToX(Submarine);
+			snapShipToY(submarine);
+			snapShipToX(submarine);
 		}
 		
 		//PatrolBoat
-		int PBX = PatrolBoat.x;
-		int PBY = PatrolBoat.y;
-		int PBW = PatrolBoat.width;
-		int PBH = PatrolBoat.height;
+		int pbX = patrolBoat.x;
+		int pbY = patrolBoat.y;
+		int pbW = patrolBoat.getWidth();
+		int pbH = patrolBoat.getHeight();
 
-		if (mx >= PBX && mx <= (PBX + PBW) && my >= PBY && my <= (PBY + PBH)) {
+		if (mx >= pbX && mx <= (pbX + pbW) 
+				&& my >= pbY && my <= (pbY + pbH)) {
 			
-			snapShipToY(PatrolBoat);
-			snapShipToX(PatrolBoat);
+			snapShipToY(patrolBoat);
+			snapShipToX(patrolBoat);
 		}
 	}
-	public void snapShipToX(Ship shipToSnap) {
+	/**
+	 * @param shipToSnap the selected ship
+	 */
+	public void snapShipToX(final Ship shipToSnap) {
 		if (shipToSnap.getX() >= 476 && shipToSnap.getX() <= 549) {
 			shipToSnap.x = 516;
-			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y, shipToSnap.width, shipToSnap.height);
-			shipToSnap.column = 0;
-		}
-		else if (shipToSnap.getX() > 549 && shipToSnap.getX() <= 615) {
+			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y,
+					shipToSnap.getWidth(),
+					shipToSnap.getHeight());
+			shipToSnap.setColumn(0);
+		} else if (shipToSnap.getX() > 549 
+				&& shipToSnap.getX() <= 615) {
 			shipToSnap.x = 583; 
-			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y, shipToSnap.width, shipToSnap.height);
-			shipToSnap.column = 1;
-		}
-		else if (shipToSnap.getX() > 615 && shipToSnap.getX() <= 681) {
+			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y,
+					shipToSnap.getWidth(), 
+					shipToSnap.getHeight());
+			shipToSnap.setColumn(1);
+		} else if (shipToSnap.getX() > 615 
+				&& shipToSnap.getX() <= 681) {
 			shipToSnap.x = 650; 
-			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y, shipToSnap.width, shipToSnap.height);
-			shipToSnap.column = 2;
-		}
-		else if (shipToSnap.getX() > 681 && shipToSnap.getX() <= 747) {
+			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y,
+					shipToSnap.getWidth(), 
+					shipToSnap.getHeight());
+			shipToSnap.setColumn(2);
+		} else if (shipToSnap.getX() > 681 
+				&& shipToSnap.getX() <= 747) {
 			shipToSnap.x = 717;
-			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y, shipToSnap.width, shipToSnap.height);
-			shipToSnap.column = 3;
-		}
-		else if (shipToSnap.getX() > 747 && shipToSnap.getX() <= 813) {
+			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y,
+					shipToSnap.getWidth(), 
+					shipToSnap.getHeight());
+			shipToSnap.setColumn(3);
+		} else if (shipToSnap.getX() > 747 
+				&& shipToSnap.getX() <= 813) {
 			shipToSnap.x = 784; 
-			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y, shipToSnap.width, shipToSnap.height);
-			shipToSnap.column = 4;
-		}
-		else if (shipToSnap.getX() > 813 && shipToSnap.getX() <= 879) {
+			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y,
+					shipToSnap.getWidth(), 
+					shipToSnap.getHeight());
+			shipToSnap.setColumn(4);
+		} else if (shipToSnap.getX() > 813 
+				&& shipToSnap.getX() <= 879) {
 			shipToSnap.x = 851; 
-			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y, shipToSnap.width, shipToSnap.height);
-			shipToSnap.column = 5;
-		}
-		else if (shipToSnap.getX() > 879 && shipToSnap.getX() <= 945) {
+			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y,
+					shipToSnap.getWidth(),
+					shipToSnap.getHeight());
+			shipToSnap.setColumn(5);
+		} else if (shipToSnap.getX() > 879 
+				&& shipToSnap.getX() <= 945) {
 			shipToSnap.x = 918;
-			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y, shipToSnap.width, shipToSnap.height);
-			shipToSnap.column = 6;
-		}
-		else if (shipToSnap.getX() > 945 && shipToSnap.getX() <= 1011) {
+			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y,
+					shipToSnap.getWidth(),
+					shipToSnap.getHeight());
+			shipToSnap.setColumn(6);
+		} else if (shipToSnap.getX() > 945 
+				&& shipToSnap.getX() <= 1011) {
 			shipToSnap.x = 985;
-			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y, shipToSnap.width, shipToSnap.height);
-			shipToSnap.column = 7;
-		}
-		else if (shipToSnap.getX() > 1011 && shipToSnap.getX() <= 1077) {
+			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y,
+					shipToSnap.getWidth(), 
+					shipToSnap.getHeight());
+			shipToSnap.setColumn(7);
+		} else if (shipToSnap.getX() > 1011 
+				&& shipToSnap.getX() <= 1077) {
 			shipToSnap.x = 1052;
-			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y, shipToSnap.width, shipToSnap.height);
-			shipToSnap.column = 8;
-		}
-		else if (shipToSnap.getX() > 1077 && shipToSnap.getX() <= 1153) {
+			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y,
+					shipToSnap.getWidth(), 
+					shipToSnap.getHeight());
+			shipToSnap.setColumn(8);
+		} else if (shipToSnap.getX() > 1077 
+				&& shipToSnap.getX() <= 1153) {
 			shipToSnap.x = 1119;
-			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y, shipToSnap.width, shipToSnap.height);
-			shipToSnap.column = 9;
+			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y,
+					shipToSnap.getWidth(), 
+					shipToSnap.getHeight());
+			shipToSnap.setColumn(9);
 		}
 		checkForShipOffGrid(shipToSnap);
 		if (shipToSnap.getX() < 476 || shipToSnap.getX() > 1153) {
@@ -573,57 +735,79 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 			returnShipToStart(shipToSnap);
 		}
 	}
-	
-	public void snapShipToY(Ship shipToSnap) {
+	/**
+	 * @param shipToSnap the selected ship
+	 */
+	public void snapShipToY(final Ship shipToSnap) {
 		if (shipToSnap.getY() >= 30 && shipToSnap.getY() <= 105) {
 			shipToSnap.y = 76;
-			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y, shipToSnap.width, shipToSnap.height);
-			shipToSnap.row = 0;
-		}
-		else if (shipToSnap.getY() > 105 && shipToSnap.getY() <= 163) {
+			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y,
+					shipToSnap.getWidth(), 
+					shipToSnap.getHeight());
+			shipToSnap.setRow(0);
+		} else if (shipToSnap.getY() > 105 
+				&& shipToSnap.getY() <= 163) {
 			shipToSnap.y = 134;
-			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y, shipToSnap.width, shipToSnap.height);
-			shipToSnap.row = 1;
-		}
-		else if (shipToSnap.getY() > 163 && shipToSnap.getY() <= 221) {
+			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y,
+					shipToSnap.getWidth(), 
+					shipToSnap.getHeight());
+			shipToSnap.setRow(1);
+		} else if (shipToSnap.getY() > 163 
+				&& shipToSnap.getY() <= 221) {
 			shipToSnap.y = 192;
-			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y, shipToSnap.width, shipToSnap.height);
-			shipToSnap.row = 2;
-		}
-		else if (shipToSnap.getY() > 221 && shipToSnap.getY() <= 279) {
+			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y,
+					shipToSnap.getWidth(), 
+					shipToSnap.getHeight());
+			shipToSnap.setRow(2);
+		} else if (shipToSnap.getY() > 221 
+				&& shipToSnap.getY() <= 279) {
 			shipToSnap.y = 250;
-			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y, shipToSnap.width, shipToSnap.height);
-			shipToSnap.row = 3;
-		}
-		else if (shipToSnap.getY() > 279 && shipToSnap.getY() <= 337) {
+			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y,
+					shipToSnap.getWidth(), 
+					shipToSnap.getHeight());
+			shipToSnap.setRow(3);
+		} else if (shipToSnap.getY() > 279 
+				&& shipToSnap.getY() <= 337) {
 			shipToSnap.y = 308;
-			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y, shipToSnap.width, shipToSnap.height);
-			shipToSnap.row = 4;
-		}
-		else if (shipToSnap.getY() > 337 && shipToSnap.getY() <= 395) {
+			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y,
+					shipToSnap.getWidth(), 
+					shipToSnap.getHeight());
+			shipToSnap.setRow(4);
+		} else if (shipToSnap.getY() > 337 
+				&& shipToSnap.getY() <= 395) {
 			shipToSnap.y = 366;
-			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y, shipToSnap.width, shipToSnap.height);
-			shipToSnap.row = 5;
-		}
-		else if (shipToSnap.getY() > 395 && shipToSnap.getY() <= 453) {
+			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y,
+					shipToSnap.getWidth(), 
+					shipToSnap.getHeight());
+			shipToSnap.setRow(5);
+		} else if (shipToSnap.getY() > 395 
+				&& shipToSnap.getY() <= 453) {
 			shipToSnap.y = 424;
-			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y, shipToSnap.width, shipToSnap.height);
-			shipToSnap.row = 6;
-		}
-		else if (shipToSnap.getY() > 453 && shipToSnap.getY() <= 511) {
+			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y,
+					shipToSnap.getWidth(), 
+					shipToSnap.getHeight());
+			shipToSnap.setRow(6);
+		} else if (shipToSnap.getY() > 453 
+				&& shipToSnap.getY() <= 511) {
 			shipToSnap.y = 482;
-			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y, shipToSnap.width, shipToSnap.height);
-			shipToSnap.row = 7;
-		}
-		else if (shipToSnap.getY() > 511 && shipToSnap.getY() <= 569) {
+			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y,
+					shipToSnap.getWidth(), 
+					shipToSnap.getHeight());
+			shipToSnap.setRow(7);
+		} else if (shipToSnap.getY() > 511 
+				&& shipToSnap.getY() <= 569) {
 			shipToSnap.y = 540;
-			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y, shipToSnap.width, shipToSnap.height);
-			shipToSnap.row = 8;
-		}
-		else if (shipToSnap.getY() > 569 && shipToSnap.getY() <= 615) {
+			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y,
+					shipToSnap.getWidth(), 
+					shipToSnap.getHeight());
+			shipToSnap.setRow(8);
+		} else if (shipToSnap.getY() > 569 
+				&& shipToSnap.getY() <= 615) {
 			shipToSnap.y = 598;
-			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y, shipToSnap.width, shipToSnap.height);
-			shipToSnap.row = 9;
+			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y,
+					shipToSnap.getWidth(), 
+					shipToSnap.getHeight());
+			shipToSnap.setRow(9);
 		}
 		checkForShipOffGrid(shipToSnap);
 		if (shipToSnap.getY() < 30 || shipToSnap.getY() > 615) {
@@ -631,125 +815,130 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 		}
 		checkForShipOverLap(shipToSnap);
 	}
-	
-	public void checkForShipOffGrid(Ship shipToSnap) {
+	/**
+	 * @param shipToSnap the selected ship
+	 */
+	public void checkForShipOffGrid(final Ship shipToSnap) {
 		if ((shipToSnap.getY() + shipToSnap.getHeight()) > 650) {
 			returnShipToStart(shipToSnap);
-		}
-		else if ((shipToSnap.getX() + shipToSnap.getWidth()) > 1200) {
+		} else if ((shipToSnap.getX() + shipToSnap.getWidth()) > 1200) {
 			returnShipToStart(shipToSnap);
 		}
 	}
-	
-	public void checkForShipOverLap(Ship shipToSnap) {
-		if (shipToSnap.typeOfShip == ShipType.AircraftCarrier) {
-			if (shipToSnap.getBounds().intersects(BattleShip.getBounds())) {
+	/**
+	 * @param shipToSnap the selected ship
+	 */
+	public void checkForShipOverLap(final Ship shipToSnap) {
+		if (shipToSnap.getTypeOfShip() == ShipType.AircraftCarrier) {
+			if (shipToSnap.getBounds()
+					.intersects(battleShip.getBounds())) {
+				returnShipToStart(shipToSnap);
+			} else if (shipToSnap.getBounds()
+					.intersects(cruiser.getBounds())) {
+				returnShipToStart(shipToSnap);
+			} else if (shipToSnap.getBounds()
+					.intersects(submarine.getBounds())) {
+				returnShipToStart(shipToSnap);
+			} else if (shipToSnap.getBounds()
+					.intersects(patrolBoat.getBounds())) {
 				returnShipToStart(shipToSnap);
 			}
-			else if (shipToSnap.getBounds().intersects(Cruiser.getBounds())) {
+		} else if (shipToSnap.getTypeOfShip() == ShipType.Battleship) {
+			if (shipToSnap.getBounds()
+				.intersects(aircraftCarrier.getBounds())) {
+				returnShipToStart(shipToSnap);
+			} else if (shipToSnap.getBounds()
+					.intersects(cruiser.getBounds())) {
+				returnShipToStart(shipToSnap);
+			} else if (shipToSnap.getBounds()
+					.intersects(submarine.getBounds())) {
+				returnShipToStart(shipToSnap);
+			} else if (shipToSnap.getBounds()
+					.intersects(patrolBoat.getBounds())) {
 				returnShipToStart(shipToSnap);
 			}
-			else if (shipToSnap.getBounds().intersects(Submarine.getBounds())) {
+		} else if (shipToSnap.getTypeOfShip() == ShipType.Cruiser) {
+			if (shipToSnap.getBounds()
+				.intersects(aircraftCarrier.getBounds())) {
+				returnShipToStart(shipToSnap);
+			} else if (shipToSnap.getBounds()
+					.intersects(battleShip.getBounds())) {
+				returnShipToStart(shipToSnap);
+			} else if (shipToSnap.getBounds()
+					.intersects(submarine.getBounds())) {
+				returnShipToStart(shipToSnap);
+			} else if (shipToSnap.getBounds()
+					.intersects(patrolBoat.getBounds())) {
 				returnShipToStart(shipToSnap);
 			}
-			if (shipToSnap.getBounds().intersects(PatrolBoat.getBounds())) {
+		} else if (shipToSnap.getTypeOfShip() == ShipType.Submarine) {
+			if (shipToSnap.getBounds()
+				.intersects(aircraftCarrier.getBounds())) {
+				returnShipToStart(shipToSnap);
+			} else if (shipToSnap.getBounds()
+					.intersects(battleShip.getBounds())) {
+				returnShipToStart(shipToSnap);
+			} else if (shipToSnap.getBounds()
+					.intersects(cruiser.getBounds())) {
+				returnShipToStart(shipToSnap);
+			} else if (shipToSnap.getBounds()
+					.intersects(patrolBoat.getBounds())) {
 				returnShipToStart(shipToSnap);
 			}
-		}
-		else if (shipToSnap.typeOfShip == ShipType.Battleship) {
-			if (shipToSnap.getBounds().intersects(AircraftCarrier.getBounds())) {
+		} else if (shipToSnap.getTypeOfShip() == ShipType.PatrolBoat) {
+			if (shipToSnap.getBounds()
+				.intersects(aircraftCarrier.getBounds())) {
 				returnShipToStart(shipToSnap);
-			}
-			else if (shipToSnap.getBounds().intersects(Cruiser.getBounds())) {
+			} else if (shipToSnap.getBounds()
+					.intersects(battleShip.getBounds())) {
 				returnShipToStart(shipToSnap);
-			}
-			else if (shipToSnap.getBounds().intersects(Submarine.getBounds())) {
+			} else if (shipToSnap.getBounds()
+					.intersects(cruiser.getBounds())) {
 				returnShipToStart(shipToSnap);
-			}
-			if (shipToSnap.getBounds().intersects(PatrolBoat.getBounds())) {
-				returnShipToStart(shipToSnap);
-			}
-		}
-		else if (shipToSnap.typeOfShip == ShipType.Cruiser) {
-			if (shipToSnap.getBounds().intersects(AircraftCarrier.getBounds())) {
-				returnShipToStart(shipToSnap);
-			}
-			else if (shipToSnap.getBounds().intersects(BattleShip.getBounds())) {
-				returnShipToStart(shipToSnap);
-			}
-			else if (shipToSnap.getBounds().intersects(Submarine.getBounds())) {
-				returnShipToStart(shipToSnap);
-			}
-			if (shipToSnap.getBounds().intersects(PatrolBoat.getBounds())) {
-				returnShipToStart(shipToSnap);
-			}
-		}
-		else if (shipToSnap.typeOfShip == ShipType.Submarine) {
-			if (shipToSnap.getBounds().intersects(AircraftCarrier.getBounds())) {
-				returnShipToStart(shipToSnap);
-			}
-			else if (shipToSnap.getBounds().intersects(BattleShip.getBounds())) {
-				returnShipToStart(shipToSnap);
-			}
-			else if (shipToSnap.getBounds().intersects(Cruiser.getBounds())) {
-				returnShipToStart(shipToSnap);
-			}
-			if (shipToSnap.getBounds().intersects(PatrolBoat.getBounds())) {
-				returnShipToStart(shipToSnap);
-			}
-		}
-		else if (shipToSnap.typeOfShip == ShipType.PatrolBoat) {
-			if (shipToSnap.getBounds().intersects(AircraftCarrier.getBounds())) {
-				returnShipToStart(shipToSnap);
-			}
-			else if (shipToSnap.getBounds().intersects(BattleShip.getBounds())) {
-				returnShipToStart(shipToSnap);
-			}
-			else if (shipToSnap.getBounds().intersects(Cruiser.getBounds())) {
-				returnShipToStart(shipToSnap);
-			}
-			if (shipToSnap.getBounds().intersects(Submarine.getBounds())) {
+			} else if (shipToSnap.getBounds()
+					.intersects(submarine.getBounds())) {
 				returnShipToStart(shipToSnap);
 			}
 		}
 	}
-	
-	public void returnShipToStart(Ship shipToSnap) {
-		if (shipToSnap.typeOfShip == ShipType.AircraftCarrier) {
+	/**
+	 * @param shipToSnap the selected ship
+	 */
+	public void returnShipToStart(final Ship shipToSnap) {
+		if (shipToSnap.getTypeOfShip() == ShipType.AircraftCarrier) {
 			shipToSnap.x = 0;
 			shipToSnap.y = 1;
-		}
-		else if (shipToSnap.typeOfShip == ShipType.Battleship) {
+		} else if (shipToSnap.getTypeOfShip() == ShipType.Battleship) {
 			shipToSnap.x = 0;
 			shipToSnap.y = 110;
-		}
-		else if (shipToSnap.typeOfShip == ShipType.Cruiser) {
+		} else if (shipToSnap.getTypeOfShip() == ShipType.Cruiser) {
 			shipToSnap.x = 0;
 			shipToSnap.y = 220;
-		}
-		else if (shipToSnap.typeOfShip == ShipType.Submarine) {
+		} else if (shipToSnap.getTypeOfShip() == ShipType.Submarine) {
 			shipToSnap.x = 0;
 			shipToSnap.y = 330;
-		}
-		else if (shipToSnap.typeOfShip == ShipType.PatrolBoat) {
+		} else if (shipToSnap.getTypeOfShip() == ShipType.PatrolBoat) {
 			shipToSnap.x = 0;
 			shipToSnap.y = 432;
 		}
-		shipToSnap.setBounds(shipToSnap.x, shipToSnap.y, shipToSnap.width, shipToSnap.height);
+		shipToSnap.setBounds(shipToSnap.x, shipToSnap.y, 
+				shipToSnap.getWidth(), shipToSnap.getHeight());
 	}
 
 	@Override
-	public void mouseEntered(MouseEvent e) {
+	public void mouseEntered(final MouseEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void mouseExited(MouseEvent e) {
+	public void mouseExited(final MouseEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
-	
+	/**
+	 * 
+	 */
 	public void submit() {
 		board.setBackground(Color.GREEN);
 		
@@ -761,16 +950,18 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 		//sets grid locations relative to the screen instead of parent
 		for (int x = 0; x < boardSize; x++) {
 			for (int y = 0; y < boardSize; y++) {
-				grid[x][y].setLocation(grid[x][y].getLocationOnScreen().x, grid[x][y].getLocationOnScreen().y);
+				grid[x][y].setLocation(grid[x][y]
+				.getLocationOnScreen().x,
+				grid[x][y].getLocationOnScreen().y);
 			}
 		}
 		
 
-		setValues(AircraftCarrier);
-		setValues(BattleShip);
-		setValues(Cruiser);
-		setValues(Submarine);
-		setValues(PatrolBoat);
+		setValues(aircraftCarrier);
+		setValues(battleShip);
+		setValues(cruiser);
+		setValues(submarine);
+		setValues(patrolBoat);
 
 		System.out.println("Player 1 Ships");
 		for (int x = 0; x < 10; x++) {
@@ -793,21 +984,20 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 		}
 		
 		//count is = to 17 if all ships are placed correctly
-		if(count == 17) {
+		if (count == 17) {
 		
 			GameBoard playingBoard = new GameBoard(mode);
-			if (this.getTitle().contains("1") && mode == GameMode.OnePlayerMode) {
-				playingBoard.player1Ships = player1Ships;
-				playingBoard.player1Values = player1Values;
+			if (this.getTitle().contains("1") 
+					&& mode == GameMode.OnePlayerMode) {
+				playingBoard.setPlayer1Ships(player1Ships);
+				playingBoard.setPlayer1Values(player1Values);
 				setCpuValues();
-				playingBoard.player2Values = player2Values;
+				playingBoard.setPlayer2Values(player2Values);
 				System.out.println("");
 				System.out.println("Player 2 Ships");
 				for (int x = 0; x < 10; x++) {
 					for (int y = 0; y < 10; y++) {
-						
-						//System.out.print(value[x][y] + " ");
-						System.out.print(player2Values[x][y]);
+					System.out.print(player2Values[x][y]);
 					}
 					
 					System.out.println("");
@@ -815,17 +1005,16 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 				this.setVisible(false);
 				playingBoard.setVisible(true);
 				playingBoard.beginGame();
-			}
-			else if (this.getTitle().contains("1") && mode == GameMode.TwoPlayerPassAndPlay) {
-				playingBoard.player1Ships = player1Ships;
-				playingBoard.player1Values = board.values;
+			} else if (this.getTitle().contains("1") && mode
+					== GameMode.TwoPlayerPassAndPlay) {
+			   playingBoard.setPlayer1Ships(player1Ships);
+			   playingBoard.setPlayer1Values(board.getValues());
 				this.setTitle("Player 2 Set Ships");
 				this.getContentPane().removeAll();
-				ShipSetup(mode, 2);
-			}
-			else {
-				playingBoard.player2Ships = player1Ships;
-				playingBoard.player2Values = board.values;
+				shipSetup(mode, 2);
+			} else {
+				playingBoard.setPlayer2Ships(player2Ships);
+			   playingBoard.setPlayer2Values(board.getValues());
 				this.setVisible(false);
 				playingBoard.setVisible(true);
 				playingBoard.beginGame();
@@ -839,24 +1028,38 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 		}
 		
 	}
-	
-	public void setValues(Ship shipToSet) {
-		for (int s = 0; s < shipToSet.size; s++) {
-			if (shipToSet.isHorizontal) {
-				player1Values[shipToSet.row][shipToSet.column + s] = shipToSet.value;
-			}
-			else {
-				player1Values[shipToSet.row + s][shipToSet.column] = shipToSet.value;
+	/**
+	 * @param shipToSet the selected ship
+	 */
+	public void setValues(final Ship shipToSet) {
+		for (int s = 0; s < shipToSet.getShipSize(); s++) {
+			if (shipToSet.isHorizontal()) {
+			 player1Values[shipToSet.getRow()]
+					 [shipToSet.getColumn() + s] 
+						= shipToSet.getValue();
+			} else {
+			 player1Values[shipToSet.getRow() + s]
+					 [shipToSet.getColumn()] 
+						= shipToSet.getValue();
 			}
 		}
 	}
 	
+	/**
+	*
+	*/	
 	private void setCpuValues() {
+		setAircraftCarrier();
+		setBattleShip();
+		setCruiser();
+		setSubmarine();
+		setPatrolBoat();				
+	}
+	/**
+	*
+	*/	
+	private void setAircraftCarrier() {
 		boolean aircraftCarrierSet = false;
-		boolean battleShipSet = false;
-		boolean cruiserSet = false;
-		boolean submarineSet = false;
-		boolean patrolBoatSet = false;
 		while (!aircraftCarrierSet) {
 			boolean shipVertical = false;
 			int minimum = 0;
@@ -865,31 +1068,51 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 			int range = maximum - minimum + 1;
 			int randomX =  rn.nextInt(range) + minimum;
 			int randomY = rn.nextInt(range) + minimum;
-			if (randomX < 5) shipVertical = false; //50/50 chance of ship being vertical/horizontal
-			else shipVertical = true;
-			if (shipVertical == true) {
-				if (randomX > 5) continue; //Too far down the grid to place AC vertically, try again
-				else {	//Place the AC (this is the first ship to be placed, don't need to check for other ships
-					player2Values[randomX][randomY] = AircraftCarrier.value;
-					player2Values[randomX + 1][randomY] = AircraftCarrier.value;
-					player2Values[randomX + 2][randomY] = AircraftCarrier.value;
-					player2Values[randomX + 3][randomY] = AircraftCarrier.value;
-					player2Values[randomX + 4][randomY] = AircraftCarrier.value;
+			if (randomX < 5) {
+				shipVertical = false;
+			} else {
+				shipVertical = true;
+			}
+			if (shipVertical) {
+				if (randomX > 5) {
+					continue; 
+				} else {
+					player2Values[randomX][randomY]
+					   = aircraftCarrier.getValue();
+					player2Values[randomX + 1][randomY] 
+					   = aircraftCarrier.getValue();
+					player2Values[randomX + 2][randomY] 
+					   = aircraftCarrier.getValue();
+					player2Values[randomX + 3][randomY] 
+					   = aircraftCarrier.getValue();
+					player2Values[randomX + 4][randomY] 
+					   = aircraftCarrier.getValue();
 					aircraftCarrierSet = true;
 				}
-			}
-			else if (shipVertical == false) {
-				if (randomY > 5) continue; //Too far across the grid to place AC horizontally, try again
-				else {	//Place the AC (again, don't need to check for other ships right now
-					player2Values[randomX][randomY] = AircraftCarrier.value;
-					player2Values[randomX][randomY + 1] = AircraftCarrier.value;
-					player2Values[randomX][randomY + 2] = AircraftCarrier.value;
-					player2Values[randomX][randomY + 3] = AircraftCarrier.value;
-					player2Values[randomX][randomY + 4] = AircraftCarrier.value;
+			} else if (!shipVertical) {
+				if (randomY > 5) {
+					continue;
+				} else {
+					player2Values[randomX][randomY]
+				       = aircraftCarrier.getValue();
+					player2Values[randomX][randomY + 1] 
+					   = aircraftCarrier.getValue();
+					player2Values[randomX][randomY + 2] 
+					   = aircraftCarrier.getValue();
+					player2Values[randomX][randomY + 3]
+					   = aircraftCarrier.getValue();
+					player2Values[randomX][randomY + 4]
+					   = aircraftCarrier.getValue();
 					aircraftCarrierSet = true;
 				}
 			}
 		}
+	}
+	/**
+	*
+	*/	
+	private void setBattleShip() {
+		boolean battleShipSet = false;
 		while (!battleShipSet) {
 			boolean shipVertical = false;
 			int minimum = 0;
@@ -898,37 +1121,69 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 			int range = maximum - minimum + 1;
 			int randomX =  rn.nextInt(range) + minimum;
 			int randomY = rn.nextInt(range) + minimum;
-			if (randomX < 5) shipVertical = false; //50/50 chance of ship being vertical/horizontal
-			else shipVertical = true;
-			if (shipVertical == true) {
-				if (randomX > 6) continue; //Too far down the grid to place BS vertically, try again
-				else {	//Place the BS if there aren't any ships in the way
-					if (player2Values[randomX][randomY] == 0 && player2Values[randomX + 1][randomY] == 0
-							&& player2Values[randomX + 2][randomY] == 0 && player2Values[randomX + 3][randomY] == 0) {
-						player2Values[randomX][randomY] = BattleShip.value;
-						player2Values[randomX + 1][randomY] = BattleShip.value;
-						player2Values[randomX + 2][randomY] = BattleShip.value;
-						player2Values[randomX + 3][randomY] = BattleShip.value;
-						battleShipSet = true;
-					}
-					else continue; //there is a ship in the way of this one, try a new location
-				}
+			if (randomX < 5) {
+				shipVertical = false;
+			} else {
+				shipVertical = true;
 			}
-			else if (shipVertical == false) {
-				if (randomY > 6) continue; //Too far across the grid to place BS horizontally, try again
-				else {	//Place the BS if there arent any ships in the way
-					if (player2Values[randomX][randomY] == 0 && player2Values[randomX][randomY  + 1] == 0
-							&& player2Values[randomX][randomY  + 2] == 0 && player2Values[randomX][randomY + 3] == 0) {
-						player2Values[randomX][randomY] = BattleShip.value;
-						player2Values[randomX][randomY + 1] = BattleShip.value;
-						player2Values[randomX][randomY + 2] = BattleShip.value;
-						player2Values[randomX][randomY + 3] = BattleShip.value;
+			if (shipVertical) {
+				if (randomX > 6) {
+					continue; 
+				} else {
+					if (player2Values[randomX][randomY] 
+							== 0 
+					&& player2Values[randomX + 1][randomY]
+							== 0
+					&& player2Values[randomX + 2][randomY]
+							== 0 
+					&& player2Values[randomX + 3][randomY]
+							== 0) {
+					player2Values[randomX][randomY]
+							= battleShip.getValue();
+					player2Values[randomX + 1][randomY]
+							= battleShip.getValue();
+					player2Values[randomX + 2][randomY] 
+							= battleShip.getValue();
+					player2Values[randomX + 3][randomY] 
+							= battleShip.getValue();
 						battleShipSet = true;
+					} else {
+						continue;
 					}
-					else continue; //there is a ship in the way of this one, try a new location
+				}
+			} else if (!shipVertical) {
+				if (randomY > 6) {
+					continue; 
+				} else {
+					if (player2Values[randomX][randomY] 
+							== 0 
+					&& player2Values[randomX][randomY + 1]
+							== 0
+					&& player2Values[randomX][randomY + 2]
+							== 0 
+					&& player2Values[randomX][randomY + 3]
+							== 0) {
+					player2Values[randomX][randomY]
+							= battleShip.getValue();
+					player2Values[randomX][randomY + 1] 
+							= battleShip.getValue();
+					player2Values[randomX][randomY + 2] 
+							= battleShip.getValue();
+					player2Values[randomX][randomY + 3] 
+							= battleShip.getValue();
+						battleShipSet = true;
+					} else {
+						continue;
+					}
 				}
 			}
 		}
+	}
+	/**
+	*
+	*/	
+	private void setCruiser() {
+		boolean cruiserSet = false;
 		while (!cruiserSet) {
 			boolean shipVertical = false;
 			int minimum = 0;
@@ -937,35 +1192,61 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 			int range = maximum - minimum + 1;
 			int randomX =  rn.nextInt(range) + minimum;
 			int randomY = rn.nextInt(range) + minimum;
-			if (randomX < 5) shipVertical = false; //50/50 chance of ship being vertical/horizontal
-			else shipVertical = true;
-			if (shipVertical == true) {
-				if (randomX > 7) continue; //Too far down the grid to place cruiser vertically, try again
-				else {	//Place the cruiser if there aren't any ships in the way
-					if (player2Values[randomX][randomY] == 0 && player2Values[randomX + 1][randomY] == 0
-							&& player2Values[randomX + 2][randomY] == 0) {
-						player2Values[randomX][randomY] = Cruiser.value;
-						player2Values[randomX + 1][randomY] = Cruiser.value;
-						player2Values[randomX + 2][randomY] = Cruiser.value;
-						cruiserSet = true;
-					}
-					else continue; //there is a ship in the way of this one, try a new location
-				}
+			if (randomX < 5) {
+				shipVertical = false;
+			} else {
+				shipVertical = true;
 			}
-			else if (shipVertical == false) {
-				if (randomY > 7) continue; //Too far across the grid to place cruiser horizontally, try again
-				else {	//Place the cruiser if there arent any ships in the way
-					if (player2Values[randomX][randomY] == 0 && player2Values[randomX][randomY + 1] == 0
-							&& player2Values[randomX][randomY + 2] == 0) {
-						player2Values[randomX][randomY] = Cruiser.value;
-						player2Values[randomX][randomY + 1] = Cruiser.value;
-						player2Values[randomX][randomY + 2] = Cruiser.value;
+			if (shipVertical) {
+				if (randomX > 7) {
+					continue; 
+				} else {
+					if (player2Values[randomX][randomY]
+							== 0 
+					&& player2Values[randomX + 1][randomY]
+							== 0
+					&& player2Values[randomX + 2][randomY]
+									== 0) {
+					player2Values[randomX][randomY]
+							= cruiser.getValue();
+					player2Values[randomX + 1][randomY]
+							= cruiser.getValue();
+					player2Values[randomX + 2][randomY] 
+							= cruiser.getValue();
 						cruiserSet = true;
+					} else {
+						continue;
 					}
-					else continue; //there is a ship in the way of this one, try a new location
+				}
+			} else if (!shipVertical) {
+				if (randomY > 7) {
+					continue;
+				} else {	
+					if (player2Values[randomX][randomY] 
+							== 0 
+					&& player2Values[randomX][randomY + 1]
+							== 0
+					&& player2Values[randomX][randomY + 2]
+							== 0) {
+					player2Values[randomX][randomY]
+							= cruiser.getValue();
+					player2Values[randomX][randomY + 1] 
+							= cruiser.getValue();
+					player2Values[randomX][randomY + 2] 
+							= cruiser.getValue();
+						cruiserSet = true;
+					} else {
+						continue;
+					}
 				}
 			}
 		}
+	}
+	/**
+	*
+	*/	
+	private void setSubmarine() {
+		boolean submarineSet = false;
 		while (!submarineSet) {
 			boolean shipVertical = false;
 			int minimum = 0;
@@ -974,35 +1255,61 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 			int range = maximum - minimum + 1;
 			int randomX =  rn.nextInt(range) + minimum;
 			int randomY = rn.nextInt(range) + minimum;
-			if (randomX < 5) shipVertical = false; //50/50 chance of ship being vertical/horizontal
-			else shipVertical = true;
-			if (shipVertical == true) {
-				if (randomX > 7) continue; //Too far down the grid to place sub vertically, try again
-				else {	//Place the sub if there aren't any ships in the way
-					if (player2Values[randomX][randomY] == 0 && player2Values[randomX + 1][randomY] == 0
-							&& player2Values[randomX + 2][randomY] == 0) {
-						player2Values[randomX][randomY] = Submarine.value;
-						player2Values[randomX + 1][randomY] = Submarine.value;
-						player2Values[randomX + 2][randomY] = Submarine.value;
-						submarineSet = true;
-					}
-					else continue; //there is a ship in the way of this one, try a new location
-				}
+			if (randomX < 5) {
+				shipVertical = false;
+			} else {
+				shipVertical = true;
 			}
-			else if (shipVertical == false) {
-				if (randomY > 7) continue; //Too far across the grid to place sub horizontally, try again
-				else {	//Place the sub if there arent any ships in the way
-					if (player2Values[randomX][randomY] == 0 && player2Values[randomX][randomY + 1] == 0
-							&& player2Values[randomX][randomY + 2] == 0) {
-						player2Values[randomX][randomY] = Submarine.value;
-						player2Values[randomX][randomY + 1] = Submarine.value;
-						player2Values[randomX][randomY + 2] = Submarine.value;
+			if (shipVertical) {
+				if (randomX > 7) {
+					continue; 
+				} else {
+					if (player2Values[randomX][randomY] 
+							== 0 
+					&& player2Values[randomX + 1][randomY]
+							== 0
+					&& player2Values[randomX + 2][randomY] 
+							== 0) {
+					player2Values[randomX][randomY]
+							= submarine.getValue();
+					player2Values[randomX + 1][randomY] 
+							= submarine.getValue();
+					player2Values[randomX + 2][randomY] 
+							= submarine.getValue();
 						submarineSet = true;
+					} else {
+						continue;
 					}
-					else continue; //there is a ship in the way of this one, try a new location
+				}
+			} else if (!shipVertical) {
+				if (randomY > 7) {
+					continue;
+				} else {
+					if (player2Values[randomX][randomY] 
+							== 0 
+					&& player2Values[randomX][randomY + 1]
+							== 0
+					&& player2Values[randomX][randomY + 2] 
+									== 0) {
+					player2Values[randomX][randomY] 
+							= submarine.getValue();
+					player2Values[randomX][randomY + 1] 
+							= submarine.getValue();
+					player2Values[randomX][randomY + 2] 
+							= submarine.getValue();
+						submarineSet = true;
+					} else {
+						continue;
+					}
 				}
 			}
 		}
+	}
+	/**
+	*
+	*/	
+	private void setPatrolBoat() {
+		boolean patrolBoatSet = false;
 		while (!patrolBoatSet) {
 			boolean shipVertical = false;
 			int minimum = 0;
@@ -1011,32 +1318,47 @@ public class ShipSetupFrame extends JFrame implements MouseListener, MouseMotion
 			int range = maximum - minimum + 1;
 			int randomX =  rn.nextInt(range) + minimum;
 			int randomY = rn.nextInt(range) + minimum;
-			if (randomX < 5) shipVertical = false; //50/50 chance of ship being vertical/horizontal
-			else shipVertical = true;
-			if (shipVertical == true) {
-				if (randomX > 8) continue; //Too far down the grid to place pb vertically, try again
-				else {	//Place the pb if there aren't any ships in the way
-					if (player2Values[randomX][randomY] == 0 && player2Values[randomX + 1][randomY] == 0) {
-						player2Values[randomX][randomY] = PatrolBoat.value;
-						player2Values[randomX + 1][randomY] = PatrolBoat.value;
-						patrolBoatSet = true;
-					}
-					else continue; //there is a ship in the way of this one, try a new location
-				}
+			if (randomX < 5) {
+				shipVertical = false;
+			} else {
+				shipVertical = true;
 			}
-			else if (shipVertical == false) {
-				if (randomY > 8) continue; //Too far across the grid to place PB horizontally, try again
-				else {	//Place the PB if there arent any ships in the way
-					if (player2Values[randomX][randomY] == 0 && player2Values[randomX][randomY + 1] == 0) {
-						player2Values[randomX][randomY] = PatrolBoat.value;
-						player2Values[randomX][randomY + 1] = PatrolBoat.value;
+			if (shipVertical) {
+				if (randomX > 8) {
+					continue;
+				} else {
+					if (player2Values[randomX][randomY] 
+							== 0 
+					&& player2Values[randomX + 1][randomY] 
+							== 0) {
+					player2Values[randomX][randomY] 
+							= patrolBoat.getValue();
+					player2Values[randomX + 1][randomY] 
+							= patrolBoat.getValue();
 						patrolBoatSet = true;
+					} else {
+						continue;
 					}
-					else continue; //there is a ship in the way of this one, try a new location
+				}
+			} else if (!shipVertical) {
+				if (randomY > 8) {
+					continue;
+				} else {
+					if (player2Values[randomX][randomY] 
+							== 0 
+					&& player2Values[randomX][randomY + 1]
+							== 0) {
+					player2Values[randomX][randomY] 
+							= patrolBoat.getValue();
+					player2Values[randomX][randomY + 1] 
+							= patrolBoat.getValue();
+						patrolBoatSet = true;
+					} else {
+						continue;
+					}
 				}
 			}
 		}
-				
 	}
 	
 }
