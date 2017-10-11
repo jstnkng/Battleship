@@ -78,7 +78,7 @@ public class Grid extends JPanel {
 			this.add(
 			 new JLabel("" + (x + 1), SwingConstants.CENTER));
 			for (int y = 0; y < boardLayout.getRows() - 1; y++) {
-				if (type == "Label") {
+				if (type.equals("Label")) {
 					JLabel box = new JLabel();
 					box.setBackground(Color.WHITE);
 					box.setOpaque(true);
@@ -91,7 +91,7 @@ public class Grid extends JPanel {
 					this.add(box, new Integer(0));
 					//this.add(box);
 					Grid.labelGrid[x][y] = box;
-				} else if (type == "Button") {
+				} else if (type.equals("Button")) {
 					JButton box = new JButton();
 					//box.setText(x + "," + y);
 					box.setHorizontalAlignment(
