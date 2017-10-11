@@ -35,12 +35,6 @@ public class Ship extends JPanel {
 		return heightV;
 	}
 	/**
-	 * @param height new height to set
-	 */
-	public void setHeightV(final int height) {
-		heightV = height;
-	}
-	/**
 	 * 
 	 */
 	private int widthV;
@@ -49,12 +43,6 @@ public class Ship extends JPanel {
 	 */
 	public int getWidthV() {
 		return widthV;
-	}
-	/**
-	 * @param width new width to set
-	 */
-	public void setWidthV(final int width) {
-		widthV = width;
 	}
 	/**
 	 * 
@@ -67,12 +55,6 @@ public class Ship extends JPanel {
 		return heightH;
 	}
 	/**
-	 * @param height new horizontal height
-	 */
-	public void setHeightH(final int height) {
-		heightH = height;
-	}
-	/**
 	 * 
 	 */
 	private int widthH;
@@ -81,12 +63,6 @@ public class Ship extends JPanel {
 	 */
 	public int getWidthH() {
 		return widthH;
-	}
-	/**
-	 * @param width new horizontal width
-	 */
-	public void setWidthH(final int width) {
-		widthH = width;
 	}
 	/**
 	 * 

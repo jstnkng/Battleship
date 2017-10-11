@@ -19,37 +19,47 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 /**
- *
+ * Displays the two boards, one with the players ships and one
+ * for the user to fire on.
  */
 public class GameBoard extends JFrame implements MouseListener {
 
 	/**
-	 * 
+	 *ID for serializable class.
 	 */
 	private static final long serialVersionUID = 1L;
 	/**
-	 * 
+	 * The board where the current players ships
+	 * are displayed.
 	 */
 	private Grid player1Board;
 	/**
-	 * 
+	 * The board where the second players ships 
+	 * are. The current player clicks on buttons
+	 * on this board to fire.
 	 */
 	private Grid player2Board;
 	/**
-	 * 
+	 * The array of ints that store the locations of each
+	 * point that contains player 1's ships.
 	 */
 	private int[][] player1Values = new int[10][10];
 	/**
+	 * Set the values in the 2-dimensional array
+	 * of ints for player 1.
 	 * @param values values from the grid
 	 */
 	public void setPlayer1Values(final int[][] values) {
 		player1Values = values;
 	}
 	/**
-	 * 
+	 * The array of ints that store the locations of each
+	 * point that contains player 2's ships.
 	 */
 	private int[][] player2Values = new int[10][10];
 	/**
+	 * Set the values in the 2-dimensional array
+	 * of ints for player 2.
 	 * @param values values from the grid
 	 */
 	public void setPlayer2Values(final int[][] values) {
