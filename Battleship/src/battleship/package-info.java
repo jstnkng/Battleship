@@ -1,0 +1,8 @@
+/**
+ * 
+ */
+/**
+ * @author jstnd
+ *
+ */
+package battleship;

@@ -282,10 +282,10 @@ public class ShipSetupFrame extends JFrame
 						aircraftCarrier.getWidthV(),
 						aircraftCarrier.getHeightV());
 			}
-			aircraftCarrier.x = mx - dragFromX;
-			aircraftCarrier.y = my - dragFromY;
+			int aircraftX = mx - dragFromX;
+			int aircraftY = my - dragFromY;
 			aircraftCarrier.setLocation(
-					aircraftCarrier.x, aircraftCarrier.y);
+					aircraftX, aircraftY);
 			
 		} else if (bsCanDrag) {
 			if (battleShip.isHorizontal()) {
@@ -295,13 +295,11 @@ public class ShipSetupFrame extends JFrame
 				battleShip.setSize(battleShip.getWidthV(),
 						battleShip.getHeightV());
 			}
-			battleShip.x = mx - dragFromX;
-			battleShip.y = my - dragFromY;
-			battleShip.setLocation(battleShip.x, battleShip.y);
+			int battleShipX = mx - dragFromX;
+			int battleShipY = my - dragFromY;
+			battleShip.setLocation(battleShipX, battleShipY);
 			
 		} else if (cCanDrag) {
-			cruiser.x = mx - dragFromX;
-			cruiser.y = my - dragFromY;
 			if (cruiser.isHorizontal()) {
 				cruiser.setSize(cruiser.getWidthH(),
 						cruiser.getHeightH());
@@ -309,11 +307,11 @@ public class ShipSetupFrame extends JFrame
 				cruiser.setSize(cruiser.getWidthV(),
 						cruiser.getHeightV());
 			}
-			cruiser.setLocation(cruiser.x, cruiser.y);
+			int cruiserX = mx - dragFromX;
+			int cruiserY = my - dragFromY;
+			cruiser.setLocation(cruiserX, cruiserY);
 			
 		} else if (sCanDrag) {
-			submarine.x = mx - dragFromX;
-			submarine.y = my - dragFromY;
 			if (submarine.isHorizontal()) {
 				submarine.setSize(submarine.getWidthH(),
 						submarine.getHeightH());
@@ -321,11 +319,11 @@ public class ShipSetupFrame extends JFrame
 				submarine.setSize(submarine.getWidthV(),
 						submarine.getHeightV());
 			}
-			submarine.setLocation(submarine.x, submarine.y);
+			int submarineX = mx - dragFromX;
+			int submarineY = my - dragFromY;
+			submarine.setLocation(submarineX, submarineY);
 			
 		} else if (pbCanDrag) {
-			patrolBoat.x = mx - dragFromX;
-			patrolBoat.y = my - dragFromY;
 			if (patrolBoat.isHorizontal()) {
 				patrolBoat.setSize(patrolBoat.getWidthH(),
 						patrolBoat.getHeightH());
@@ -333,7 +331,9 @@ public class ShipSetupFrame extends JFrame
 				patrolBoat.setSize(patrolBoat.getWidthV(),
 						patrolBoat.getHeightV());
 			}
-			patrolBoat.setLocation(patrolBoat.x, patrolBoat.y);
+			int patrolBoatX = mx - dragFromX;
+			int patrolBoatY = my - dragFromY;
+			patrolBoat.setLocation(patrolBoatX, patrolBoatY);
 			
 		}
 		
@@ -351,8 +351,9 @@ public class ShipSetupFrame extends JFrame
 	public void mouseClicked(final MouseEvent e) {
 		
 		//Aircraft Carrier
-		int acX = aircraftCarrier.x;
-		int acY = aircraftCarrier.y;
+		int acX = aircraftCarrier.getX();
+		int acY = aircraftCarrier.getY();
+		
 		int acW = aircraftCarrier.getWidth();
 		int acH = aircraftCarrier.getHeight();
 		
@@ -379,8 +380,8 @@ public class ShipSetupFrame extends JFrame
 		}
 		
 		//BattleShip
-		int bsX = battleShip.x;
-		int bsY = battleShip.y;
+		int bsX = battleShip.getX();
+		int bsY = battleShip.getY();
 		int bsW = battleShip.getWidth();
 		int bsH = battleShip.getHeight();
 		
@@ -405,8 +406,8 @@ public class ShipSetupFrame extends JFrame
 		}
 		
 		//Cruiser
-		int cX = cruiser.x;
-		int cY = cruiser.y;
+		int cX = cruiser.getX();
+		int cY = cruiser.getY();
 		int cW = cruiser.getWidth();
 		int cH = cruiser.getHeight();
 
@@ -431,8 +432,8 @@ public class ShipSetupFrame extends JFrame
 		}
 		
 		//Submarine
-		int sX = submarine.x;
-		int sY = submarine.y;
+		int sX = submarine.getX();
+		int sY = submarine.getY();
 		int sW = submarine.getWidth();
 		int sH = submarine.getHeight();
 
@@ -457,8 +458,8 @@ public class ShipSetupFrame extends JFrame
 		}
 		
 		//PatrolBoat
-		int pbX = patrolBoat.x;
-		int pbY = patrolBoat.y;
+		int pbX = patrolBoat.getX();
+		int pbY = patrolBoat.getY();
 		int pbW = patrolBoat.getWidth();
 		int pbH = patrolBoat.getHeight();
 
@@ -493,8 +494,8 @@ public class ShipSetupFrame extends JFrame
 		my = e.getY();
 		
 		//Aircraft Carrier
-		int acX = aircraftCarrier.x;
-		int acY = aircraftCarrier.y;
+		int acX = aircraftCarrier.getX();
+		int acY = aircraftCarrier.getY();
 		int acW = aircraftCarrier.getWidth();
 		int acH = aircraftCarrier.getHeight();
 		
@@ -510,8 +511,8 @@ public class ShipSetupFrame extends JFrame
 		}
 		
 		//BattleShip
-		int bsX = battleShip.x;
-		int bsY = battleShip.y;
+		int bsX = battleShip.getX();
+		int bsY = battleShip.getY();
 		int bsW = battleShip.getWidth();
 		int bsH = battleShip.getHeight();
 		
@@ -528,8 +529,8 @@ public class ShipSetupFrame extends JFrame
 		}
 		
 		//Cruiser
-		int cX = cruiser.x;
-		int cY = cruiser.y;
+		int cX = cruiser.getX();
+		int cY = cruiser.getY();
 		int cW = cruiser.getWidth();
 		int cH = cruiser.getHeight();
 
@@ -546,8 +547,8 @@ public class ShipSetupFrame extends JFrame
 		}
 		
 		//Submarine
-		int sX = submarine.x;
-		int sY = submarine.y;
+		int sX = submarine.getX();
+		int sY = submarine.getY();
 		int sW = submarine.getWidth();
 		int sH = submarine.getHeight();
 
@@ -564,8 +565,8 @@ public class ShipSetupFrame extends JFrame
 		}
 		
 		//PatrolBoat
-		int pbX = patrolBoat.x;
-		int pbY = patrolBoat.y;
+		int pbX = patrolBoat.getX();
+		int pbY = patrolBoat.getY();
 		int pbW = patrolBoat.getWidth();
 		int pbH = patrolBoat.getHeight();
 
@@ -591,8 +592,8 @@ public class ShipSetupFrame extends JFrame
 		
 		
 		//Aircraft Carrier
-		int acX = aircraftCarrier.x;
-		int acY = aircraftCarrier.y;
+		int acX = aircraftCarrier.getX();
+		int acY = aircraftCarrier.getY();
 		int acW = aircraftCarrier.getWidth();
 		int acH = aircraftCarrier.getHeight();
 		
@@ -604,8 +605,8 @@ public class ShipSetupFrame extends JFrame
 		}
 		
 		//BattleShip
-		int bsX = battleShip.x;
-		int bsY = battleShip.y;
+		int bsX = battleShip.getX();
+		int bsY = battleShip.getY();
 		int bsW = battleShip.getWidth();
 		int bsH = battleShip.getHeight();
 		
@@ -617,8 +618,8 @@ public class ShipSetupFrame extends JFrame
 		}
 		
 		//Cruiser
-		int cX = cruiser.x;
-		int cY = cruiser.y;
+		int cX = cruiser.getX();
+		int cY = cruiser.getY();
 		int cW = cruiser.getWidth();
 		int cH = cruiser.getHeight();
 
@@ -630,8 +631,8 @@ public class ShipSetupFrame extends JFrame
 		}
 		
 		//Submarine
-		int sX = submarine.x;
-		int sY = submarine.y;
+		int sX = submarine.getX();
+		int sY = submarine.getY();
 		int sW = submarine.getWidth();
 		int sH = submarine.getHeight();
 
@@ -643,8 +644,8 @@ public class ShipSetupFrame extends JFrame
 		}
 		
 		//PatrolBoat
-		int pbX = patrolBoat.x;
-		int pbY = patrolBoat.y;
+		int pbX = patrolBoat.getX();
+		int pbY = patrolBoat.getY();
 		int pbW = patrolBoat.getWidth();
 		int pbH = patrolBoat.getHeight();
 
@@ -659,72 +660,74 @@ public class ShipSetupFrame extends JFrame
 	 * @param shipToSnap the selected ship
 	 */
 	public void snapShipToX(final Ship shipToSnap) {
+		int shipX;
+		int shipY = shipToSnap.getY();
 		if (shipToSnap.getX() >= 476 && shipToSnap.getX() <= 549) {
-			shipToSnap.x = 516;
-			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y,
+			shipX = 516;
+			shipToSnap.setBounds(shipX, shipY,
 					shipToSnap.getWidth(),
 					shipToSnap.getHeight());
 			shipToSnap.setColumn(0);
 		} else if (shipToSnap.getX() > 549 
 				&& shipToSnap.getX() <= 615) {
-			shipToSnap.x = 583; 
-			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y,
+			shipX = 583; 
+			shipToSnap.setBounds(shipX, shipY,
 					shipToSnap.getWidth(), 
 					shipToSnap.getHeight());
 			shipToSnap.setColumn(1);
 		} else if (shipToSnap.getX() > 615 
 				&& shipToSnap.getX() <= 681) {
-			shipToSnap.x = 650; 
-			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y,
+			shipX = 650; 
+			shipToSnap.setBounds(shipX, shipY,
 					shipToSnap.getWidth(), 
 					shipToSnap.getHeight());
 			shipToSnap.setColumn(2);
 		} else if (shipToSnap.getX() > 681 
 				&& shipToSnap.getX() <= 747) {
-			shipToSnap.x = 717;
-			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y,
+			shipX = 717;
+			shipToSnap.setBounds(shipX, shipY,
 					shipToSnap.getWidth(), 
 					shipToSnap.getHeight());
 			shipToSnap.setColumn(3);
 		} else if (shipToSnap.getX() > 747 
 				&& shipToSnap.getX() <= 813) {
-			shipToSnap.x = 784; 
-			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y,
+			shipX = 784; 
+			shipToSnap.setBounds(shipX, shipY,
 					shipToSnap.getWidth(), 
 					shipToSnap.getHeight());
 			shipToSnap.setColumn(4);
 		} else if (shipToSnap.getX() > 813 
 				&& shipToSnap.getX() <= 879) {
-			shipToSnap.x = 851; 
-			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y,
+			shipX = 851; 
+			shipToSnap.setBounds(shipX, shipY,
 					shipToSnap.getWidth(),
 					shipToSnap.getHeight());
 			shipToSnap.setColumn(5);
 		} else if (shipToSnap.getX() > 879 
 				&& shipToSnap.getX() <= 945) {
-			shipToSnap.x = 918;
-			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y,
+			shipX = 918;
+			shipToSnap.setBounds(shipX, shipY,
 					shipToSnap.getWidth(),
 					shipToSnap.getHeight());
 			shipToSnap.setColumn(6);
 		} else if (shipToSnap.getX() > 945 
 				&& shipToSnap.getX() <= 1011) {
-			shipToSnap.x = 985;
-			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y,
+			shipX = 985;
+			shipToSnap.setBounds(shipX, shipY,
 					shipToSnap.getWidth(), 
 					shipToSnap.getHeight());
 			shipToSnap.setColumn(7);
 		} else if (shipToSnap.getX() > 1011 
 				&& shipToSnap.getX() <= 1077) {
-			shipToSnap.x = 1052;
-			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y,
+			shipX = 1052;
+			shipToSnap.setBounds(shipX, shipY,
 					shipToSnap.getWidth(), 
 					shipToSnap.getHeight());
 			shipToSnap.setColumn(8);
 		} else if (shipToSnap.getX() > 1077 
 				&& shipToSnap.getX() <= 1153) {
-			shipToSnap.x = 1119;
-			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y,
+			shipX = 1119;
+			shipToSnap.setBounds(shipX, shipY,
 					shipToSnap.getWidth(), 
 					shipToSnap.getHeight());
 			shipToSnap.setColumn(9);
@@ -739,72 +742,74 @@ public class ShipSetupFrame extends JFrame
 	 * @param shipToSnap the selected ship
 	 */
 	public void snapShipToY(final Ship shipToSnap) {
+		int shipX = shipToSnap.getX();
+		int shipY;
 		if (shipToSnap.getY() >= 30 && shipToSnap.getY() <= 105) {
-			shipToSnap.y = 76;
-			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y,
+			shipY = 76;
+			shipToSnap.setBounds(shipX, shipY,
 					shipToSnap.getWidth(), 
 					shipToSnap.getHeight());
 			shipToSnap.setRow(0);
 		} else if (shipToSnap.getY() > 105 
 				&& shipToSnap.getY() <= 163) {
-			shipToSnap.y = 134;
-			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y,
+			shipY = 134;
+			shipToSnap.setBounds(shipX, shipY,
 					shipToSnap.getWidth(), 
 					shipToSnap.getHeight());
 			shipToSnap.setRow(1);
 		} else if (shipToSnap.getY() > 163 
 				&& shipToSnap.getY() <= 221) {
-			shipToSnap.y = 192;
-			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y,
+			shipY = 192;
+			shipToSnap.setBounds(shipX, shipY,
 					shipToSnap.getWidth(), 
 					shipToSnap.getHeight());
 			shipToSnap.setRow(2);
 		} else if (shipToSnap.getY() > 221 
 				&& shipToSnap.getY() <= 279) {
-			shipToSnap.y = 250;
-			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y,
+			shipY = 250;
+			shipToSnap.setBounds(shipX, shipY,
 					shipToSnap.getWidth(), 
 					shipToSnap.getHeight());
 			shipToSnap.setRow(3);
 		} else if (shipToSnap.getY() > 279 
 				&& shipToSnap.getY() <= 337) {
-			shipToSnap.y = 308;
-			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y,
+			shipY = 308;
+			shipToSnap.setBounds(shipX, shipY,
 					shipToSnap.getWidth(), 
 					shipToSnap.getHeight());
 			shipToSnap.setRow(4);
 		} else if (shipToSnap.getY() > 337 
 				&& shipToSnap.getY() <= 395) {
-			shipToSnap.y = 366;
-			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y,
+			shipY = 366;
+			shipToSnap.setBounds(shipX, shipY,
 					shipToSnap.getWidth(), 
 					shipToSnap.getHeight());
 			shipToSnap.setRow(5);
 		} else if (shipToSnap.getY() > 395 
 				&& shipToSnap.getY() <= 453) {
-			shipToSnap.y = 424;
-			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y,
+			shipY = 424;
+			shipToSnap.setBounds(shipX, shipY,
 					shipToSnap.getWidth(), 
 					shipToSnap.getHeight());
 			shipToSnap.setRow(6);
 		} else if (shipToSnap.getY() > 453 
 				&& shipToSnap.getY() <= 511) {
-			shipToSnap.y = 482;
-			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y,
+			shipY = 482;
+			shipToSnap.setBounds(shipX, shipY,
 					shipToSnap.getWidth(), 
 					shipToSnap.getHeight());
 			shipToSnap.setRow(7);
 		} else if (shipToSnap.getY() > 511 
 				&& shipToSnap.getY() <= 569) {
-			shipToSnap.y = 540;
-			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y,
+			shipY = 540;
+			shipToSnap.setBounds(shipX, shipY,
 					shipToSnap.getWidth(), 
 					shipToSnap.getHeight());
 			shipToSnap.setRow(8);
 		} else if (shipToSnap.getY() > 569 
 				&& shipToSnap.getY() <= 615) {
-			shipToSnap.y = 598;
-			shipToSnap.setBounds(shipToSnap.x, shipToSnap.y,
+			shipY = 598;
+			shipToSnap.setBounds(shipX, shipY,
 					shipToSnap.getWidth(), 
 					shipToSnap.getHeight());
 			shipToSnap.setRow(9);
@@ -906,23 +911,16 @@ public class ShipSetupFrame extends JFrame
 	 */
 	public void returnShipToStart(final Ship shipToSnap) {
 		if (shipToSnap.getTypeOfShip() == ShipType.AircraftCarrier) {
-			shipToSnap.x = 0;
-			shipToSnap.y = 1;
+			shipToSnap.setLocation(0,1);
 		} else if (shipToSnap.getTypeOfShip() == ShipType.Battleship) {
-			shipToSnap.x = 0;
-			shipToSnap.y = 110;
+			shipToSnap.setLocation(0,109);
 		} else if (shipToSnap.getTypeOfShip() == ShipType.Cruiser) {
-			shipToSnap.x = 0;
-			shipToSnap.y = 220;
+			shipToSnap.setLocation(0,220);
 		} else if (shipToSnap.getTypeOfShip() == ShipType.Submarine) {
-			shipToSnap.x = 0;
-			shipToSnap.y = 330;
+			shipToSnap.setLocation(0,330);
 		} else if (shipToSnap.getTypeOfShip() == ShipType.PatrolBoat) {
-			shipToSnap.x = 0;
-			shipToSnap.y = 432;
+			shipToSnap.setLocation(0,432);
 		}
-		shipToSnap.setBounds(shipToSnap.x, shipToSnap.y, 
-				shipToSnap.getWidth(), shipToSnap.getHeight());
 	}
 
 	@Override

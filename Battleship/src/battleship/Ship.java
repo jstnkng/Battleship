@@ -91,38 +91,6 @@ public class Ship extends JPanel {
 	/**
 	 * 
 	 */
-	public int x;
-	/**
-	 * 
-	 */
-//	public int getX() {
-//		return x;
-//	}
-//	/**
-//	 * 
-//	 */
-//	public void setX(int newX) {
-//		x = newX;
-//	}
-	/**
-	 * 
-	 */
-	public int y;
-	/**
-	 * 
-	 */
-//	public int getY() {
-//		return y;
-//	}
-//	/**
-//	 * 
-//	 */
-//	public void setY(int newY) {
-//		y = newY;
-//	}
-	/**
-	 * 
-	 */
 	private int row;	
 	/**
 	 * @return int
@@ -234,8 +202,8 @@ public class Ship extends JPanel {
 		if (type == ShipType.AircraftCarrier) {
 			pathH = "res\\AC_H.png";
 			pathV = "res\\AC_V.png";			
-			x = 0;
-			y = 0;
+//			x = 0;
+//			y = 0;
 			widthH = 325;
 			heightH = 50;
 			widthV = 50;
@@ -247,8 +215,8 @@ public class Ship extends JPanel {
 		
 			pathH = "res\\BS_H.png";
 			pathV = "res\\BS_V.png";		
-			x = 0;
-			y = 0;
+//			x = 0;
+//			y = 0;
 			widthH = 258;
 			heightH = 50;
 			widthV = 50;
@@ -259,8 +227,8 @@ public class Ship extends JPanel {
 		} else if (type == ShipType.Cruiser) {
 			pathH = "res\\C_H.png";
 			pathV = "res\\C_V.png";
-			x = 0;
-			y = 0;
+//			x = 0;
+//			y = 0;
 			widthH = 191;
 			heightH = 50;
 			widthV = 50;
@@ -271,8 +239,8 @@ public class Ship extends JPanel {
 		} else if (type == ShipType.Submarine) {
 			pathH = "res\\S_H.png";
 			pathV = "res\\S_V.png";
-			x = 0;
-			y = 0;
+//			x = 0;
+//			y = 0;
 			widthH = 191;
 			heightH = 50;
 			widthV = 50;
@@ -283,8 +251,8 @@ public class Ship extends JPanel {
 		} else if (type == ShipType.PatrolBoat) {
 			pathH = "res\\PB_H.png";
 			pathV = "res\\PB_V.png";
-			x = 0;
-			y = 0;
+//			x = 0;
+//			y = 0;
 			widthH = 124;
 			heightH = 50;
 			widthV = 50;
