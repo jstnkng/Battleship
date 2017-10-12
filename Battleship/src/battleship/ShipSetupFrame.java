@@ -1,6 +1,5 @@
 package battleship;
 
-import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.MouseAdapter;
@@ -14,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
+import javax.swing.JOptionPane;
 
 /**
  * Creates the frame with ships on the left and
@@ -751,7 +751,6 @@ public class ShipSetupFrame extends JFrame
 		}
 		checkForShipOffGrid(shipToSnap);
 		if (shipToSnap.getX() < 476 || shipToSnap.getX() > 1153) {
-			System.out.println("Ship x: " + shipToSnap.getX());
 			returnShipToStart(shipToSnap);
 		}
 	}
@@ -965,14 +964,6 @@ public class ShipSetupFrame extends JFrame
 	 * to make sure all ships are set.
 	 */
 	public void submit() {
-		board.setBackground(Color.GREEN);
-		
-		
-		
-		//fixes ship locations
-		//setBounds();
-		
-		//sets grid locations relative to the screen instead of parent
 		for (int x = 0; x < boardSize; x++) {
 			for (int y = 0; y < boardSize; y++) {
 				grid[x][y].setLocation(grid[x][y]
@@ -980,24 +971,13 @@ public class ShipSetupFrame extends JFrame
 				grid[x][y].getLocationOnScreen().y);
 			}
 		}
-		
-
 		setValues(aircraftCarrier);
 		setValues(battleShip);
 		setValues(cruiser);
 		setValues(submarine);
 		setValues(patrolBoat);
-
-		System.out.println("Player 1 Ships");
-		for (int x = 0; x < 10; x++) {
-			for (int y = 0; y < 10; y++) {
-				System.out.print(player1Values[x][y]);
-			}
-			
-			System.out.println("");
-		}
 		
-		//Count the number of 1 values
+		//Count the number of values occupied by a ship
 		int count = 0;
 		
 		for (int x = 0; x < boardSize; x++) {
@@ -1018,8 +998,7 @@ public class ShipSetupFrame extends JFrame
 				playingBoard.setPlayer1Values(player1Values);
 				setCpuValues();
 				playingBoard.setPlayer2Values(player2Values);
-				System.out.println("");
-				System.out.println("Player 2 Ships");
+				System.out.println("CPU Ships (for testing only!!, no cheating!!)");
 				for (int x = 0; x < 10; x++) {
 					for (int y = 0; y < 10; y++) {
 					System.out.print(player2Values[x][y]);
@@ -1028,6 +1007,7 @@ public class ShipSetupFrame extends JFrame
 					System.out.println("");
 				}
 				this.setVisible(false);
+				playingBoard.setLocationRelativeTo(null);
 				playingBoard.setVisible(true);
 				playingBoard.beginGame();
 			} else if (this.getTitle().contains("1") && mode
@@ -1045,10 +1025,15 @@ public class ShipSetupFrame extends JFrame
 				playingBoard.beginGame();
 			}
 		} else {
-			
+
 			//if the ships aren't placed correctly
-			board.setBackground(Color.RED);
-			System.out.println("Ships placed Incorrectly");
+			JOptionPane.showMessageDialog(null,
+			"Invalid ship placement.");
+			returnShipToStart(aircraftCarrier);
+			returnShipToStart(battleShip);
+			returnShipToStart(cruiser);
+			returnShipToStart(submarine);
+			returnShipToStart(patrolBoat);
 			
 		}
 		

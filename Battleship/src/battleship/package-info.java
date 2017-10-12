@@ -1,7 +1,4 @@
 /**
- * 
- */
-/**
  * @author Justin King
  * @author Sam Carson
  * 

@@ -253,43 +253,53 @@ public class GameBoard extends JFrame implements MouseListener {
 				} else { 
 					button.setIcon(new ImageIcon(hit));
 					if (button.getName().contains("5")) {
-						button.setName("shot");
+						button.setName("shot5");
 						aircraftCarrierHits++;
 						if (aircraftCarrierHits == 5) {
-						JOptionPane.showMessageDialog(
-						null, "Aircraft Carrier Sunk");
+						showCpuShip(
+						 ShipType.AircraftCarrier);
+//						JOptionPane.showMessageDialog(
+//						null, "Aircraft Carrier Sunk");
 						}
 					} else if (button.getName()
 							.contains("4")) {
-						button.setName("shot");
+						button.setName("shot4");
 						battleShipHits++;
 						if (battleShipHits == 4) {
-						JOptionPane.showMessageDialog(
-						null, "BattleShip Sunk");
-						}
-					} else if (button.getName()
-							.contains("3")) {
-						button.setName("shot");
-						submarineHits++;
-						if (submarineHits == 3) {
-						JOptionPane.showMessageDialog(
-						null, "Submarine Sunk");
+						showCpuShip(
+							ShipType.Battleship);
+//						JOptionPane.showMessageDialog(
+//						null, "BattleShip Sunk");
 						}
 					} else if (button.getName()
 							.contains("2")) {
-						button.setName("shot");
+						button.setName("shot2");
+						submarineHits++;
+						if (submarineHits == 3) {
+						showCpuShip(
+							ShipType.Submarine);
+//						JOptionPane.showMessageDialog(
+//						null, "Submarine Sunk");
+						}
+					} else if (button.getName()
+							.contains("3")) {
+						button.setName("shot3");
 						cruiserHits++;
 						if (cruiserHits == 3) {
-						JOptionPane.showMessageDialog(
-							null, "Cruiser Sunk");
+						showCpuShip(
+							ShipType.Cruiser);
+//						JOptionPane.showMessageDialog(
+//							null, "Cruiser Sunk");
 						}
 					} else if (button.getName()
 							.contains("1")) {
-						button.setName("shot");
+						button.setName("shot1");
 						patrolBoatHits++;
 						if (patrolBoatHits == 2) {
-						JOptionPane.showMessageDialog(
-						null, "Patrol Boat Sunk");
+						showCpuShip(
+							ShipType.PatrolBoat);
+//						JOptionPane.showMessageDialog(
+//						null, "Patrol Boat Sunk");
 						}
 					}
 				}
@@ -303,14 +313,39 @@ public class GameBoard extends JFrame implements MouseListener {
 		}
 		if (aircraftCarrierHits + battleShipHits + cruiserHits
 				+ submarineHits + patrolBoatHits == 17) {
-			System.out.println("Player 1 wins!");
 			JOptionPane.showMessageDialog(null, "You Win!");
+			this.setVisible(false);
 		}
 		player2Turn = !player2Turn;
 		player1Turn = !player1Turn;
 		if (currentMode == GameMode.OnePlayerMode) {
 			chooseShot();
 		}
+	}
+	
+	/**
+	 * Shows player 2's sunk ships.
+	 * @param type the type of ship that was sunk
+	 */
+	public void showCpuShip(final ShipType type) {
+		
+		Ship sunkShip = new Ship(type);
+			for (JButton[] row  : Grid.getButtonGrid()) {
+				for (JButton box : row) {
+					if (box.getName().
+						contains(sunkShip.getValue()
+							+ "")) {
+					   Image img;
+					   try {
+					   img = ImageIO.read(
+					   new File("res\\ship_reddot.png"));
+					   box.setIcon(new ImageIcon(img));
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+					}
+				}
+			}
 	}
 		
 	/**
@@ -342,8 +377,8 @@ public class GameBoard extends JFrame implements MouseListener {
 					.setForeground(Color.RED);
 			cpuPatrolBoatHits++;
 			if (cpuPatrolBoatHits == 2) {
-				JOptionPane.showMessageDialog(null,
-				"Your patrol boat has been sunk");
+//				JOptionPane.showMessageDialog(null,
+//				"Your patrol boat has been sunk");
 			}
 		} else if (randomBox
 				.getText().contains("2")) {
@@ -363,8 +398,8 @@ public class GameBoard extends JFrame implements MouseListener {
 					.setForeground(Color.RED);
 			cpuSubmarineHits++;
 			if (cpuSubmarineHits == 3) {
-			JOptionPane.showMessageDialog(null,
-					"Your submarine has been Sunk");
+//			JOptionPane.showMessageDialog(null,
+//					"Your submarine has been Sunk");
 			}
 		} else if (randomBox
 				.getText().contains("3")) {
@@ -384,8 +419,8 @@ public class GameBoard extends JFrame implements MouseListener {
 					.setForeground(Color.RED);
 			cpuCruiserHits++;
 			if (cpuCruiserHits == 3) {
-				JOptionPane.showMessageDialog(
-				null, "Your cruiser has been sunk");
+//				JOptionPane.showMessageDialog(
+//				null, "Your cruiser has been sunk");
 			}
 		} else if (randomBox
 				.getText().contains("4")) {
@@ -405,8 +440,8 @@ public class GameBoard extends JFrame implements MouseListener {
 					.setForeground(Color.RED);
 			cpuBattleShipHits++;
 			if (cpuBattleShipHits == 4) {
-				JOptionPane.showMessageDialog(null,
-					"Your battleship has been sunk");
+//				JOptionPane.showMessageDialog(null,
+//					"Your battleship has been sunk");
 			}
 		} else if (randomBox
 				.getText().contains("5")) {
@@ -426,8 +461,8 @@ public class GameBoard extends JFrame implements MouseListener {
 					.setForeground(Color.RED);
 			cpuAircraftCarrierHits++;
 			if (cpuAircraftCarrierHits == 5) {
-				JOptionPane.showMessageDialog(null,
-				"Your aircraft carrier has been sunk");
+//				JOptionPane.showMessageDialog(null,
+//				"Your aircraft carrier has been sunk");
 			}
 		} else {
 			Image miss;
@@ -450,6 +485,7 @@ public class GameBoard extends JFrame implements MouseListener {
 				+ cpuCruiserHits + cpuSubmarineHits
 				+ cpuPatrolBoatHits == 17) {
 			JOptionPane.showMessageDialog(null, "Player 2 wins");
+			this.setVisible(false);
 		}
 		player2Board.setEnabled(true);
 		

@@ -39,6 +39,8 @@ public class HomePageGui extends JFrame {
 			public void run() {
 				try {
 					HomePageGui frame = new HomePageGui();
+					frame.setTitle("Play BattleShip!");
+					frame.setLocationRelativeTo(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -79,6 +81,7 @@ public class HomePageGui extends JFrame {
 			public void mouseClicked(final MouseEvent e) {
 				ShipSetupFrame p1 = new ShipSetupFrame(
 					GameMode.TwoPlayerPassAndPlay, 1);
+				p1.setLocationRelativeTo(null);
 				p1.setVisible(true);
 			}
 		});
@@ -94,6 +97,7 @@ public class HomePageGui extends JFrame {
 			public void mouseClicked(final MouseEvent e) {
 				ShipSetupFrame p1 = new ShipSetupFrame(
 						GameMode.OnePlayerMode, 0);
+				p1.setLocationRelativeTo(null);
 				p1.setVisible(true);
 			}
 			
