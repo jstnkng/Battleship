@@ -16,40 +16,46 @@ import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
 /**
- * 
+ * Creates a grid of JButtons that make up a board.
  */
 public class Grid extends JPanel {
 	
 	/**
-	 * 
+	 * ID for serializable class.
 	 */
 	private static final long serialVersionUID = 1L;
 	/**
-	 * 
+	 * Creates a grid of labels that is 10 by 10.
 	 */
 	private static JLabel[][] labelGrid = new JLabel[10][10];
 	/**
-	 * 
+	 * Creates a grid of buttons that is 10 by 10.
 	 */
 	
 	private static JButton[][] buttonGrid = new JButton[10][10];
 	/**
-	 * 
+	 * Creates a grid of ints that is 10 by 10.
+	 * Used to hold the position of each ship
+	 * in the grid.
 	 */
 	private int[][] values = new int[10][10];
 	/**
+	 * Returns the grid of values.
 	 * @return int[][]
 	 */
 	public int[][] getValues() {
 		return values;
 	}
 	/**
+	 * Sets the grid of values.
 	 * @param newValues array of grid values
 	 */
 	public void setValues(final int[][] newValues) {
 		values = newValues;
 	}
 	/**
+	 * Creates the board of a certain size and type.
+	 * Type is either a grid of labels or a grid of buttons.
 	 * @param boardSize the size of the grid to be made
 	 * @param type type of grid to make
 	 */
@@ -121,12 +127,14 @@ public class Grid extends JPanel {
 
 	}
 	/**
+	 * Returns the grid of labels.
 	 * @return JLabel[][]
 	 */
 	public static JLabel[][] getLabelGrid() {		
 		return labelGrid;		
 	}
 	/**
+	 * Returns a label at a certain coordinate.
 	 * @param x x-coordinate
 	 * @param y y-coordinate
 	 * @return JLabel
@@ -135,12 +143,14 @@ public class Grid extends JPanel {
 		return labelGrid[x][y];
 	}
 	/**
+	 * Returns the grid of buttons.
 	 * @return JButton[][]
 	 */
 	public static JButton[][] getButtonGrid() {
 		return buttonGrid;
 	}
 	/**
+	 * Used by Grid to label the coordinates of the board.
 	 * @param i number corresponding to letter
 	 * @return String
 	 */

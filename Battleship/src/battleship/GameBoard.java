@@ -66,86 +66,102 @@ public class GameBoard extends JFrame implements MouseListener {
 		player2Values = values;
 	}
 	/**
-	 * 
+	 * Set ship pictures on gameboard.
 	 */
 	@SuppressWarnings("unused")
 	//Only used for setting ship pictures on gameboard
 	private Ship[] player1Ships = new Ship[5];
 	/**
+	 * Sets player1Ships to an array of ships.
 	 * @param ships array of ship info
 	 */
 	public void setPlayer1Ships(final Ship[] ships) {
 		player1Ships = ships;
 	}
 	/**
-	 * 
+	 * set ship pictures on gameboard.
 	 */
 	@SuppressWarnings("unused")
 	//only used for setting ship pictures on gameboard
 	private Ship[] player2Ships = new Ship[5];
 	/**
+	 * Sets player2Ships to an array of ships.
 	 * @param ships array of ship info
 	 */
 	public void setPlayer2Ships(final Ship[] ships) {
 		player2Ships = ships;
 	}
 	/**
-	 * 
+	 * Boolean to determine if it is player 1's turn.
+	 * Starts true so player1 has first move.
 	 */
 	private boolean player1Turn = true;
 	/**
-	 * 
+	 * Boolean to determine if it is player 2's turn.
+	 * Starts false so player2 has second move.
 	 */
 	private boolean player2Turn = false;
 	/**
-	 * 
+	 * ArrayList of points to hold where the cpu has already shot.
 	 */
 	private ArrayList<Point> cpuShots = new ArrayList<Point>();
 	/**
-	 * 
+	 * Current number of hits that the cpu has
+	 * hit player 1's aircraft carrier.
 	 */
 	private int cpuAircraftCarrierHits = 0;
 	/**
-	 * 
+	 * Current number of hits that the cpu has
+	 * hit player 1's battleship.
 	 */
 	private int cpuBattleShipHits = 0;
 	/**
-	 * 
+	 * Current number of hits that the cpu has
+	 * hit player 1's submarine.
 	 */
 	private int cpuSubmarineHits = 0;
 	/**
-	 * 
+	 * Current number of hits that the cpu has
+	 * hit player 1's cruiser.
 	 */
 	private int cpuCruiserHits = 0;
 	/**
-	 * 
+	 * Current number of hits that the cpu has
+	 * hit player 1's patrol boat.
 	 */
 	private int cpuPatrolBoatHits = 0;
 	/**
-	 * 
+	 * Current number of hits that player 1
+	 * has hit the cpu's aircraft carrier.
 	 */	
 	private int aircraftCarrierHits = 0;
 	/**
-	 * 
+	 * Current number of hits that player 1
+	 * has hit the cpu's battle ship.
 	 */
 	private int battleShipHits = 0;
 	/**
-	 * 
+	 * Current number of hits that player 1
+	 * has hit the cpu's submarine.
 	 */
 	private int submarineHits = 0;
 	/**
-	 * 
+	 * Current number of hits that player 1
+	 * has hit the cpu's cruiser.
 	 */
 	private int cruiserHits = 0;
 	/**
-	 * 
+	 * Current number of hits that player 1
+	 * has hit the cpu's patrol boat.
 	 */
 	private int patrolBoatHits = 0;
 	/**
-	 * 
+	 * Current gameMode being played.
 	 */
 	private GameMode currentMode;
 	/**
+	 * Sets the gameMode to the current gameMode.
+	 * Sets the size and layout of the panel.
 	 * @param mode current mode being played
 	 */	
 	public GameBoard(final GameMode mode) {
@@ -154,7 +170,9 @@ public class GameBoard extends JFrame implements MouseListener {
 		this.setLayout(new GridLayout(0, 2));
 	}
 	/**
-	 * 
+	 * Creates the side by side boards in the panel.
+	 * Player 1's board on the left.
+	 * Player 2's/cpu's board on the right.
 	 */
 	public void beginGame() {
 		
@@ -217,6 +235,9 @@ public class GameBoard extends JFrame implements MouseListener {
 		playerShot(button);
 	}
 	/**
+	 * Called by mouseClicked when the player clicks on a JButton
+	 * at a certain coordinate. Determines if spot has already been shot
+	 * and sets image to hit or miss.
 	 * @param button button that player clicks on
 	 */
 	public void playerShot(final JButton button) {
@@ -273,7 +294,6 @@ public class GameBoard extends JFrame implements MouseListener {
 					}
 				}
 			}  else {
-				//TODO handle already shot locations
 				JOptionPane.showMessageDialog(null,
 						"You already shot here");
 				return;
@@ -294,6 +314,8 @@ public class GameBoard extends JFrame implements MouseListener {
 	}
 		
 	/**
+	 * Executes the cpu's shot at the given coordinate.
+	 * Then changes the image for a hit or miss.
 	 * @param point the coordinates of the shot
 	 */
 	public void cpuFire(final Point point) {
@@ -436,7 +458,9 @@ public class GameBoard extends JFrame implements MouseListener {
 	//Picks the point for the cpu to shoot
 	//making sure it always picks a different spot
 	/**
-	 * 
+	 * Chooses a random coordinate on the board to
+	 * have the cpu shoot. Verifies that the cpu
+	 * cannot shoot in the same spot twice.
 	 */
 	public void chooseShot() {
 		

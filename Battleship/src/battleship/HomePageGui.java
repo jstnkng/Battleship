@@ -15,16 +15,18 @@ import java.awt.Insets;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 /**
- * 
+ * Creates the home screen where
+ * a player chooses what game mode
+ * to play.
  */
 public class HomePageGui extends JFrame {
 
 	/**
-	 * 
+	 * ID for serializable class.
 	 */
 	private static final long serialVersionUID = 1L;
 	/**
-	 * 
+	 * Creates a panel for the contentPane.
 	 */
 	private JPanel contentPane;
 

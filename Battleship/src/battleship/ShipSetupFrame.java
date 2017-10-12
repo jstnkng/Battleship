@@ -16,108 +16,121 @@ import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 
 /**
- * 
+ * Creates the frame with ships on the left and
+ * the board to place ships on the right.
  */
 public class ShipSetupFrame extends JFrame 
 	implements MouseListener, MouseMotionListener {
 	
 	/**
-	 * 
+	 * ID for serializable class.
 	 */
 	private static final long serialVersionUID = 1L;
 	/**
-	 * 
+	 * X and Y coordinates of the mouse.
 	 */
 	private int mx, my;
 	/**
-	 * 
+	 * X and Y coordinates used to line up
+	 * the ship with the mouse when dragged.
 	 */
 	private int dragFromX, dragFromY;
 	/**
-	 * 
+	 * Boolean to check if you can drag the
+	 * aircraft carrier. Starts false because
+	 * it is not clicked on yet.
 	 */
 	private boolean acCcanDrag = false;
 	/**
-	 * 
+	 * Boolean to check if you can drag the
+	 * battle ship. Starts false because
+	 * it is not clicked on yet.
 	 */
 	private boolean bsCanDrag = false;
 	/**
-	 * 
+	 * Boolean to check if you can drag the
+	 * cruiser. Starts false because
+	 * it is not clicked on yet.
 	 */
 	private boolean cCanDrag = false;
 	/**
-	 * 
+	 * Boolean to check if you can drag the
+	 * submarine. Starts false because
+	 * it is not clicked on yet.
 	 */
 	private boolean sCanDrag = false;
 	/**
-	 * 
+	 * Boolean to check if you can drag the
+	 * patrol boat. Starts false because
+	 * it is not clicked on yet.
 	 */
 	private boolean pbCanDrag = false;
 	/**
-	 * 
+	 * Sets board size to 10.
 	 */
 	private int boardSize = 10;
 	/**
-	 * 
+	 * Creates a layered pane.
 	 */
 	private JLayeredPane layeredPane;
 	/**
-	 * 
+	 * Creates a Grid for the board.
 	 */
 	private Grid board;
 	/**
-	 * 
+	 * Creates an instance of Ship for the aircraft carrier.
 	 */
 	private Ship aircraftCarrier;
 	/**
-	 * 
+	 * Creates an instance of Ship for the battle ship.
 	 */
 	private Ship battleShip;
 	/**
-	 * 
+	 * Creates an instance of Ship for the cruiser.
 	 */
 	private Ship cruiser;
 	/**
-	 * 
+	 * Creates an instance of Ship for the patrol boat.
 	 */
 	private Ship patrolBoat;
 	/**
-	 * 
+	 * Creates an instance of Ship for the submarine.
 	 */
 	private Ship submarine;
 	/**
-	 * 
+	 * Creates a button to submit ship placement.
 	 */
 	private JButton submit;
 	/**
-	 * 
+	 * Current gameMode being played.
 	 */
 	private GameMode mode;
 	/**
-	 * 
+	 * Current player setting ships.
 	 */
 	private int currentPlayer;
 	/**
-	 * 
+	 * Creates a 2D array of labels for the board.
 	 */
 	private JLabel[][] grid = new JLabel[boardSize][boardSize];
 	/**
-	 * 
+	 * Creates a 2D array of int to hold the values for player1's ships.
 	 */
 	private int[][] player1Values = new int[boardSize][boardSize];
 	/**
-	 * 
+	 * Creates a 2D array of int to hold the values for player2's ships.
 	 */
 	private int[][] player2Values = new int[boardSize][boardSize];
 	/**
-	 * 
+	 * Creates an array of Ship to hold player1's 5 ships.
 	 */
 	private Ship[] player1Ships = new Ship[5];
 	/**
-	 * 
+	 * Creates an array of Ship to hold player2's 5 ships.
 	 */
 	private Ship[] player2Ships = new Ship[5];
 	/**
+	 * Calls shipSetup passing gameMode and current player.
 	 * @param currentMode mode that the game is being played in
 	 * @param player either 1 or 2 to determine current player
 	 */
@@ -125,6 +138,8 @@ public class ShipSetupFrame extends JFrame
 		shipSetup(currentMode, player);
 	}
 	/**
+	 * Creates the frame and populates it with the board,
+	 * the ships, and the submit button.
 	 * @param currentMode mode that the game is being played in
 	 * @param player either 1 or 2 to determine current player
 	 */
@@ -657,6 +672,8 @@ public class ShipSetupFrame extends JFrame
 		}
 	}
 	/**
+	 * Moves the ship into the nearest column to avoid
+	 * overlapping columns.
 	 * @param shipToSnap the selected ship
 	 */
 	public void snapShipToX(final Ship shipToSnap) {
@@ -739,6 +756,8 @@ public class ShipSetupFrame extends JFrame
 		}
 	}
 	/**
+	 * Moves the ship into the nearest row to avoid
+	 * overlapping rows.
 	 * @param shipToSnap the selected ship
 	 */
 	public void snapShipToY(final Ship shipToSnap) {
@@ -821,6 +840,9 @@ public class ShipSetupFrame extends JFrame
 		checkForShipOverLap(shipToSnap);
 	}
 	/**
+	 * Checks to see if the ship is off the grid, if so
+	 * calls returnShipToStart to move ship back to starting
+	 * position.
 	 * @param shipToSnap the selected ship
 	 */
 	public void checkForShipOffGrid(final Ship shipToSnap) {
@@ -831,6 +853,9 @@ public class ShipSetupFrame extends JFrame
 		}
 	}
 	/**
+	 * Checks to see if the ship overlaps another. If so it 
+	 * calls returnShipToStart to move ship back to starting
+	 * position.
 	 * @param shipToSnap the selected ship
 	 */
 	public void checkForShipOverLap(final Ship shipToSnap) {
@@ -907,19 +932,20 @@ public class ShipSetupFrame extends JFrame
 		}
 	}
 	/**
+	 * Moves the ship back to its starting location.
 	 * @param shipToSnap the selected ship
 	 */
 	public void returnShipToStart(final Ship shipToSnap) {
 		if (shipToSnap.getTypeOfShip() == ShipType.AircraftCarrier) {
-			shipToSnap.setLocation(0,1);
+			shipToSnap.setLocation(0, 1);
 		} else if (shipToSnap.getTypeOfShip() == ShipType.Battleship) {
-			shipToSnap.setLocation(0,109);
+			shipToSnap.setLocation(0, 109);
 		} else if (shipToSnap.getTypeOfShip() == ShipType.Cruiser) {
-			shipToSnap.setLocation(0,220);
+			shipToSnap.setLocation(0, 220);
 		} else if (shipToSnap.getTypeOfShip() == ShipType.Submarine) {
-			shipToSnap.setLocation(0,330);
+			shipToSnap.setLocation(0, 330);
 		} else if (shipToSnap.getTypeOfShip() == ShipType.PatrolBoat) {
-			shipToSnap.setLocation(0,432);
+			shipToSnap.setLocation(0, 432);
 		}
 	}
 
@@ -935,7 +961,8 @@ public class ShipSetupFrame extends JFrame
 		
 	}
 	/**
-	 * 
+	 * Populates the values 2D array and checks
+	 * to make sure all ships are set.
 	 */
 	public void submit() {
 		board.setBackground(Color.GREEN);
@@ -1027,6 +1054,7 @@ public class ShipSetupFrame extends JFrame
 		
 	}
 	/**
+	 * sets the values of the ships in the 2D array.
 	 * @param shipToSet the selected ship
 	 */
 	public void setValues(final Ship shipToSet) {
@@ -1044,7 +1072,8 @@ public class ShipSetupFrame extends JFrame
 	}
 	
 	/**
-	*
+	*Sets the values for each cpu ship by calling
+	*their respective methods.
 	*/	
 	private void setCpuValues() {
 		setAircraftCarrier();
@@ -1054,7 +1083,7 @@ public class ShipSetupFrame extends JFrame
 		setPatrolBoat();				
 	}
 	/**
-	*
+	*Sets the location for the cpu's aircraft carrier.
 	*/	
 	private void setAircraftCarrier() {
 		boolean aircraftCarrierSet = false;
@@ -1107,7 +1136,7 @@ public class ShipSetupFrame extends JFrame
 		}
 	}
 	/**
-	*
+	*Sets the location for the cpu's battle ship.
 	*/	
 	private void setBattleShip() {
 		boolean battleShipSet = false;
@@ -1178,7 +1207,7 @@ public class ShipSetupFrame extends JFrame
 		}
 	}
 	/**
-	*
+	*Sets the location for the cpu's cruiser.
 	*/	
 	private void setCruiser() {
 		boolean cruiserSet = false;
@@ -1241,7 +1270,7 @@ public class ShipSetupFrame extends JFrame
 		}
 	}
 	/**
-	*
+	*Sets the location for the cpu's submarine.
 	*/	
 	private void setSubmarine() {
 		boolean submarineSet = false;
@@ -1304,7 +1333,7 @@ public class ShipSetupFrame extends JFrame
 		}
 	}
 	/**
-	*
+	*Sets the location for the cpu's patrol boat.
 	*/	
 	private void setPatrolBoat() {
 		boolean patrolBoatSet = false;

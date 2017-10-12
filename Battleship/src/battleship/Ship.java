@@ -9,168 +9,186 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 /**
- * 
+ * Creates a panel to hold each ship.
  */
 public class Ship extends JPanel {
 	/**
-	 * 
+	 * ID for serializable class.
 	 */
 	private static final long serialVersionUID = 1L;
 	/**
-	 * 
+	 * Creates Buffered Image for horizontal orientation.
 	 */
 	private BufferedImage imageH;
 	/**
-	 * 
+	 * Creates Buffered Image for vertical orientation.
 	 */
 	private BufferedImage imageV;
 	/**
-	 * 
+	 * The height of the image for vertical orientation.
 	 */
 	private int heightV;
 	/**
-	 * @return int
+	 * Returns the height for vertical orientation.
+	 * @return the height of vertical image
 	 */
 	public int getHeightV() {
 		return heightV;
 	}
 	/**
-	 * 
+	 * The width of the image for vertical orientation.
 	 */
 	private int widthV;
 	/**
-	 * @return int
+	 * Returns the width for vertical orientation.
+	 * @return the width of vertical image
 	 */
 	public int getWidthV() {
 		return widthV;
 	}
 	/**
-	 * 
+	 * The height of the image for horizontal orientation.
 	 */
 	private int heightH;
 	/**
-	 * @return int
+	 * Returns the height for horizontal orientation.
+	 * @return the height of horizontal image
 	 */
 	public int getHeightH() {
 		return heightH;
 	}
 	/**
-	 * 
+	 * The width of the image for horizontal orientation.
 	 */
 	private int widthH;
 	/**
-	 * @return int
+	 * Returns the width for horizontal orientation.
+	 * @return the width of horizontal image
 	 */
 	public int getWidthH() {
 		return widthH;
 	}
 	/**
-	 * 
+	 * The row in the grid the start of the ship is located.
 	 */
 	private int row;	
 	/**
-	 * @return int
+	 * Returns the row that the start of the ship is located.
+	 * @return the ship's row
 	 */
 	public int getRow() {
 		return row;
 	}
 	/**
+	 * Sets the ships's row.
 	 * @param newRow new row to set
 	 */
 	public void setRow(final int newRow) {
 		row = newRow;
 	}
 	/**
-	 * 
+	 * The column in the grid the start of the ship is located.
 	 */
 	private int column;
 	/**
-	 * @return int
+	 * Returns the column in the grid the start of the ship is located.
+	 * @return the ships column
 	 */
 	public int getColumn() {
 		return column;
 	}
 	/**
+	 * Sets the ship's column.
 	 * @param newColumn new column to set
 	 */
 	public void setColumn(final int newColumn) {
 		column = newColumn;
 	}
 	/**
-	 * 
+	 * The value assigned to a specific ship.
 	 */
 	private int value;
 	/**
-	 * @return int
+	 * Returns the value of a specific ship.
+	 * @return the ships value
 	 */
 	public int getValue() {
 		return value;
 	}
 	/**
-	 * 
+	 * The path of the horizontal image.
 	 */
 	private String pathH;
 	/**
-	 * 
+	 * The path of the vertical image.
 	 */
 	private String pathV;	
 	/**
-	 * 
+	 * The length of the ship.
 	 */
 	private int size;
 	/**
-	 * @return int
+	 * Returns the length of the ship.
+	 * @return the length of the ship
 	 */
 	public int getShipSize() {
 		return size;
 	}
 	/**
+	 * Sets the size of the ship.
 	 * @param value how many squares the ship takes up
 	 */
 	public void setShipSize(final int value) {
 		size = value;
 	}
 	/**
-	 * 
+	 * Boolean to determine if the ship is horizontal.
 	 */
 	private boolean horizontal = true;
 	/**
-	 * @return boolean
+	 * Returns true if the ship is horizontal
+	 * and false if it is vertical.
+	 * @return true if ship is horizontal
 	 */
 	public boolean isHorizontal() {
 		return horizontal;
 	}
 	/**
+	 * Sets the ship to be horizontal or vertical.
 	 * @param value either horizontal or vertical
 	 */
 	public void setHorizontal(final boolean value) {
 		horizontal = value;
 	}
 	/**
-	 * 
+	 * Determines the type of ship to create.
 	 */
 	private ShipType typeOfShip;
 	/**
-	 * @return ShipType
+	 * Returns the type of ship to create.
+	 * @return the type of ship
 	 */
 	public ShipType getTypeOfShip() {
 		return typeOfShip;
 	}
 	/**
+	 * Sets the type of ship to create.
 	 * @param type type of ship
 	 */
 	public void setTypeOfShip(final ShipType type) {
 		typeOfShip = type;
 	}
 	/**
-	 * 
+	 * Creates an image to use for horizontal scaling.
 	 */	
 	private Image scaledH;
 	/**
-	 * 
+	 * Creates an image to use for vertical scaling.
 	 */
 	private Image scaledV;
 	/**
+	 * Sets the values for the ship depending on ship type
+	 * and then calls setImages to import images.
 	 * @param type type of ship selected
 	 */
 	public Ship(final ShipType type) {
@@ -239,6 +257,8 @@ public class Ship extends JPanel {
 		}
 	}
 	/**
+	 * Imports the images from the paths and scales them to
+	 * the correct height and width depending on orientation.
 	 * @param pathH the horizontal image of the ship
 	 * @param pathV the vertical image of the ship
 	 */
@@ -275,7 +295,7 @@ public class Ship extends JPanel {
 	}
 	
 	/**
-	 * 
+	 * Repaints the panel.
 	 */
 	public void draw() {
 
@@ -283,7 +303,8 @@ public class Ship extends JPanel {
 	}
 	
 	/**
-	 * 
+	 * Changes the orientation of the panel and repaints
+	 * new images.
 	 */
 	public void rotate() {
 		
@@ -304,6 +325,7 @@ public class Ship extends JPanel {
 	}
 	
 	/**
+	 * Paints the images in the panel.
 	 * @param g graphics to paint
 	 */
 	public void paintComponent(final Graphics g) {
