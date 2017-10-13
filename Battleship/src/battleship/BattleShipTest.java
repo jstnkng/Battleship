@@ -139,6 +139,10 @@ public class BattleShipTest {
 	}
 	
 	
+	@Test
+	public void samsTest() {
+		
+	}
 	
 
 }
