@@ -146,7 +146,7 @@ public class BattleShipTest {
 	
 	@Test
 	public void samsTest() {
-		
+		//this is my test
 	}
 	
 
