@@ -40,6 +40,7 @@ public class HomePageGui extends JFrame {
 				try {
 					HomePageGui frame = new HomePageGui();
 					frame.setTitle("Play BattleShip!");
+					frame.setSize(1200,700);
 					frame.setLocationRelativeTo(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -68,11 +69,13 @@ public class HomePageGui extends JFrame {
 		contentPane.setLayout(gbcContentPane);
 		
 		JLabel lblBattleship = new JLabel("Battleship");
-		lblBattleship.setFont(new Font("Tahoma", Font.BOLD, 30));
+		lblBattleship.setFont(new Font("Tahoma", Font.BOLD, 100));
 		GridBagConstraints gbcLblBattleship = new GridBagConstraints();
 		gbcLblBattleship.insets = new Insets(0, 0, 5, 0);
 		gbcLblBattleship.gridx = 1;
 		gbcLblBattleship.gridy = 0;
+		gbcLblBattleship.weightx = 1;
+		gbcLblBattleship.weighty = .33;
 		contentPane.add(lblBattleship, gbcLblBattleship);
 		
 		JButton btnPassPlay = new JButton("Pass & Play");
@@ -87,8 +90,12 @@ public class HomePageGui extends JFrame {
 		});
 		
 		GridBagConstraints gbBtnPassPlay = new GridBagConstraints();
+		gbBtnPassPlay.insets = new Insets(50,350,5,350);
+		gbBtnPassPlay.fill = gbBtnPassPlay.BOTH;
 		gbBtnPassPlay.gridx = 1;
-		gbBtnPassPlay.gridy = 1;
+		gbBtnPassPlay.gridy = 2;
+		gbBtnPassPlay.weightx = 1;
+		gbBtnPassPlay.weighty = .33;
 		contentPane.add(btnPassPlay, gbBtnPassPlay);
 		
 		JButton btnOnePlayer = new JButton("One Player");
@@ -103,8 +110,12 @@ public class HomePageGui extends JFrame {
 			
 		});
 		GridBagConstraints gbcBtnOnePlayer = new GridBagConstraints();
+		gbcBtnOnePlayer.insets = new Insets(50,350,50,350);
+		gbcBtnOnePlayer.fill = gbcBtnOnePlayer.BOTH;
 		gbcBtnOnePlayer.gridx = 1;
-		gbcBtnOnePlayer.gridy = 2;
+		gbcBtnOnePlayer.gridy = 3;
+		gbcBtnOnePlayer.weightx = 1;
+		gbcBtnOnePlayer.weighty = .33;
 		contentPane.add(btnOnePlayer, gbcBtnOnePlayer);
 	}
 
