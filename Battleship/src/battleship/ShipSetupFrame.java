@@ -82,21 +82,51 @@ public class ShipSetupFrame extends JFrame
 	 */
 	private Ship aircraftCarrier;
 	/**
+	 * Returns the frame's aircraft carrier.
+	 */
+	public Ship getAircraftCarrier() {
+		return aircraftCarrier;
+	}
+	/**
 	 * Creates an instance of Ship for the battle ship.
 	 */
 	private Ship battleShip;
+	/**
+	 * Returns the frame's battleship.
+	 */
+	public Ship getBattleShip() {
+		return battleShip;
+	}
 	/**
 	 * Creates an instance of Ship for the cruiser.
 	 */
 	private Ship cruiser;
 	/**
+	 * Returns the frame's cruiser.
+	 */
+	public Ship getCruiser() {
+		return cruiser;
+	}
+	/**
 	 * Creates an instance of Ship for the patrol boat.
 	 */
 	private Ship patrolBoat;
 	/**
+	 * Returns the frame's patrol boat.
+	 */
+	public Ship getPatrolBoat() {
+		return patrolBoat;
+	}
+	/**
 	 * Creates an instance of Ship for the submarine.
 	 */
 	private Ship submarine;
+	/**
+	 * Returns the frame's submarine.
+	 */
+	public Ship getSubmarine() {
+		return submarine;
+	}
 	/**
 	 * Creates a button to submit ship placement.
 	 */
@@ -998,7 +1028,7 @@ public class ShipSetupFrame extends JFrame
 				playingBoard.setPlayer1Values(player1Values);
 				setCpuValues();
 				playingBoard.setPlayer2Values(player2Values);
-				System.out.println("CPU Ships (for testing only!!, no cheating!!)");
+				System.out.println("CPU Ships)");
 				for (int x = 0; x < 10; x++) {
 					for (int y = 0; y < 10; y++) {
 					System.out.print(player2Values[x][y]);

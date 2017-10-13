@@ -18,7 +18,7 @@ public class BattleShipTest {
 		assertEquals(5, testAircraftCarrier.getValue());
 		testAircraftCarrier.setHorizontal(true);
 		assertEquals(true, testAircraftCarrier.isHorizontal());
-		testAircraftCarrier.setHorizontal(false);
+		testAircraftCarrier.rotate();
 		assertEquals(false, testAircraftCarrier.isHorizontal());
 	}
 	
@@ -34,7 +34,7 @@ public class BattleShipTest {
 		assertEquals(4, testBattleShip.getValue());
 		testBattleShip.setHorizontal(true);
 		assertEquals(true, testBattleShip.isHorizontal());
-		testBattleShip.setHorizontal(false);
+		testBattleShip.rotate();
 		assertEquals(false, testBattleShip.isHorizontal());
 	}
 	
@@ -50,7 +50,7 @@ public class BattleShipTest {
 		assertEquals(3, testCruiser.getValue());
 		testCruiser.setHorizontal(true);
 		assertEquals(true, testCruiser.isHorizontal());
-		testCruiser.setHorizontal(false);
+		testCruiser.rotate();
 		assertEquals(false, testCruiser.isHorizontal());
 		
 	}
@@ -67,7 +67,7 @@ public class BattleShipTest {
 		assertEquals(2, testSubmarine.getValue());
 		testSubmarine.setHorizontal(true);
 		assertEquals(true, testSubmarine.isHorizontal());
-		testSubmarine.setHorizontal(false);
+		testSubmarine.rotate();
 		assertEquals(false, testSubmarine.isHorizontal());
 		
 	}
@@ -90,8 +90,55 @@ public class BattleShipTest {
 	
 	@Test
 	public void testSetAircraftCarrierOnGrid() {
-		Ship testAircraftCarrier = new Ship(ShipType.AircraftCarrier);
-		
+		ShipSetupFrame testFrame = new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+		testFrame.getAircraftCarrier().setLocation(600, 130);
+		testFrame.snapShipToX(testFrame.getAircraftCarrier());
+		testFrame.snapShipToY(testFrame.getAircraftCarrier());
+		assertEquals(1, testFrame.getAircraftCarrier().getColumn());
+		assertEquals(1, testFrame.getAircraftCarrier().getRow());
 	}
+	
+	@Test
+	public void testSetBattleShipOnGrid() {
+		ShipSetupFrame testFrame = new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+		testFrame.getBattleShip().setLocation(600, 130);
+		testFrame.snapShipToX(testFrame.getBattleShip());
+		testFrame.snapShipToY(testFrame.getBattleShip());
+		assertEquals(1, testFrame.getBattleShip().getColumn());
+		assertEquals(1, testFrame.getBattleShip().getRow());
+	}
+	
+	@Test
+	public void testSetCruiserOnGrid() {
+		ShipSetupFrame testFrame = new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+		testFrame.getCruiser().setLocation(600, 130);
+		testFrame.snapShipToX(testFrame.getCruiser());
+		testFrame.snapShipToY(testFrame.getCruiser());
+		assertEquals(1, testFrame.getCruiser().getColumn());
+		assertEquals(1, testFrame.getCruiser().getRow());
+	}
+	
+	@Test
+	public void testSetSubmarineOnGrid() {
+		ShipSetupFrame testFrame = new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+		testFrame.getSubmarine().setLocation(600, 130);
+		testFrame.snapShipToX(testFrame.getSubmarine());
+		testFrame.snapShipToY(testFrame.getSubmarine());
+		assertEquals(1, testFrame.getSubmarine().getColumn());
+		assertEquals(1, testFrame.getSubmarine().getRow());
+	}
+	
+	@Test
+	public void testSetPatrolBoatOnGrid() {
+		ShipSetupFrame testFrame = new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+		testFrame.getPatrolBoat().setLocation(600, 130);
+		testFrame.snapShipToX(testFrame.getPatrolBoat());
+		testFrame.snapShipToY(testFrame.getPatrolBoat());
+		assertEquals(1, testFrame.getPatrolBoat().getColumn());
+		assertEquals(1, testFrame.getPatrolBoat().getRow());
+	}
+	
+	
+	
 
 }

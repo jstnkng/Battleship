@@ -306,8 +306,9 @@ public class Ship extends JPanel {
 		if (isHorizontal()) {
 			this.setSize(widthH, heightH);
 //			width = widthH;
-//			height = heightH;
+//			height = heightH;S
 		} else {
+			this.setHorizontal(false);
 			this.setSize(widthV, heightV);
 //			width = widthV;
 //			height = heightV;
