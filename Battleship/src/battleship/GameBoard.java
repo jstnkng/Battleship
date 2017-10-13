@@ -111,50 +111,110 @@ public class GameBoard extends JFrame implements MouseListener {
 	 */
 	private int cpuAircraftCarrierHits = 0;
 	/**
+	 * Returns cpuAircraftCarrierHits
+	 */
+	public int getCpuAircraftCarrierHits() {
+		return cpuAircraftCarrierHits;
+	}
+	/**
 	 * Current number of hits that the cpu has
 	 * hit player 1's battleship.
 	 */
 	private int cpuBattleShipHits = 0;
+	/**
+	 * Returns cpuBattleShiphits
+	 */
+	public int getCpuBattleShipHits() {
+		return cpuBattleShipHits;
+	}
 	/**
 	 * Current number of hits that the cpu has
 	 * hit player 1's submarine.
 	 */
 	private int cpuSubmarineHits = 0;
 	/**
+	 * Returns cpuSubmarinehits
+	 */
+	public int getCpuSubmarineHits() {
+		return cpuSubmarineHits;
+	}
+	/**
 	 * Current number of hits that the cpu has
 	 * hit player 1's cruiser.
 	 */
 	private int cpuCruiserHits = 0;
+	/**
+	 * Returns cpuCruiserHits
+	 */
+	public int getCpuCruiserHits() {
+		return cpuCruiserHits;
+	}
 	/**
 	 * Current number of hits that the cpu has
 	 * hit player 1's patrol boat.
 	 */
 	private int cpuPatrolBoatHits = 0;
 	/**
+	 * Returns cpuPatrolBoathits
+	 */
+	public int getCpuPatrolBoatHits() {
+		return cpuPatrolBoatHits;
+	}
+	/**
 	 * Current number of hits that player 1
 	 * has hit the cpu's aircraft carrier.
 	 */	
 	private int aircraftCarrierHits = 0;
+	/**
+	 * Returns aircraftCarrierHits
+	 */
+	public int getAircraftCarrierHits(){
+		return aircraftCarrierHits;
+	}
 	/**
 	 * Current number of hits that player 1
 	 * has hit the cpu's battle ship.
 	 */
 	private int battleShipHits = 0;
 	/**
+	 * Returns battleShipHits
+	 */
+	public int getBattleShipHits(){
+		return battleShipHits;
+	}
+	/**
 	 * Current number of hits that player 1
 	 * has hit the cpu's submarine.
 	 */
 	private int submarineHits = 0;
+	/**
+	 * Returns submarineHits
+	 */
+	public int getSubmarineHits(){
+		return submarineHits;
+	}
 	/**
 	 * Current number of hits that player 1
 	 * has hit the cpu's cruiser.
 	 */
 	private int cruiserHits = 0;
 	/**
+	 * Returns cruiserHits
+	 */
+	public int getCruiserHits(){
+		return cruiserHits;
+	}
+	/**
 	 * Current number of hits that player 1
 	 * has hit the cpu's patrol boat.
 	 */
 	private int patrolBoatHits = 0;
+	/**
+	 * Returns patrolBoatHits
+	 */
+	public int getPatrolBoatHits(){
+		return patrolBoatHits;
+	}
 	/**
 	 * Current gameMode being played.
 	 */
@@ -353,8 +413,7 @@ public class GameBoard extends JFrame implements MouseListener {
 	 * Then changes the image for a hit or miss.
 	 * @param point the coordinates of the shot
 	 */
-	public void cpuFire(final Point point) {
-		player2Board.setEnabled(false);		
+	public void cpuFire(final Point point) {	
 		
 		int randomX = (int) point.getX();
 		int randomY = (int) point.getY();
@@ -487,8 +546,6 @@ public class GameBoard extends JFrame implements MouseListener {
 			JOptionPane.showMessageDialog(null, "Player 2 wins");
 			this.setVisible(false);
 		}
-		player2Board.setEnabled(true);
-		
 	}
 	
 	//Picks the point for the cpu to shoot

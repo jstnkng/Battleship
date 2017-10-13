@@ -148,17 +148,41 @@ public class ShipSetupFrame extends JFrame
 	 */
 	private int[][] player1Values = new int[boardSize][boardSize];
 	/**
+	 * Returns player1Values
+	 */
+	public int[][] getPlayer1Values() {
+		return player1Values;
+	}
+	/**
 	 * Creates a 2D array of int to hold the values for player2's ships.
 	 */
 	private int[][] player2Values = new int[boardSize][boardSize];
+	/**
+	 * Returns player2Values
+	 */
+	public int[][] getPlayer2Values() {
+		return player2Values;
+	}
 	/**
 	 * Creates an array of Ship to hold player1's 5 ships.
 	 */
 	private Ship[] player1Ships = new Ship[5];
 	/**
+	 * Returns player1Ships
+	 */
+	public Ship[] getPlayer1Ships() {
+		return player1Ships;
+	}
+	/**
 	 * Creates an array of Ship to hold player2's 5 ships.
 	 */
 	private Ship[] player2Ships = new Ship[5];
+	/**
+	 * Returns player2Ships
+	 */
+	public Ship[] getPlayer2Ships() {
+		return player2Ships;
+	}
 	/**
 	 * Calls shipSetup passing gameMode and current player.
 	 * @param currentMode mode that the game is being played in

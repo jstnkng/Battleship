@@ -2,6 +2,10 @@ package battleship;
 
 import static org.junit.Assert.*;
 
+import java.awt.Point;
+
+import javax.swing.JButton;
+
 import org.junit.Test;
 
 public class BattleShipTest {
@@ -143,10 +147,133 @@ public class BattleShipTest {
 			//This is my test
 	}
 	
+	@Test
+	public void TestCpuFire() {
+		GameBoard testBoard = new GameBoard(GameMode.OnePlayerMode);
+		ShipSetupFrame testFrame = createSSF();
+		testBoard.setPlayer1Ships(testFrame.getPlayer1Ships());
+		testBoard.setPlayer2Ships(testFrame.getPlayer2Ships());
+		testBoard.setPlayer1Values(testFrame.getPlayer1Values());
+		testBoard.setPlayer2Values(testFrame.getPlayer2Values());
+		
+		//Test two shots on aircraft carrier
+		Point point = new Point(1,1);
+		testBoard.cpuFire(point);
+		assertEquals(1, testBoard.getCpuAircraftCarrierHits());
+		point = new Point(1,2);
+		testBoard.cpuFire(point);
+		assertEquals(2, testBoard.getCpuAircraftCarrierHits());
+		
+		//Test shot on battleship
+		point = new Point(2,1);
+		testBoard.cpuFire(point);
+		assertEquals(1, testBoard.getCpuBattleShipHits());
+		
+		//Test shot on cruiser
+		point = new Point(3,1);
+		testBoard.cpuFire(point);
+		assertEquals(1, testBoard.getCpuCruiserHits());
+		
+		//Test shot on submarine
+		point = new Point(4,1);
+		testBoard.cpuFire(point);
+		assertEquals(1, testBoard.getCpuSubmarineHits());
+		
+		//Test shot on patrol boat
+		point = new Point(5,1);
+		testBoard.cpuFire(point);
+		assertEquals(1, testBoard.getCpuPatrolBoatHits());
+		
+	}
 	
 	@Test
-	public void samsTest() {
-		//this is my test
+	public void TestPlayerShot() {
+		GameBoard testBoard = new GameBoard(GameMode.OnePlayerMode);
+		JButton btn = new JButton();
+		btn.setName("0");
+		testBoard.playerShot(btn);
+		assertEquals("shot", btn.getName());
+		//testBoard.playerShot(btn);
+		//assertNotNull();
+		
+		//AircraftCarrier hits
+		for (int i = 0; i < 5; i++) {
+			btn.setName("5");
+			testBoard.playerShot(btn);
+			assertEquals("shot5", btn.getName());
+		}
+		assertEquals(5, testBoard.getAircraftCarrierHits());
+		
+		//Battleship hits
+		for (int i = 0; i < 4; i++) {
+			btn.setName("4");
+			testBoard.playerShot(btn);
+			assertEquals("shot4", btn.getName());
+		}
+		assertEquals(4, testBoard.getBattleShipHits());
+		
+		//Cruiser hits
+		for (int i = 0; i < 3; i++) {
+			btn.setName("3");
+			testBoard.playerShot(btn);
+			assertEquals("shot3", btn.getName());
+		}
+		assertEquals(3, testBoard.getCruiserHits());
+		
+		//Submarine
+		for (int i = 0; i < 3; i++) {
+			btn.setName("2");
+			testBoard.playerShot(btn);
+			assertEquals("shot2", btn.getName());
+		}
+		assertEquals(3, testBoard.getSubmarineHits());
+		
+		//PatrolBoat hits
+		for (int i = 0; i < 2; i++) {
+			btn.setName("1");
+			testBoard.playerShot(btn);
+			assertEquals("shot1", btn.getName());
+		}
+		assertEquals(2, testBoard.getPatrolBoatHits());
+		
+	}
+	
+	/**
+	 * Creates a ShipSetupFrame for testing
+	 * @return a ShipSetupFrame
+	 */
+	public ShipSetupFrame createSSF() {
+		
+		ShipSetupFrame testFrame = new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+		
+		//snaps aircraft carrier to column 1 row 1
+		testFrame.getAircraftCarrier().setLocation(600, 130);
+		testFrame.snapShipToX(testFrame.getAircraftCarrier());
+		testFrame.snapShipToY(testFrame.getAircraftCarrier());
+		
+		//snaps battleShip to column 1 row 2
+		testFrame.getBattleShip().setLocation(600, 165);
+		testFrame.snapShipToX(testFrame.getBattleShip());
+		testFrame.snapShipToY(testFrame.getBattleShip());
+		
+		//snaps cruiser to column 1 row 3
+		testFrame.getCruiser().setLocation(600, 223);
+		testFrame.snapShipToX(testFrame.getCruiser());
+		testFrame.snapShipToY(testFrame.getCruiser());
+		
+		//snaps submarine to column 1 row 4
+		testFrame.getSubmarine().setLocation(600, 281);
+		testFrame.snapShipToX(testFrame.getSubmarine());
+		testFrame.snapShipToY(testFrame.getSubmarine());
+		
+		//snaps patrol boat to column 1 row 5
+		testFrame.getPatrolBoat().setLocation(600, 339);
+		testFrame.snapShipToX(testFrame.getPatrolBoat());
+		testFrame.snapShipToY(testFrame.getPatrolBoat());
+		
+		testFrame.submit();
+		
+		return testFrame;
 	}
 	
 
