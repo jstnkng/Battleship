@@ -135,13 +135,6 @@ public class Ship extends JPanel {
 		return size;
 	}
 	/**
-	 * Sets the size of the ship.
-	 * @param value how many squares the ship takes up
-	 */
-	public void setShipSize(final int value) {
-		size = value;
-	}
-	/**
 	 * Boolean to determine if the ship is horizontal.
 	 */
 	private boolean horizontal = true;
@@ -235,7 +228,7 @@ public class Ship extends JPanel {
 			size = 3;
 			value = 2;
 			setImages(pathH, pathV);
-		} else if (type == ShipType.PatrolBoat) {
+		} else {
 			pathH = "res\\PatrolBoatH.png";
 			pathV = "res\\PatrolBoatV.png";
 //			x = 0;
@@ -286,15 +279,6 @@ public class Ship extends JPanel {
 		this.setOpaque(false);
 		
 	}
-	
-	/**
-	 * Repaints the panel.
-	 */
-	public void draw() {
-
-		repaint();
-	}
-	
 	/**
 	 * Changes the orientation of the panel and repaints
 	 * new images.
@@ -330,8 +314,7 @@ public class Ship extends JPanel {
 		if (isHorizontal()) {
 			g.drawImage(scaledH, 0, 0, this);
 			
-		}
-		if (!isHorizontal()) {
+		}else {
 			g.drawImage(scaledV, 0, 0, this);
 		}
 		

@@ -42,6 +42,7 @@ public class HomePageGui extends JFrame {
 					frame.setTitle("Play BattleShip!");
 					frame.setSize(1200,700);
 					frame.setLocationRelativeTo(null);
+					frame.setResizable(false);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();

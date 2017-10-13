@@ -41,30 +41,45 @@ public class ShipSetupFrame extends JFrame
 	 * it is not clicked on yet.
 	 */
 	private boolean acCcanDrag = false;
+	public boolean getAcCanDrag() {
+		return acCcanDrag;
+	}
 	/**
 	 * Boolean to check if you can drag the
 	 * battle ship. Starts false because
 	 * it is not clicked on yet.
 	 */
 	private boolean bsCanDrag = false;
+	public boolean getBsCanDrag() {
+		return bsCanDrag;
+	}
 	/**
 	 * Boolean to check if you can drag the
 	 * cruiser. Starts false because
 	 * it is not clicked on yet.
 	 */
 	private boolean cCanDrag = false;
+	public boolean getcCanDrag() {
+		return cCanDrag;
+	}
 	/**
 	 * Boolean to check if you can drag the
 	 * submarine. Starts false because
 	 * it is not clicked on yet.
 	 */
 	private boolean sCanDrag = false;
+	public boolean getSCanDrag() {
+		return sCanDrag;
+	}
 	/**
 	 * Boolean to check if you can drag the
 	 * patrol boat. Starts false because
 	 * it is not clicked on yet.
 	 */
 	private boolean pbCanDrag = false;
+	public boolean getPbCanDrag() {
+		return pbCanDrag;
+	}
 	/**
 	 * Sets board size to 10.
 	 */
@@ -394,7 +409,6 @@ public class ShipSetupFrame extends JFrame
 
 	@Override
 	public void mouseClicked(final MouseEvent e) {
-		
 		//Aircraft Carrier
 		int acX = aircraftCarrier.getX();
 		int acY = aircraftCarrier.getY();
@@ -469,7 +483,7 @@ public class ShipSetupFrame extends JFrame
 
 	@Override
 	public void mousePressed(final MouseEvent e) {
-		
+		System.out.println("Entered mouse pressed:");
 		mx = e.getX();
 		my = e.getY();
 		
@@ -908,7 +922,7 @@ public class ShipSetupFrame extends JFrame
 			shipToSnap.setLocation(0, 220);
 		} else if (shipToSnap.getTypeOfShip() == ShipType.Submarine) {
 			shipToSnap.setLocation(0, 330);
-		} else if (shipToSnap.getTypeOfShip() == ShipType.PatrolBoat) {
+		} else {
 			shipToSnap.setLocation(0, 432);
 		}
 	}
