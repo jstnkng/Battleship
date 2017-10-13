@@ -172,13 +172,6 @@ public class Ship extends JPanel {
 		return typeOfShip;
 	}
 	/**
-	 * Sets the type of ship to create.
-	 * @param type type of ship
-	 */
-	public void setTypeOfShip(final ShipType type) {
-		typeOfShip = type;
-	}
-	/**
 	 * Creates an image to use for horizontal scaling.
 	 */	
 	private Image scaledH;
