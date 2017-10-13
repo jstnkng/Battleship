@@ -98,7 +98,7 @@ public class HomePageGui extends JFrame {
 		gbBtnPassPlay.weighty = .33;
 		contentPane.add(btnPassPlay, gbBtnPassPlay);
 		
-		JButton btnOnePlayer = new JButton("One Player");
+		JButton btnOnePlayer = new JButton("Single Player");
 		btnOnePlayer.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(final MouseEvent e) {
