@@ -304,12 +304,13 @@ public class Ship extends JPanel {
 		//checks current orientation then changes 
 		//the panel width and height to match image orientation
 		if (isHorizontal()) {
-			this.setSize(widthH, heightH);
+			this.setHorizontal(false);
+			this.setSize(widthV, heightV);
 //			width = widthH;
 //			height = heightH;S
 		} else {
-			this.setHorizontal(false);
-			this.setSize(widthV, heightV);
+			this.setHorizontal(true);
+			this.setSize(widthH, heightH);
 //			width = widthV;
 //			height = heightV;
 		}

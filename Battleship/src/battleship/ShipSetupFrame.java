@@ -404,22 +404,7 @@ public class ShipSetupFrame extends JFrame
 		
 		if (mx >= acX && mx <= (acX + acW) 
 				&& my >= acY && my <= (acY + acH)) {
-			
-			if (aircraftCarrier.isHorizontal()) {
-				aircraftCarrier.setHorizontal(false);
-				aircraftCarrier.rotate();
-				aircraftCarrier.setSize(
-						aircraftCarrier.getWidthV(),
-						aircraftCarrier.getHeightV());
-				
-				
-			} else {
-				aircraftCarrier.setHorizontal(true);
-				aircraftCarrier.rotate();
-				aircraftCarrier.setSize(
-						aircraftCarrier.getWidthH(),
-						aircraftCarrier.getHeightH());
-			}
+			aircraftCarrier.rotate();
 			checkForShipOverLap(aircraftCarrier);
 			checkForShipOffGrid(aircraftCarrier);
 		}
@@ -432,20 +417,7 @@ public class ShipSetupFrame extends JFrame
 		
 		if (mx >= bsX && mx <= (bsX + bsW) 
 				&& my >= bsY && my <= (bsY + bsH)) {
-			
-			if (battleShip.isHorizontal()) {
-				battleShip.setHorizontal(false);
-				battleShip.rotate();
-				battleShip.setSize(battleShip.getWidthV(),
-						battleShip.getHeightV());
-				
-				
-			} else {
-				battleShip.setHorizontal(true);
-				battleShip.rotate();
-				battleShip.setSize(battleShip.getWidthH(),
-						battleShip.getHeightH());
-			}
+			battleShip.rotate();
 			checkForShipOverLap(battleShip);
 			checkForShipOffGrid(battleShip);
 		}
@@ -459,19 +431,7 @@ public class ShipSetupFrame extends JFrame
 		if (mx >= cX && mx <= (cX + cW) && my >= cY 
 				&& my <= (cY + cH)) {
 
-			if (cruiser.isHorizontal()) {
-				cruiser.setHorizontal(false);
-				cruiser.rotate();
-				cruiser.setSize(cruiser.getWidthV(), 
-						cruiser.getHeightV());
-
-
-			} else {
-				cruiser.setHorizontal(true);
-				cruiser.rotate();
-				cruiser.setSize(cruiser.getWidthH(), 
-						cruiser.getHeightH());
-			}
+			cruiser.rotate();
 			checkForShipOverLap(cruiser);
 			checkForShipOffGrid(cruiser);
 		}
@@ -485,19 +445,7 @@ public class ShipSetupFrame extends JFrame
 		if (mx >= sX && mx <= (sX + sW) && my >= sY 
 				&& my <= (sY + sH)) {
 
-			if (submarine.isHorizontal()) {
-				submarine.setHorizontal(false);
-				submarine.rotate();
-				submarine.setSize(submarine.getWidthV(), 
-						submarine.getHeightV());
-
-
-			} else {
-				submarine.setHorizontal(true);
-				submarine.rotate();
-				submarine.setSize(submarine.getWidthH(),
-						submarine.getHeightH());
-			}
+			submarine.rotate();
 			checkForShipOverLap(submarine);
 			checkForShipOffGrid(submarine);
 		}
@@ -510,20 +458,7 @@ public class ShipSetupFrame extends JFrame
 
 		if (mx >= pbX && mx <= (pbX + pbW) 
 				&& my >= pbY && my <= (pbY + pbH)) {
-
-			if (patrolBoat.isHorizontal()) {
-				patrolBoat.setHorizontal(false);
-				patrolBoat.rotate();
-				patrolBoat.setSize(patrolBoat.getWidthV(),
-						patrolBoat.getHeightV());
-
-
-			} else {
-				patrolBoat.setHorizontal(true);
-				patrolBoat.rotate();
-				patrolBoat.setSize(patrolBoat.getWidthH(),
-						patrolBoat.getHeightH());
-			}
+			patrolBoat.rotate();
 			checkForShipOverLap(patrolBoat);
 			checkForShipOffGrid(patrolBoat);
 		}
