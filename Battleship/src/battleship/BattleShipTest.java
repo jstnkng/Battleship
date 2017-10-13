@@ -138,6 +138,11 @@ public class BattleShipTest {
 		assertEquals(1, testFrame.getPatrolBoat().getRow());
 	}
 	
+	@Test
+	public void JustinsTest() {
+
+	}
+	
 	
 	@Test
 	public void samsTest() {
