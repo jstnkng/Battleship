@@ -117,6 +117,12 @@ public class GameBoard extends JFrame implements MouseListener {
 		return cpuAircraftCarrierHits;
 	}
 	/**
+	 * Sets cpuAircraftCarrierHits
+	 */
+	public void setCpuAircraftCarrierHits(int num) {
+		cpuAircraftCarrierHits = num;
+	}
+	/**
 	 * Current number of hits that the cpu has
 	 * hit player 1's battleship.
 	 */
@@ -126,6 +132,12 @@ public class GameBoard extends JFrame implements MouseListener {
 	 */
 	public int getCpuBattleShipHits() {
 		return cpuBattleShipHits;
+	}
+	/**
+	 * Sets cpuBattleShipHits
+	 */
+	public void setCpuBattleShipHits(int num) {
+		cpuBattleShipHits = num;
 	}
 	/**
 	 * Current number of hits that the cpu has
@@ -139,6 +151,12 @@ public class GameBoard extends JFrame implements MouseListener {
 		return cpuSubmarineHits;
 	}
 	/**
+	 * Sets cpuSubmarineHits
+	 */
+	public void setCpuSubmarineHits(int num) {
+		cpuSubmarineHits = num;
+	}
+	/**
 	 * Current number of hits that the cpu has
 	 * hit player 1's cruiser.
 	 */
@@ -148,6 +166,12 @@ public class GameBoard extends JFrame implements MouseListener {
 	 */
 	public int getCpuCruiserHits() {
 		return cpuCruiserHits;
+	}
+	/**
+	 * Sets cpuCruiserHits
+	 */
+	public void setCpuCruiserHits(int num) {
+		cpuCruiserHits = num;
 	}
 	/**
 	 * Current number of hits that the cpu has
@@ -161,6 +185,12 @@ public class GameBoard extends JFrame implements MouseListener {
 		return cpuPatrolBoatHits;
 	}
 	/**
+	 * Sets cpuPatrolBoatHits
+	 */
+	public void setCpuPatrolBoatHits(int num) {
+		cpuPatrolBoatHits = num;
+	}
+	/**
 	 * Current number of hits that player 1
 	 * has hit the cpu's aircraft carrier.
 	 */	
@@ -170,6 +200,12 @@ public class GameBoard extends JFrame implements MouseListener {
 	 */
 	public int getAircraftCarrierHits(){
 		return aircraftCarrierHits;
+	}
+	/**
+	 * Sets aircraftCarrierHits
+	 */
+	public void setAircraftCarrierHits(int num){
+		aircraftCarrierHits = num;
 	}
 	/**
 	 * Current number of hits that player 1
@@ -183,6 +219,12 @@ public class GameBoard extends JFrame implements MouseListener {
 		return battleShipHits;
 	}
 	/**
+	 * Sets battleShipHits
+	 */
+	public void setBattleShipHits(int num){
+		battleShipHits = num;
+	}
+	/**
 	 * Current number of hits that player 1
 	 * has hit the cpu's submarine.
 	 */
@@ -192,6 +234,12 @@ public class GameBoard extends JFrame implements MouseListener {
 	 */
 	public int getSubmarineHits(){
 		return submarineHits;
+	}
+	/**
+	 * Sets submarineHits
+	 */
+	public void setSubmarineHits(int num){
+		submarineHits = num;
 	}
 	/**
 	 * Current number of hits that player 1
@@ -205,6 +253,12 @@ public class GameBoard extends JFrame implements MouseListener {
 		return cruiserHits;
 	}
 	/**
+	 * Sets cruiserHits
+	 */
+	public void setCruiserHits(int num){
+		cruiserHits = num;
+	}
+	/**
 	 * Current number of hits that player 1
 	 * has hit the cpu's patrol boat.
 	 */
@@ -214,6 +268,12 @@ public class GameBoard extends JFrame implements MouseListener {
 	 */
 	public int getPatrolBoatHits(){
 		return patrolBoatHits;
+	}
+	/**
+	 * Sets patrolBoatHits
+	 */
+	public void setPatrolBoatHits(int num){
+		patrolBoatHits = num;
 	}
 	/**
 	 * Current gameMode being played.
@@ -544,6 +604,7 @@ public class GameBoard extends JFrame implements MouseListener {
 				+ cpuCruiserHits + cpuSubmarineHits
 				+ cpuPatrolBoatHits == 17) {
 			JOptionPane.showMessageDialog(null, "Player 2 wins");
+			
 			this.setVisible(false);
 		}
 	}
