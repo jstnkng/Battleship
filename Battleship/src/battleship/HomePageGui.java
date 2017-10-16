@@ -1,6 +1,7 @@
 package battleship;
 
 
+import java.awt.AWTException;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -12,14 +13,17 @@ import java.awt.GridBagConstraints;
 import java.awt.Font;
 import javax.swing.JButton;
 import java.awt.Insets;
+import java.awt.Robot;
+import java.awt.event.InputEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 /**
  * Creates the home screen where
  * a player chooses what game mode
  * to play.
  */
-public class HomePageGui extends JFrame {
+public class HomePageGui extends JFrame implements MouseListener{
 
 	/**
 	 * ID for serializable class.
@@ -29,7 +33,12 @@ public class HomePageGui extends JFrame {
 	 * Creates a panel for the contentPane.
 	 */
 	private JPanel contentPane;
-
+	
+	public JButton btnOnePlayer;
+	public JButton btnPassPlay;
+	public JLabel lblBattleship;
+	public ShipSetupFrame p1;
+	
 	/**
 	 * Launch the application.
 	 * @param args command line argument
@@ -69,7 +78,7 @@ public class HomePageGui extends JFrame {
 				{0.0, 0.0, Double.MIN_VALUE};
 		contentPane.setLayout(gbcContentPane);
 		
-		JLabel lblBattleship = new JLabel("Battleship");
+		lblBattleship = new JLabel("Battleship");
 		lblBattleship.setFont(new Font("Tahoma", Font.BOLD, 100));
 		GridBagConstraints gbcLblBattleship = new GridBagConstraints();
 		gbcLblBattleship.insets = new Insets(0, 0, 5, 0);
@@ -79,16 +88,8 @@ public class HomePageGui extends JFrame {
 		gbcLblBattleship.weighty = .33;
 		contentPane.add(lblBattleship, gbcLblBattleship);
 		
-		JButton btnPassPlay = new JButton("Pass & Play");
-		btnPassPlay.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(final MouseEvent e) {
-				ShipSetupFrame p1 = new ShipSetupFrame(
-					GameMode.TwoPlayerPassAndPlay, 1);
-				p1.setLocationRelativeTo(null);
-				p1.setVisible(true);
-			}
-		});
+		btnPassPlay = new JButton("Pass & Play");
+		btnPassPlay.addMouseListener(this);
 		
 		GridBagConstraints gbBtnPassPlay = new GridBagConstraints();
 		gbBtnPassPlay.insets = new Insets(50,350,5,350);
@@ -99,17 +100,9 @@ public class HomePageGui extends JFrame {
 		gbBtnPassPlay.weighty = .33;
 		contentPane.add(btnPassPlay, gbBtnPassPlay);
 		
-		JButton btnOnePlayer = new JButton("Single Player");
-		btnOnePlayer.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(final MouseEvent e) {
-				ShipSetupFrame p1 = new ShipSetupFrame(
-						GameMode.OnePlayerMode, 0);
-				p1.setLocationRelativeTo(null);
-				p1.setVisible(true);
-			}
-			
-		});
+		btnOnePlayer = new JButton("Single Player");
+		btnOnePlayer.addMouseListener(this);
+		
 		GridBagConstraints gbcBtnOnePlayer = new GridBagConstraints();
 		gbcBtnOnePlayer.insets = new Insets(50,350,50,350);
 		gbcBtnOnePlayer.fill = gbcBtnOnePlayer.BOTH;
@@ -118,6 +111,63 @@ public class HomePageGui extends JFrame {
 		gbcBtnOnePlayer.weightx = 1;
 		gbcBtnOnePlayer.weighty = .33;
 		contentPane.add(btnOnePlayer, gbcBtnOnePlayer);
+		
+	}
+	
+	public ShipSetupFrame startOnePlayer() {
+		ShipSetupFrame p1 = new ShipSetupFrame(GameMode.OnePlayerMode, 0);
+		p1.setLocationRelativeTo(null);
+		p1.setVisible(true);
+		System.out.println("Single Player");
+		System.out.println("x: " + btnOnePlayer.getLocationOnScreen().x + " y: " + btnOnePlayer.getLocationOnScreen().y);
+		
+		return p1;
+	}
+	
+	public ShipSetupFrame startPassAndPlay() {
+		ShipSetupFrame p1 = new ShipSetupFrame(GameMode.TwoPlayerPassAndPlay, 1);
+		p1.setLocationRelativeTo(null);
+		p1.setVisible(true);
+		System.out.println("Pass & Play");
+		System.out.println("x: " + btnPassPlay.getLocationOnScreen().x + " y: " + btnPassPlay.getLocationOnScreen().y);
+		
+		return p1;
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		
+		if (e.getSource() == btnOnePlayer) {
+			startOnePlayer();
+		}
+		if (e.getSource() == btnPassPlay) {
+			startPassAndPlay();
+		}
+			
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
