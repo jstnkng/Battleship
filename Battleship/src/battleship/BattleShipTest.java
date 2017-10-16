@@ -3,14 +3,8 @@ package battleship;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-
-import java.awt.AWTException;
 import java.awt.Point;
-import java.awt.Robot;
-import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
-import java.io.IOException;
-import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import org.junit.Test;
@@ -987,27 +981,32 @@ public class BattleShipTest {
 		assertEquals(17, count);	
 	}
 	/**
-	 * Test CPU firing in a random spot.
+	 * Test HomePageGui and buttons.
 	 */
 	@Test
-	public void TestHomePageGui() {
+	public void testHomePageGui() {
 		HomePageGui hpTest = new HomePageGui();
 		hpTest.setTitle("Play BattleShip!");
-		hpTest.setSize(1200,700);
+		hpTest.setSize(1200, 700);
 		hpTest.setLocationRelativeTo(null);
 		hpTest.setResizable(false);
 		hpTest.setVisible(true);
 		
 		//test single player button
-		assertNotNull("Verify that ShipSetupFrame is not null", hpTest.startOnePlayer());
+		assertNotNull("Verify that ShipSetupFrame is not null",
+				hpTest.startOnePlayer());
 		
 		//test pass & play button
-		assertNotNull("Verify that ShipSetupFrame is not null", hpTest.startPassAndPlay());
+		assertNotNull("Verify that ShipSetupFrame is not null",
+				hpTest.startPassAndPlay());
 		
 	}
 	
+	/**
+	 * Test Cpu firing on player ships.
+	 */
 	@Test
-	public void TestCpuFire() {
+	public void testCpuFire() {
 		GameBoard testBoard = new GameBoard(GameMode.OnePlayerMode);
 		ShipSetupFrame testFrame = createSSF();
 		testBoard.setPlayer1Ships(testFrame.getPlayer1Ships());
@@ -1044,8 +1043,11 @@ public class BattleShipTest {
 		assertEquals(1, testBoard.getCpuPatrolBoatHits());
 	}
 	
+	/**
+	 * Test for cpu winning.
+	 */
 	@Test
-	public void TestCpuWin() {
+	public void testCpuWin() {
 		GameBoard testBoard = new GameBoard(GameMode.OnePlayerMode);
 		//Test win JOptionPane for cpu
 		testBoard.setCpuAircraftCarrierHits(5);
@@ -1058,17 +1060,17 @@ public class BattleShipTest {
 		assertEquals(3, testBoard.getCpuCruiserHits());
 		assertEquals(3, testBoard.getCpuSubmarineHits());
 		assertEquals(2, testBoard.getCpuPatrolBoatHits());
-		Point point = new Point(0,0);
+		Point point = new Point(0, 0);
 		testBoard.cpuFire(point);
 		JOptionPane win = new JOptionPane();
 		assertNotNull("Verify that JOptionPane is not null", win);
 		
 	}
 	/**
-	 * Test the player firing on the CPU's ships.
+	 * Test for the player winning.
 	 */
 	@Test
-	public void TestPlayerWin() {
+	public void testPlayerWin() {
 		GameBoard testBoard = new GameBoard(GameMode.OnePlayerMode);
 		
 		testBoard.setAircraftCarrierHits(5);
@@ -1091,8 +1093,11 @@ public class BattleShipTest {
 		assertNotNull("Verify that JOptionPane is not null", win);
 	}
 	
+	/**
+	 * Test for player shooting at same spot twice.
+	 */
 	@Test
-	public void TestPlayerShotAlreadyShot() {
+	public void testPlayerShotAlreadyShot() {
 		GameBoard testBoard = new GameBoard(GameMode.OnePlayerMode);
 		JButton btn = new JButton();
 		btn.setName("0");
@@ -1102,12 +1107,22 @@ public class BattleShipTest {
 		//checks code for already shot location
 		JOptionPane alreadyShot = new JOptionPane();
 		testBoard.playerShot(btn);
-		assertNotNull("Verify that JOptionPane is not null", alreadyShot);
+		assertNotNull("Verify that JOptionPane is not null",
+				alreadyShot);
 	}
 	
+	/**
+	 * Test for player shot on aircraftcarrier.
+	 */
 	@Test
-	public void TestPlayerShotsACC() {
+	public void testPlayerShotsACC() {
 		GameBoard testBoard = new GameBoard(GameMode.OnePlayerMode);
+		ShipSetupFrame testFrame = createSSF();
+		testBoard.setPlayer1Ships(testFrame.getPlayer1Ships());
+		testBoard.setPlayer2Ships(testFrame.getPlayer2Ships());
+		testBoard.setPlayer1Values(testFrame.getPlayer1Values());
+		testBoard.setPlayer2Values(testFrame.getPlayer2Values());
+		
 		JButton btn = new JButton();
 		
 		//AircraftCarrier hits
@@ -1119,12 +1134,21 @@ public class BattleShipTest {
 		assertEquals(5, testBoard.getAircraftCarrierHits());
 	}
 	
+	/**
+	 * Test for player shot on battleship.
+	 */
 	@Test
-	public void TestPlayerShotsBS() {
+	public void testPlayerShotsBS() {
 		GameBoard testBoard = new GameBoard(GameMode.OnePlayerMode);
+		ShipSetupFrame testFrame = createSSF();
+		testBoard.setPlayer1Ships(testFrame.getPlayer1Ships());
+		testBoard.setPlayer2Ships(testFrame.getPlayer2Ships());
+		testBoard.setPlayer1Values(testFrame.getPlayer1Values());
+		testBoard.setPlayer2Values(testFrame.getPlayer2Values());
+		
 		JButton btn = new JButton();
 		
-		//Battleship hits
+		//BattleShip hits
 		for (int i = 0; i < 4; i++) {
 			btn.setName("4");
 			testBoard.playerShot(btn);
@@ -1133,9 +1157,18 @@ public class BattleShipTest {
 		assertEquals(4, testBoard.getBattleShipHits());
 	}
 	
+	/**
+	 * Test for player shot on cruiser.
+	 */
 	@Test
-	public void TestPlayerShotsC() {
+	public void testPlayerShotsC() {
 		GameBoard testBoard = new GameBoard(GameMode.OnePlayerMode);
+		ShipSetupFrame testFrame = createSSF();
+		testBoard.setPlayer1Ships(testFrame.getPlayer1Ships());
+		testBoard.setPlayer2Ships(testFrame.getPlayer2Ships());
+		testBoard.setPlayer1Values(testFrame.getPlayer1Values());
+		testBoard.setPlayer2Values(testFrame.getPlayer2Values());
+		
 		JButton btn = new JButton();
 		
 		//Cruiser hits
@@ -1147,9 +1180,18 @@ public class BattleShipTest {
 		assertEquals(3, testBoard.getCruiserHits());
 	}
 	
+	/**
+	 * Test for player shot on submarine.
+	 */
 	@Test
-	public void TestPlayerShotsS() {
+	public void testPlayerShotsS() {
 		GameBoard testBoard = new GameBoard(GameMode.OnePlayerMode);
+		ShipSetupFrame testFrame = createSSF();
+		testBoard.setPlayer1Ships(testFrame.getPlayer1Ships());
+		testBoard.setPlayer2Ships(testFrame.getPlayer2Ships());
+		testBoard.setPlayer1Values(testFrame.getPlayer1Values());
+		testBoard.setPlayer2Values(testFrame.getPlayer2Values());
+		
 		JButton btn = new JButton();
 		
 		//Submarine
@@ -1161,9 +1203,18 @@ public class BattleShipTest {
 		assertEquals(3, testBoard.getSubmarineHits());	
 	}
 	
+	/**
+	 * Test for player shot on patrol boat.
+	 */
 	@Test
-	public void TestPlayerShotsPB() {
+	public void testPlayerShotsPB() {
 		GameBoard testBoard = new GameBoard(GameMode.OnePlayerMode);
+		ShipSetupFrame testFrame = createSSF();
+		testBoard.setPlayer1Ships(testFrame.getPlayer1Ships());
+		testBoard.setPlayer2Ships(testFrame.getPlayer2Ships());
+		testBoard.setPlayer1Values(testFrame.getPlayer1Values());
+		testBoard.setPlayer2Values(testFrame.getPlayer2Values());
+		
 		JButton btn = new JButton();
 		
 		//PatrolBoat hits

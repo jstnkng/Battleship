@@ -1,7 +1,6 @@
 package battleship;
 
 
-import java.awt.AWTException;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -13,9 +12,6 @@ import java.awt.GridBagConstraints;
 import java.awt.Font;
 import javax.swing.JButton;
 import java.awt.Insets;
-import java.awt.Robot;
-import java.awt.event.InputEvent;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 /**
@@ -23,7 +19,7 @@ import java.awt.event.MouseListener;
  * a player chooses what game mode
  * to play.
  */
-public class HomePageGui extends JFrame implements MouseListener{
+public class HomePageGui extends JFrame implements MouseListener {
 
 	/**
 	 * ID for serializable class.
@@ -33,11 +29,15 @@ public class HomePageGui extends JFrame implements MouseListener{
 	 * Creates a panel for the contentPane.
 	 */
 	private JPanel contentPane;
+	/**
+	 * Creates button for one player mode.
+	 */
+	private JButton btnOnePlayer;
+	/**
+	 * Creates button for pass & play mode.
+	 */
+	private JButton btnPassPlay;
 	
-	public JButton btnOnePlayer;
-	public JButton btnPassPlay;
-	public JLabel lblBattleship;
-	public ShipSetupFrame p1;
 	
 	/**
 	 * Launch the application.
@@ -49,7 +49,7 @@ public class HomePageGui extends JFrame implements MouseListener{
 				try {
 					HomePageGui frame = new HomePageGui();
 					frame.setTitle("Play BattleShip!");
-					frame.setSize(1200,700);
+					frame.setSize(1200, 700);
 					frame.setLocationRelativeTo(null);
 					frame.setResizable(false);
 					frame.setVisible(true);
@@ -78,7 +78,7 @@ public class HomePageGui extends JFrame implements MouseListener{
 				{0.0, 0.0, Double.MIN_VALUE};
 		contentPane.setLayout(gbcContentPane);
 		
-		lblBattleship = new JLabel("Battleship");
+		JLabel lblBattleship = new JLabel("Battleship");
 		lblBattleship.setFont(new Font("Tahoma", Font.BOLD, 100));
 		GridBagConstraints gbcLblBattleship = new GridBagConstraints();
 		gbcLblBattleship.insets = new Insets(0, 0, 5, 0);
@@ -92,7 +92,7 @@ public class HomePageGui extends JFrame implements MouseListener{
 		btnPassPlay.addMouseListener(this);
 		
 		GridBagConstraints gbBtnPassPlay = new GridBagConstraints();
-		gbBtnPassPlay.insets = new Insets(50,350,5,350);
+		gbBtnPassPlay.insets = new Insets(50, 350, 5, 350);
 		gbBtnPassPlay.fill = gbBtnPassPlay.BOTH;
 		gbBtnPassPlay.gridx = 1;
 		gbBtnPassPlay.gridy = 2;
@@ -104,7 +104,7 @@ public class HomePageGui extends JFrame implements MouseListener{
 		btnOnePlayer.addMouseListener(this);
 		
 		GridBagConstraints gbcBtnOnePlayer = new GridBagConstraints();
-		gbcBtnOnePlayer.insets = new Insets(50,350,50,350);
+		gbcBtnOnePlayer.insets = new Insets(50, 350, 50, 350);
 		gbcBtnOnePlayer.fill = gbcBtnOnePlayer.BOTH;
 		gbcBtnOnePlayer.gridx = 1;
 		gbcBtnOnePlayer.gridy = 3;
@@ -114,28 +114,40 @@ public class HomePageGui extends JFrame implements MouseListener{
 		
 	}
 	
+	/**
+	 * Creates ShipSetupFrame for one player game.
+	 * @return ShipSetupFrame
+	 */
 	public ShipSetupFrame startOnePlayer() {
-		ShipSetupFrame p1 = new ShipSetupFrame(GameMode.OnePlayerMode, 0);
+		ShipSetupFrame p1 = new 
+			ShipSetupFrame(GameMode.OnePlayerMode, 0);
 		p1.setLocationRelativeTo(null);
 		p1.setVisible(true);
 		System.out.println("Single Player");
-		System.out.println("x: " + btnOnePlayer.getLocationOnScreen().x + " y: " + btnOnePlayer.getLocationOnScreen().y);
+		System.out.println("x: " + btnOnePlayer.getLocationOnScreen().x 
+			+ " y: " + btnOnePlayer.getLocationOnScreen().y);
 		
 		return p1;
 	}
 	
+	/**
+	 * Creates ShipSetupFrame for pass & play game.
+	 * @return ShipSetupFrame
+	 */
 	public ShipSetupFrame startPassAndPlay() {
-		ShipSetupFrame p1 = new ShipSetupFrame(GameMode.TwoPlayerPassAndPlay, 1);
+		ShipSetupFrame p1 = new 
+			ShipSetupFrame(GameMode.TwoPlayerPassAndPlay, 1);
 		p1.setLocationRelativeTo(null);
 		p1.setVisible(true);
 		System.out.println("Pass & Play");
-		System.out.println("x: " + btnPassPlay.getLocationOnScreen().x + " y: " + btnPassPlay.getLocationOnScreen().y);
+		System.out.println("x: " + btnPassPlay.getLocationOnScreen().x 
+			+ " y: " + btnPassPlay.getLocationOnScreen().y);
 		
 		return p1;
 	}
 
 	@Override
-	public void mouseClicked(MouseEvent e) {
+	public void mouseClicked(final MouseEvent e) {
 		
 		if (e.getSource() == btnOnePlayer) {
 			startOnePlayer();
@@ -147,25 +159,25 @@ public class HomePageGui extends JFrame implements MouseListener{
 	}
 
 	@Override
-	public void mouseEntered(MouseEvent arg0) {
+	public void mouseEntered(final MouseEvent arg0) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void mouseExited(MouseEvent arg0) {
+	public void mouseExited(final MouseEvent arg0) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void mousePressed(MouseEvent arg0) {
+	public void mousePressed(final MouseEvent arg0) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void mouseReleased(MouseEvent arg0) {
+	public void mouseReleased(final MouseEvent arg0) {
 		// TODO Auto-generated method stub
 		
 	}

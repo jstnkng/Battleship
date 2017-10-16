@@ -111,15 +111,17 @@ public class GameBoard extends JFrame implements MouseListener {
 	 */
 	private int cpuAircraftCarrierHits = 0;
 	/**
-	 * Returns cpuAircraftCarrierHits
+	 * Returns cpuAircraftCarrierHits.
+	 * @return cpuAircraftCarrierHits
 	 */
 	public int getCpuAircraftCarrierHits() {
 		return cpuAircraftCarrierHits;
 	}
 	/**
-	 * Sets cpuAircraftCarrierHits
+	 * Sets cpuAircraftCarrierHits.
+	 * @param num number of hits
 	 */
-	public void setCpuAircraftCarrierHits(int num) {
+	public void setCpuAircraftCarrierHits(final int num) {
 		cpuAircraftCarrierHits = num;
 	}
 	/**
@@ -128,15 +130,17 @@ public class GameBoard extends JFrame implements MouseListener {
 	 */
 	private int cpuBattleShipHits = 0;
 	/**
-	 * Returns cpuBattleShiphits
+	 * Returns cpuBattleShiphits.
+	 * @return cpuBattleShipHits
 	 */
 	public int getCpuBattleShipHits() {
 		return cpuBattleShipHits;
 	}
 	/**
-	 * Sets cpuBattleShipHits
+	 * Sets cpuBattleShipHits.
+	 * @param num number of hits
 	 */
-	public void setCpuBattleShipHits(int num) {
+	public void setCpuBattleShipHits(final int num) {
 		cpuBattleShipHits = num;
 	}
 	/**
@@ -145,15 +149,17 @@ public class GameBoard extends JFrame implements MouseListener {
 	 */
 	private int cpuSubmarineHits = 0;
 	/**
-	 * Returns cpuSubmarinehits
+	 * Returns cpuSubmarinehits.
+	 * @return cpuSubmarineHits
 	 */
 	public int getCpuSubmarineHits() {
 		return cpuSubmarineHits;
 	}
 	/**
-	 * Sets cpuSubmarineHits
+	 * Sets cpuSubmarineHits.
+	 * @param num number of hits
 	 */
-	public void setCpuSubmarineHits(int num) {
+	public void setCpuSubmarineHits(final int num) {
 		cpuSubmarineHits = num;
 	}
 	/**
@@ -162,15 +168,17 @@ public class GameBoard extends JFrame implements MouseListener {
 	 */
 	private int cpuCruiserHits = 0;
 	/**
-	 * Returns cpuCruiserHits
+	 * Returns cpuCruiserHits.
+	 * @return cpuCruiserHits
 	 */
 	public int getCpuCruiserHits() {
 		return cpuCruiserHits;
 	}
 	/**
-	 * Sets cpuCruiserHits
+	 * Sets cpuCruiserHits.
+	 * @param num number of hits
 	 */
-	public void setCpuCruiserHits(int num) {
+	public void setCpuCruiserHits(final int num) {
 		cpuCruiserHits = num;
 	}
 	/**
@@ -179,15 +187,17 @@ public class GameBoard extends JFrame implements MouseListener {
 	 */
 	private int cpuPatrolBoatHits = 0;
 	/**
-	 * Returns cpuPatrolBoathits
+	 * Returns cpuPatrolBoathits.
+	 * @return cpuPatrolBoatHits
 	 */
 	public int getCpuPatrolBoatHits() {
 		return cpuPatrolBoatHits;
 	}
 	/**
-	 * Sets cpuPatrolBoatHits
+	 * Sets cpuPatrolBoatHits.
+	 * @param num number of hits
 	 */
-	public void setCpuPatrolBoatHits(int num) {
+	public void setCpuPatrolBoatHits(final int num) {
 		cpuPatrolBoatHits = num;
 	}
 	/**
@@ -196,15 +206,17 @@ public class GameBoard extends JFrame implements MouseListener {
 	 */	
 	private int aircraftCarrierHits = 0;
 	/**
-	 * Returns aircraftCarrierHits
+	 * Returns aircraftCarrierHits.
+	 * @return aircraftCarrierHits
 	 */
-	public int getAircraftCarrierHits(){
+	public int getAircraftCarrierHits() {
 		return aircraftCarrierHits;
 	}
 	/**
-	 * Sets aircraftCarrierHits
+	 * Sets aircraftCarrierHits.
+	 * @param num number of hits
 	 */
-	public void setAircraftCarrierHits(int num){
+	public void setAircraftCarrierHits(final int num) {
 		aircraftCarrierHits = num;
 	}
 	/**
@@ -213,15 +225,17 @@ public class GameBoard extends JFrame implements MouseListener {
 	 */
 	private int battleShipHits = 0;
 	/**
-	 * Returns battleShipHits
+	 * Returns battleShipHits.
+	 * @return battleShipHits
 	 */
-	public int getBattleShipHits(){
+	public int getBattleShipHits() {
 		return battleShipHits;
 	}
 	/**
-	 * Sets battleShipHits
+	 * Sets battleShipHits.
+	 * @param num number of hits
 	 */
-	public void setBattleShipHits(int num){
+	public void setBattleShipHits(final int num) {
 		battleShipHits = num;
 	}
 	/**
@@ -230,15 +244,17 @@ public class GameBoard extends JFrame implements MouseListener {
 	 */
 	private int submarineHits = 0;
 	/**
-	 * Returns submarineHits
+	 * Returns submarineHits.
+	 * @return submarineHits
 	 */
-	public int getSubmarineHits(){
+	public int getSubmarineHits() {
 		return submarineHits;
 	}
 	/**
-	 * Sets submarineHits
+	 * Sets submarineHits.
+	 * @param num number of hits
 	 */
-	public void setSubmarineHits(int num){
+	public void setSubmarineHits(final int num) {
 		submarineHits = num;
 	}
 	/**
@@ -247,15 +263,17 @@ public class GameBoard extends JFrame implements MouseListener {
 	 */
 	private int cruiserHits = 0;
 	/**
-	 * Returns cruiserHits
+	 * Returns cruiserHits.
+	 * @return cruiserHits
 	 */
-	public int getCruiserHits(){
+	public int getCruiserHits() {
 		return cruiserHits;
 	}
 	/**
-	 * Sets cruiserHits
+	 * Sets cruiserHits.
+	 * @param num number of hits
 	 */
-	public void setCruiserHits(int num){
+	public void setCruiserHits(final int num) {
 		cruiserHits = num;
 	}
 	/**
@@ -264,15 +282,17 @@ public class GameBoard extends JFrame implements MouseListener {
 	 */
 	private int patrolBoatHits = 0;
 	/**
-	 * Returns patrolBoatHits
+	 * Returns patrolBoatHits.
+	 * @return patrolBoatHits
 	 */
-	public int getPatrolBoatHits(){
+	public int getPatrolBoatHits() {
 		return patrolBoatHits;
 	}
 	/**
-	 * Sets patrolBoatHits
+	 * Sets patrolBoatHits.
+	 * @param num number of hits
 	 */
-	public void setPatrolBoatHits(int num){
+	public void setPatrolBoatHits(final int num) {
 		patrolBoatHits = num;
 	}
 	/**
@@ -495,10 +515,7 @@ public class GameBoard extends JFrame implements MouseListener {
 			randomBox
 					.setForeground(Color.RED);
 			cpuPatrolBoatHits++;
-			if (cpuPatrolBoatHits == 2) {
-//				JOptionPane.showMessageDialog(null,
-//				"Your patrol boat has been sunk");
-			}
+			
 		} else if (randomBox
 				.getText().contains("2")) {
 			Image hit;
@@ -516,10 +533,7 @@ public class GameBoard extends JFrame implements MouseListener {
 			randomBox
 					.setForeground(Color.RED);
 			cpuSubmarineHits++;
-			if (cpuSubmarineHits == 3) {
-//			JOptionPane.showMessageDialog(null,
-//					"Your submarine has been Sunk");
-			}
+			
 		} else if (randomBox
 				.getText().contains("3")) {
 			Image hit;
@@ -537,10 +551,7 @@ public class GameBoard extends JFrame implements MouseListener {
 			randomBox
 					.setForeground(Color.RED);
 			cpuCruiserHits++;
-			if (cpuCruiserHits == 3) {
-//				JOptionPane.showMessageDialog(
-//				null, "Your cruiser has been sunk");
-			}
+			
 		} else if (randomBox
 				.getText().contains("4")) {
 			Image hit;
@@ -558,10 +569,7 @@ public class GameBoard extends JFrame implements MouseListener {
 			randomBox
 					.setForeground(Color.RED);
 			cpuBattleShipHits++;
-			if (cpuBattleShipHits == 4) {
-//				JOptionPane.showMessageDialog(null,
-//					"Your battleship has been sunk");
-			}
+			
 		} else if (randomBox
 				.getText().contains("5")) {
 			Image hit;
@@ -579,10 +587,7 @@ public class GameBoard extends JFrame implements MouseListener {
 			randomBox
 					.setForeground(Color.RED);
 			cpuAircraftCarrierHits++;
-			if (cpuAircraftCarrierHits == 5) {
-//				JOptionPane.showMessageDialog(null,
-//				"Your aircraft carrier has been sunk");
-			}
+			
 		} else {
 			Image miss;
 			try {
