@@ -1,16 +1,18 @@
 package battleship;
 
-import static org.junit.Assert.*;
-
+import static org.junit.Assert.assertEquals;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
-
 import javax.swing.JButton;
-
 import org.junit.Test;
 
+/**
+ * Runs JUnit tests on classes.
+ */
 public class BattleShipTest {
-
+	/**
+	 * Test creating an aircraft carrier.
+	 */
 	@Test
 	public void testCheckAircraftCarrier() {
 		Ship testAircraftCarrier = new Ship(ShipType.AircraftCarrier);
@@ -18,7 +20,8 @@ public class BattleShipTest {
 		assertEquals(50, testAircraftCarrier.getHeightH());
 		assertEquals(280, testAircraftCarrier.getHeightV());
 		assertEquals(50, testAircraftCarrier.getWidthV());
-		assertEquals(ShipType.AircraftCarrier, testAircraftCarrier.getTypeOfShip());
+		assertEquals(ShipType.AircraftCarrier, 
+				testAircraftCarrier.getTypeOfShip());
 		assertEquals(5, testAircraftCarrier.getShipSize());
 		assertEquals(5, testAircraftCarrier.getValue());
 		testAircraftCarrier.setHorizontal(true);
@@ -28,7 +31,9 @@ public class BattleShipTest {
 		testAircraftCarrier.rotate();
 		assertEquals(true, testAircraftCarrier.isHorizontal());
 	}
-	
+	/**
+	 * Test creating a battleship.
+	 */
 	@Test
 	public void testCreateBattleShip() {
 		Ship testBattleShip = new Ship(ShipType.Battleship);
@@ -36,7 +41,8 @@ public class BattleShipTest {
 		assertEquals(50, testBattleShip.getHeightH());
 		assertEquals(222, testBattleShip.getHeightV());
 		assertEquals(50, testBattleShip.getWidthV());
-		assertEquals(ShipType.Battleship, testBattleShip.getTypeOfShip());
+		assertEquals(ShipType.Battleship, 
+				testBattleShip.getTypeOfShip());
 		assertEquals(4, testBattleShip.getShipSize());
 		assertEquals(4, testBattleShip.getValue());
 		testBattleShip.setHorizontal(true);
@@ -46,7 +52,9 @@ public class BattleShipTest {
 		testBattleShip.rotate();
 		assertEquals(true, testBattleShip.isHorizontal());
 	}
-	
+	/**
+	 * Test creating a cruiser.
+	 */
 	@Test
 	public void testCreateCruiser() {
 		Ship testCruiser = new Ship(ShipType.Cruiser);
@@ -65,7 +73,9 @@ public class BattleShipTest {
 		assertEquals(true, testCruiser.isHorizontal());
 		
 	}
-	
+	/**
+	 * Test creating a submarine.
+	 */
 	@Test
 	public void testCreateSubmarine() {
 		Ship testSubmarine = new Ship(ShipType.Submarine);
@@ -83,7 +93,9 @@ public class BattleShipTest {
 		testSubmarine.rotate();
 		assertEquals(true, testSubmarine.isHorizontal());		
 	}
-	
+	/**
+	 * Test creating a patrol boat.
+	 */
 	@Test
 	public void testCreatePatrolBoat() {
 		Ship testPatrolBoat = new Ship(ShipType.PatrolBoat);
@@ -91,7 +103,8 @@ public class BattleShipTest {
 		assertEquals(50, testPatrolBoat.getHeightH());
 		assertEquals(106, testPatrolBoat.getHeightV());
 		assertEquals(50, testPatrolBoat.getWidthV());
-		assertEquals(ShipType.PatrolBoat, testPatrolBoat.getTypeOfShip());
+		assertEquals(ShipType.PatrolBoat, 
+				testPatrolBoat.getTypeOfShip());
 		assertEquals(2, testPatrolBoat.getShipSize());
 		assertEquals(1, testPatrolBoat.getValue());
 		testPatrolBoat.setHorizontal(true);
@@ -104,406 +117,545 @@ public class BattleShipTest {
 
 	
 //	public void testCreateShipWithInvalidImages() {
-//		Ship testAircraftCarrier = new Ship(ShipType.AircraftCarrier);
-//		testAircraftCarrier.setImages("invalidString1", "invalidString2");
+//	Ship testAircraftCarrier = new Ship(ShipType.AircraftCarrier);
+//	testAircraftCarrier.setImages("invalidString1", "invalidString2");
 //		
 //	}
 
-	
+	/**
+	 * Test dragging and dropping aircraft carrier on grid.
+	 */
 	@Test
 	public void testSetAircraftCarrierOnGrid() {
 		
-		ShipSetupFrame testFrame = new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+		ShipSetupFrame testFrame = 
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
 		testFrame.getAircraftCarrier().setLocation(700, 400);
 		testFrame.snapShipToX(testFrame.getAircraftCarrier());
 		testFrame.snapShipToY(testFrame.getAircraftCarrier());
 		assertEquals(3, testFrame.getAircraftCarrier().getColumn());
 		assertEquals(6, testFrame.getAircraftCarrier().getRow());
 	}
-	
+	/**
+	 * Test dragging and dropping battleship on grid.
+	 */
 	@Test
 	public void testSetBattleShipOnGrid() {
-		ShipSetupFrame testFrame = new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+		ShipSetupFrame testFrame = 
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
 		testFrame.getBattleShip().setLocation(784, 130);
 		testFrame.snapShipToX(testFrame.getBattleShip());
 		testFrame.snapShipToY(testFrame.getBattleShip());
 		assertEquals(4, testFrame.getBattleShip().getColumn());
 		assertEquals(1, testFrame.getBattleShip().getRow());
 	}
-	
+	/**
+	 * Test dragging and dropping cruiser on grid.
+	 */
 	@Test
 	public void testSetCruiserOnGrid() {
-		ShipSetupFrame testFrame = new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+		ShipSetupFrame testFrame = 
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
 		testFrame.getCruiser().setLocation(600, 130);
 		testFrame.snapShipToX(testFrame.getCruiser());
 		testFrame.snapShipToY(testFrame.getCruiser());
 		assertEquals(1, testFrame.getCruiser().getColumn());
 		assertEquals(1, testFrame.getCruiser().getRow());
 	}
-	
+	/**
+	 * Test dragging and dropping submarine on grid.
+	 */
 	@Test
 	public void testSetSubmarineOnGrid() {
-		ShipSetupFrame testFrame = new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+		ShipSetupFrame testFrame = 
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
 		testFrame.getSubmarine().setLocation(600, 130);
 		testFrame.snapShipToX(testFrame.getSubmarine());
 		testFrame.snapShipToY(testFrame.getSubmarine());
 		assertEquals(1, testFrame.getSubmarine().getColumn());
 		assertEquals(1, testFrame.getSubmarine().getRow());
 	}
-	
+	/**
+	 * Test dragging and dropping patrol boat on grid.
+	 */
 	@Test
 	public void testSetPatrolBoatOnGrid() {
-		ShipSetupFrame testFrame = new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+		ShipSetupFrame testFrame = 
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
 		testFrame.getPatrolBoat().setLocation(600, 130);
 		testFrame.snapShipToX(testFrame.getPatrolBoat());
 		testFrame.snapShipToY(testFrame.getPatrolBoat());
 		assertEquals(1, testFrame.getPatrolBoat().getColumn());
 		assertEquals(1, testFrame.getPatrolBoat().getRow());
 	}
-	
+	/**
+	 * Test dragging and dropping a ship to the left of the grid.
+	 */
 	@Test
 	public void testSetShipOffGridToTheLeft() {
 		
-		ShipSetupFrame testFrame = new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+		ShipSetupFrame testFrame = 
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
 		testFrame.getAircraftCarrier().setLocation(300, 400);
 		testFrame.snapShipToX(testFrame.getAircraftCarrier());
 		testFrame.snapShipToY(testFrame.getAircraftCarrier());
 		assertEquals(0, testFrame.getAircraftCarrier().getX());
 		assertEquals(1, testFrame.getAircraftCarrier().getY());
 	}
-	
+	/**
+	 * Test dragging and dropping a ship to the right of the grid.
+	 */
 	@Test
 	public void testSetShipOffGridToTheRight() {
 		
-		ShipSetupFrame testFrame = new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+		ShipSetupFrame testFrame = 
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
 		testFrame.getPatrolBoat().setLocation(400, 1200);
 		testFrame.snapShipToX(testFrame.getPatrolBoat());
 		testFrame.snapShipToY(testFrame.getPatrolBoat());
 		assertEquals(0, testFrame.getPatrolBoat().getX());
 		assertEquals(432, testFrame.getPatrolBoat().getY());
 	}
-	
+	/**
+	 * Test dragging and dropping a ship to the top of the grid.
+	 */
 	@Test
 	public void testSetShipOffGridToTheTop() {
 		
-		ShipSetupFrame testFrame = new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+		ShipSetupFrame testFrame = 
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
 		testFrame.getSubmarine().setLocation(-20, 1200);
 		testFrame.snapShipToX(testFrame.getSubmarine());
 		testFrame.snapShipToY(testFrame.getSubmarine());
 		assertEquals(0, testFrame.getSubmarine().getX());
 		assertEquals(330, testFrame.getSubmarine().getY());
 	}
-	
+	/**
+	 * Test dragging and dropping a ship to the bottom of the grid.
+	 */
 	@Test
 	public void testSetShipOffGridToTheBottom() {
 		
-		ShipSetupFrame testFrame = new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+		ShipSetupFrame testFrame = 
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
 		testFrame.getCruiser().setLocation(-20, 1200);
 		testFrame.snapShipToX(testFrame.getCruiser());
 		testFrame.snapShipToY(testFrame.getCruiser());
 		assertEquals(0, testFrame.getCruiser().getX());
 		assertEquals(220, testFrame.getCruiser().getY());
 	}
-	
+	/**
+	 * Test placing an aircraft carrier on to the grid horizontally.
+	 */
 	@Test
 	public void testMouseDragAircraftCarrierHorizontal() {
-		ShipSetupFrame testFrame = new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+		ShipSetupFrame testFrame = 
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
 		MouseEvent testMousePressEvent = new MouseEvent(testFrame,
 				501, 0, 0,
 				testFrame.getAircraftCarrier().getX() + 5,
-				testFrame.getAircraftCarrier().getY() + 5 ,0,true);
+				testFrame.getAircraftCarrier().getY() + 5,
+					0, true);
 		testFrame.mousePressed(testMousePressEvent);
-		MouseEvent testMouseDragEvent = new MouseEvent(testFrame, 506, 1, 0,600,130,0,true);
+		MouseEvent testMouseDragEvent = new MouseEvent(
+				testFrame, 506, 1, 0, 600, 130, 0, true);
 		testFrame.mouseDragged(testMouseDragEvent);
-		MouseEvent testMouseReleaseEvent = new MouseEvent(testFrame, 502, 1, 0,600,130,0,true);
+		MouseEvent testMouseReleaseEvent = new MouseEvent(
+				testFrame, 502, 1, 0, 600, 130, 0, true);
 		testFrame.mouseReleased(testMouseReleaseEvent);
 		assertEquals(1, testFrame.getAircraftCarrier().getColumn());
-		assertEquals(1, testFrame.getAircraftCarrier().getRow());		
+		assertEquals(1, testFrame.getAircraftCarrier().getRow());
 	}
-	
+	/**
+	 * Test placing an aircraft carrier on to the grid vertically.
+	 */
 	@Test
 	public void testMouseDragAircraftCarrierVertical() {
-		ShipSetupFrame testFrame = new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+		ShipSetupFrame testFrame = 
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
 		testFrame.getAircraftCarrier().rotate();
 		MouseEvent testMousePressEvent = new MouseEvent(testFrame,
 				501, 0, 0,
 				testFrame.getAircraftCarrier().getX() + 5,
-				testFrame.getAircraftCarrier().getY() + 5 ,0,true);
+				testFrame.getAircraftCarrier().getY() + 5,
+					0, true);
 		testFrame.mousePressed(testMousePressEvent);
-		MouseEvent testMouseDragEvent = new MouseEvent(testFrame, 506, 1, 0,600,130,0,true);
+		MouseEvent testMouseDragEvent = new MouseEvent(
+				testFrame, 506, 1, 0, 600, 130, 0, true);
 		testFrame.mouseDragged(testMouseDragEvent);
-		MouseEvent testMouseReleaseEvent = new MouseEvent(testFrame, 502, 1, 0,600,130,0,true);
+		MouseEvent testMouseReleaseEvent = new MouseEvent(
+				testFrame, 502, 1, 0, 600, 130, 0, true);
 		testFrame.mouseReleased(testMouseReleaseEvent);
 		assertEquals(1, testFrame.getAircraftCarrier().getColumn());
-		assertEquals(1, testFrame.getAircraftCarrier().getRow());		
+		assertEquals(1, testFrame.getAircraftCarrier().getRow());
 	}
-	
+	/**
+	 * Test placing ships on to the grid horizontally and vertically.
+	 */
 	@Test
 	public void testPlaceShipsThroughOutGrid() {
-		ShipSetupFrame testFrame1 = new ShipSetupFrame(GameMode.OnePlayerMode, 1);
-		dragShipVerticalTo(testFrame1, testFrame1.getAircraftCarrier(), 850, 130);	
+		ShipSetupFrame testFrame1 = 
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+		dragShipVerticalTo(testFrame1, 
+				testFrame1.getAircraftCarrier(), 850, 130);	
 		assertEquals(5, testFrame1.getAircraftCarrier().getColumn());
 		assertEquals(1, testFrame1.getAircraftCarrier().getRow());
-		dragShipVerticalTo(testFrame1, testFrame1.getCruiser(), 940, 130);	
+		dragShipVerticalTo(testFrame1, 
+				testFrame1.getCruiser(), 940, 130);	
 		assertEquals(6, testFrame1.getCruiser().getColumn());
 		assertEquals(1, testFrame1.getCruiser().getRow());
-		dragShipVerticalTo(testFrame1, testFrame1.getBattleShip(), 500, 130);
+		dragShipVerticalTo(testFrame1, 
+				testFrame1.getBattleShip(), 500, 130);
 		assertEquals(0, testFrame1.getBattleShip().getColumn());
 		assertEquals(1, testFrame1.getBattleShip().getRow());
-		dragShipVerticalTo(testFrame1, testFrame1.getPatrolBoat(), 1100, 550);
+		dragShipVerticalTo(testFrame1, 
+				testFrame1.getPatrolBoat(), 1100, 550);
 		assertEquals(9, testFrame1.getPatrolBoat().getColumn());
 		assertEquals(8, testFrame1.getPatrolBoat().getRow());
-		dragShipVerticalTo(testFrame1, testFrame1.getSubmarine(), 1050, 100);
+		dragShipVerticalTo(testFrame1, 
+				testFrame1.getSubmarine(), 1050, 100);
 		assertEquals(8, testFrame1.getSubmarine().getColumn());
 		assertEquals(0, testFrame1.getSubmarine().getRow());
-		ShipSetupFrame testFrame2 = new ShipSetupFrame(GameMode.OnePlayerMode, 1);
-		dragShipVerticalTo(testFrame2, testFrame2.getPatrolBoat(), 1000, 500);	
+		ShipSetupFrame testFrame2 = 
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+		dragShipVerticalTo(testFrame2, 
+				testFrame2.getPatrolBoat(), 1000, 500);	
 		assertEquals(7, testFrame2.getPatrolBoat().getColumn());
 		assertEquals(7, testFrame2.getPatrolBoat().getRow());
-		dragShipHorizontalTo(testFrame2, testFrame2.getSubmarine(), 850, 600);	
+		dragShipHorizontalTo(testFrame2, 
+				testFrame2.getSubmarine(), 850, 600);	
 		assertEquals(5, testFrame2.getSubmarine().getColumn());
 		assertEquals(9, testFrame2.getSubmarine().getRow());
 	}
 	
-	public void dragShipVerticalTo(ShipSetupFrame frame, Ship shipToDrag, int locX, int locY) {
+	/**
+	 * Method to simulate clicking, dragging, 
+	 * and releasing a ship vertically.
+	 */
+	public void dragShipVerticalTo(final ShipSetupFrame frame, 
+			final Ship shipToDrag, final int locX, final int locY) {
 		shipToDrag.rotate();
 		MouseEvent testMousePressEvent = new MouseEvent(frame,
 				501, 0, 0,
 				shipToDrag.getX() + 20,
-				shipToDrag.getY() + 20 ,0,true);
+				shipToDrag.getY() + 20, 0, true);
 		frame.mousePressed(testMousePressEvent);
-		MouseEvent testMouseDragEvent = new MouseEvent(frame, 506, 1, 0,locX,locY,0,true);
+		MouseEvent testMouseDragEvent = new MouseEvent(
+				frame, 506, 1, 0, locX, locY, 0, true);
 		frame.mouseDragged(testMouseDragEvent);
-		MouseEvent testMouseReleaseEvent = new MouseEvent(frame, 502, 1, 0,locX,locY,0,true);
+		MouseEvent testMouseReleaseEvent = new MouseEvent(
+				frame, 502, 1, 0, locX, locY, 0, true);
 		frame.mouseReleased(testMouseReleaseEvent);		
 	}
-	public void dragShipHorizontalTo(ShipSetupFrame frame, Ship shipToDrag, int locX, int locY) {
+	/**
+	 * Method to simulate clicking, dragging, 
+	 * and releasing a ship horizontally.
+	 */
+	public void dragShipHorizontalTo(final ShipSetupFrame frame,
+			final Ship shipToDrag, final int locX, final int locY) {
 		MouseEvent testMousePressEvent = new MouseEvent(frame,
 				501, 0, 0,
 				shipToDrag.getX() + 20,
-				shipToDrag.getY() + 20 ,0,true);
+				shipToDrag.getY() + 20, 0, true);
 		frame.mousePressed(testMousePressEvent);
-		MouseEvent testMouseDragEvent = new MouseEvent(frame, 506, 1, 0,locX,locY,0,true);
+		MouseEvent testMouseDragEvent = new MouseEvent(
+				frame, 506, 1, 0, locX, locY, 0, true);
 		frame.mouseDragged(testMouseDragEvent);
-		MouseEvent testMouseReleaseEvent = new MouseEvent(frame, 502, 1, 0,locX,locY,0,true);
+		MouseEvent testMouseReleaseEvent = new MouseEvent(
+				frame, 502, 1, 0, locX, locY, 0, true);
 		frame.mouseReleased(testMouseReleaseEvent);		
 	}
-	
+	/**
+	 * Test dragging and placing a battleship on the grid horizontally.
+	 */
 	@Test
 	public void testMouseDragBattleshipHorizontal() {
-		ShipSetupFrame testFrame = new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+		ShipSetupFrame testFrame = 
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
 		MouseEvent testMousePressEvent = new MouseEvent(testFrame,
 				501, 0, 0,
 				testFrame.getBattleShip().getX() + 5,
-				testFrame.getBattleShip().getY() + 5 ,0,true);
+				testFrame.getBattleShip().getY() + 5, 0, true);
 		testFrame.mousePressed(testMousePressEvent);
-		MouseEvent testMouseDragEvent = new MouseEvent(testFrame, 506, 1, 0,600,130,0,true);
+		MouseEvent testMouseDragEvent = 
+			new MouseEvent(testFrame, 506, 1, 0, 600, 130, 0, true);
 		testFrame.mouseDragged(testMouseDragEvent);
-		MouseEvent testMouseReleaseEvent = new MouseEvent(testFrame, 502, 1, 0,600,130,0,true);
+		MouseEvent testMouseReleaseEvent = 
+			new MouseEvent(testFrame, 502, 1, 0, 600, 130, 0, true);
 		testFrame.mouseReleased(testMouseReleaseEvent);
 		assertEquals(1, testFrame.getBattleShip().getColumn());
 		assertEquals(1, testFrame.getBattleShip().getRow());		
 	}
-	
+	/**
+	 * Test dragging and placing a battleship on the grid vertically.
+	 */
 	@Test
 	public void testMouseDragBattleshipVertical() {
-		ShipSetupFrame testFrame = new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+		ShipSetupFrame testFrame = 
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
 		testFrame.getBattleShip().rotate();
 		MouseEvent testMousePressEvent = new MouseEvent(testFrame,
 				501, 0, 0,
 				testFrame.getBattleShip().getX() + 5,
-				testFrame.getBattleShip().getY() + 5 ,0,true);
+				testFrame.getBattleShip().getY() + 5, 0, true);
 		testFrame.mousePressed(testMousePressEvent);
-		MouseEvent testMouseDragEvent = new MouseEvent(testFrame, 506, 1, 0,600,130,0,true);
+		MouseEvent testMouseDragEvent = 
+				new MouseEvent(testFrame, 
+						506, 1, 0, 600, 130, 0, true);
 		testFrame.mouseDragged(testMouseDragEvent);
-		MouseEvent testMouseReleaseEvent = new MouseEvent(testFrame, 502, 1, 0,600,130,0,true);
+		MouseEvent testMouseReleaseEvent = 
+				new MouseEvent(testFrame, 
+						502, 1, 0, 600, 130, 0, true);
 		testFrame.mouseReleased(testMouseReleaseEvent);
 		assertEquals(1, testFrame.getBattleShip().getColumn());
 		assertEquals(1, testFrame.getBattleShip().getRow());		
 	}
-	
+	/**
+	 * Test dragging and placing a cruiser on the grid horizontally.
+	 */
 	@Test
 	public void testMouseDragCruiserHorizontal() {
-		ShipSetupFrame testFrame = new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+		ShipSetupFrame testFrame = 
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
 		MouseEvent testMousePressEvent = new MouseEvent(testFrame,
 				501, 0, 0,
 				testFrame.getCruiser().getX() + 5,
-				testFrame.getCruiser().getY() + 5 ,0,true);
+				testFrame.getCruiser().getY() + 5, 0, true);
 		testFrame.mousePressed(testMousePressEvent);
-		MouseEvent testMouseDragEvent = new MouseEvent(testFrame, 506, 1, 0,600,130,0,true);
+		MouseEvent testMouseDragEvent = 
+				new MouseEvent(testFrame, 506,
+					1, 0, 600, 130, 0, true);
 		testFrame.mouseDragged(testMouseDragEvent);
-		MouseEvent testMouseReleaseEvent = new MouseEvent(testFrame, 502, 1, 0,600,130,0,true);
+		MouseEvent testMouseReleaseEvent = 
+				new MouseEvent(testFrame, 502,
+					1, 0, 600, 130, 0, true);
 		testFrame.mouseReleased(testMouseReleaseEvent);
 		assertEquals(1, testFrame.getCruiser().getColumn());
 		assertEquals(1, testFrame.getCruiser().getRow());		
 	}
-	
+	/**
+	 * Test dragging and placing a cruiser on the grid vertically.
+	 */
 	@Test
 	public void testMouseDragCruiserVertical() {
-		ShipSetupFrame testFrame = new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+		ShipSetupFrame testFrame = 
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
 		testFrame.getCruiser().rotate();
 		MouseEvent testMousePressEvent = new MouseEvent(testFrame,
 				501, 0, 0,
 				testFrame.getCruiser().getX() + 5,
-				testFrame.getCruiser().getY() + 5 ,0,true);
+				testFrame.getCruiser().getY() + 5, 0, true);
 		testFrame.mousePressed(testMousePressEvent);
-		MouseEvent testMouseDragEvent = new MouseEvent(testFrame, 506, 1, 0,600,130,0,true);
+		MouseEvent testMouseDragEvent = 
+				new MouseEvent(testFrame, 
+						506, 1, 0, 600, 130, 0, true);
 		testFrame.mouseDragged(testMouseDragEvent);
-		MouseEvent testMouseReleaseEvent = new MouseEvent(testFrame, 502, 1, 0,600,130,0,true);
+		MouseEvent testMouseReleaseEvent = 
+				new MouseEvent(testFrame, 
+						502, 1, 0, 600, 130, 0, true);
 		testFrame.mouseReleased(testMouseReleaseEvent);
 		assertEquals(1, testFrame.getCruiser().getColumn());
 		assertEquals(1, testFrame.getCruiser().getRow());		
 	}
-	
+	/**
+	 * Test dragging and placing a submarine on the grid horizontally.
+	 */
 	@Test
 	public void testMouseDragSubmarineHorizontal() {
-		ShipSetupFrame testFrame = new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+		ShipSetupFrame testFrame = 
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
 		MouseEvent testMousePressEvent = new MouseEvent(testFrame,
 				501, 0, 0,
 				testFrame.getSubmarine().getX() + 5,
-				testFrame.getSubmarine().getY() + 5 ,0,true);
+				testFrame.getSubmarine().getY() + 5, 0, true);
 		testFrame.mousePressed(testMousePressEvent);
-		MouseEvent testMouseDragEvent = new MouseEvent(testFrame, 506, 1, 0,600,130,0,true);
+		MouseEvent testMouseDragEvent = 
+				new MouseEvent(testFrame, 
+						506, 1, 0, 600, 130, 0, true);
 		testFrame.mouseDragged(testMouseDragEvent);
-		MouseEvent testMouseReleaseEvent = new MouseEvent(testFrame, 502, 1, 0,600,130,0,true);
+		MouseEvent testMouseReleaseEvent = 
+				new MouseEvent(testFrame, 
+						502, 1, 0, 600, 130, 0, true);
 		testFrame.mouseReleased(testMouseReleaseEvent);
 		assertEquals(1, testFrame.getSubmarine().getColumn());
 		assertEquals(1, testFrame.getSubmarine().getRow());		
 	}
-	
+	/**
+	 * Test dragging and placing a submarine on the grid vertically.
+	 */
 	@Test
 	public void testMouseDragSubmarineVertical() {
-		ShipSetupFrame testFrame = new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+		ShipSetupFrame testFrame =
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
 		testFrame.getSubmarine().rotate();
 		MouseEvent testMousePressEvent = new MouseEvent(testFrame,
 				501, 0, 0,
 				testFrame.getSubmarine().getX() + 5,
-				testFrame.getSubmarine().getY() + 5 ,0,true);
+				testFrame.getSubmarine().getY() + 5, 0, true);
 		testFrame.mousePressed(testMousePressEvent);
-		MouseEvent testMouseDragEvent = new MouseEvent(testFrame, 506, 1, 0,600,130,0,true);
+		MouseEvent testMouseDragEvent = 
+				new MouseEvent(testFrame,
+						506, 1, 0, 600, 130, 0, true);
 		testFrame.mouseDragged(testMouseDragEvent);
-		MouseEvent testMouseReleaseEvent = new MouseEvent(testFrame, 502, 1, 0,600,130,0,true);
+		MouseEvent testMouseReleaseEvent = 
+				new MouseEvent(testFrame,
+						502, 1, 0, 600, 130, 0, true);
 		testFrame.mouseReleased(testMouseReleaseEvent);
 		assertEquals(1, testFrame.getSubmarine().getColumn());
 		assertEquals(1, testFrame.getSubmarine().getRow());		
 	}
-	
+	/**
+	 * Test dragging and placing a patrol boat on the grid horizontally.
+	 */
 	@Test
 	public void testMouseDragPatrolBoatHorizontal() {
-		ShipSetupFrame testFrame = new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+		ShipSetupFrame testFrame = 
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
 		MouseEvent testMousePressEvent = new MouseEvent(testFrame,
 				501, 0, 0,
 				testFrame.getPatrolBoat().getX() + 20,
-				testFrame.getPatrolBoat().getY() + 20,0,true);
+				testFrame.getPatrolBoat().getY() + 20, 0, true);
 		testFrame.mousePressed(testMousePressEvent);
-		MouseEvent testMouseDragEvent = new MouseEvent(testFrame, 506, 1, 0,640,200,0,true);
+		MouseEvent testMouseDragEvent = 
+				new MouseEvent(testFrame,
+						506, 1, 0, 640, 200, 0, true);
 		testFrame.mouseDragged(testMouseDragEvent);
-		MouseEvent testMouseReleaseEvent = new MouseEvent(testFrame, 502, 1, 0,640,200,0,true);
+		MouseEvent testMouseReleaseEvent = 
+				new MouseEvent(testFrame, 
+						502, 1, 0, 640, 200, 0, true);
 		testFrame.mouseReleased(testMouseReleaseEvent);
 		assertEquals(2, testFrame.getPatrolBoat().getColumn());
 		assertEquals(2, testFrame.getPatrolBoat().getRow());		
 	}
-	
+	/**
+	 * Test dragging and placing a patrol boat on the grid vertically.
+	 */
 	@Test
 	public void testMouseDragPatrolBoatVertical() {
-		ShipSetupFrame testFrame = new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+		ShipSetupFrame testFrame = 
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
 		testFrame.getPatrolBoat().rotate();
 		MouseEvent testMousePressEvent = new MouseEvent(testFrame,
 				501, 0, 0,
 				testFrame.getPatrolBoat().getX() + 20,
-				testFrame.getPatrolBoat().getY() + 20,0,true);
+				testFrame.getPatrolBoat().getY() + 20, 0, true);
 		testFrame.mousePressed(testMousePressEvent);
-		MouseEvent testMouseDragEvent = new MouseEvent(testFrame, 506, 1, 0,640,200,0,true);
+		MouseEvent testMouseDragEvent = 
+				new MouseEvent(testFrame, 
+						506, 1, 0, 640, 200, 0, true);
 		testFrame.mouseDragged(testMouseDragEvent);
-		MouseEvent testMouseReleaseEvent = new MouseEvent(testFrame, 502, 1, 0,640,200,0,true);
+		MouseEvent testMouseReleaseEvent = 
+				new MouseEvent(testFrame, 
+						502, 1, 0, 640, 200, 0, true);
 		testFrame.mouseReleased(testMouseReleaseEvent);
 		assertEquals(2, testFrame.getPatrolBoat().getColumn());
 		assertEquals(2, testFrame.getPatrolBoat().getRow());		
 	}
-	
+	/**
+	 * Test clicking on an aircraft carrier to rotate it.
+	 */
 	@Test
 	public void testMouseClickAircraftCarrier() {
-		ShipSetupFrame testFrame = new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+		ShipSetupFrame testFrame = 
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
 		MouseEvent testMousePressEvent = new MouseEvent(testFrame,
 				501, 0, 0,
 				testFrame.getAircraftCarrier().getX() + 5,
-				testFrame.getAircraftCarrier().getY() + 5 ,0,true);
+				testFrame.getAircraftCarrier().getY() + 5,
+					0, true);
 		testFrame.mousePressed(testMousePressEvent);
 		MouseEvent testMouseClickEvent = new MouseEvent(testFrame,
 				500, 0, 0,
 				testFrame.getAircraftCarrier().getX() + 5,
-				testFrame.getAircraftCarrier().getY() + 5,0,true);
+				testFrame.getAircraftCarrier().getY() + 5,
+					0, true);
 		testFrame.mouseClicked(testMouseClickEvent);	
-		assertEquals(false, testFrame.getAircraftCarrier().isHorizontal());	
+		assertEquals(false, 
+				testFrame.getAircraftCarrier().isHorizontal());	
 	}
-	
+	/**
+	 * Test clicking on a battleship to rotate it.
+	 */
 	@Test
 	public void testMouseClickBattleShip() {
-		ShipSetupFrame testFrame = new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+		ShipSetupFrame testFrame = 
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
 		MouseEvent testMousePressEvent = new MouseEvent(testFrame,
 				501, 0, 0,
 				testFrame.getBattleShip().getX() + 5,
-				testFrame.getBattleShip().getY() + 5 ,0,true);
+				testFrame.getBattleShip().getY() + 5, 0, true);
 		testFrame.mousePressed(testMousePressEvent);
 		MouseEvent testMouseClickEvent = new MouseEvent(testFrame,
 				500, 0, 0,
 				testFrame.getBattleShip().getX() + 5,
-				testFrame.getBattleShip().getY() + 5,0,true);
+				testFrame.getBattleShip().getY() + 5, 0, true);
 		testFrame.mouseClicked(testMouseClickEvent);	
 		assertEquals(false, testFrame.getBattleShip().isHorizontal());	
 	}
-	
+	/**
+	 * Test clicking on a submarine to rotate it.
+	 */
 	@Test
 	public void testMouseClickSubmarine() {
-		ShipSetupFrame testFrame = new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+		ShipSetupFrame testFrame = 
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
 		MouseEvent testMousePressEvent = new MouseEvent(testFrame,
 				501, 0, 0,
 				testFrame.getSubmarine().getX() + 5,
-				testFrame.getSubmarine().getY() + 5 ,0,true);
+				testFrame.getSubmarine().getY() + 5, 0, true);
 		testFrame.mousePressed(testMousePressEvent);
 		MouseEvent testMouseClickEvent = new MouseEvent(testFrame,
 				500, 0, 0,
 				testFrame.getSubmarine().getX() + 5,
-				testFrame.getSubmarine().getY() + 5,0,true);
+				testFrame.getSubmarine().getY() + 5, 0, true);
 		testFrame.mouseClicked(testMouseClickEvent);	
 		assertEquals(false, testFrame.getSubmarine().isHorizontal());	
 	}
-	
+	/**
+	 * Test clicking on a cruiser to rotate it.
+	 */
 	@Test
 	public void testMouseClickCruiser() {
-		ShipSetupFrame testFrame = new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+		ShipSetupFrame testFrame = 
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
 		MouseEvent testMousePressEvent = new MouseEvent(testFrame,
 				501, 0, 0,
 				testFrame.getCruiser().getX() + 5,
-				testFrame.getCruiser().getY() + 5 ,0,true);
+				testFrame.getCruiser().getY() + 5, 0, true);
 		testFrame.mousePressed(testMousePressEvent);
 		MouseEvent testMouseClickEvent = new MouseEvent(testFrame,
 				500, 0, 0,
 				testFrame.getCruiser().getX() + 5,
-				testFrame.getCruiser().getY() + 5,0,true);
+				testFrame.getCruiser().getY() + 5, 0, true);
 		testFrame.mouseClicked(testMouseClickEvent);	
 		assertEquals(false, testFrame.getCruiser().isHorizontal());	
 	}
-	
+	/**
+	 * Test clicking on a patrol boat to rotate it.
+	 */
 	@Test
 	public void testMouseClickPatrolBoat() {
-		ShipSetupFrame testFrame = new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+		ShipSetupFrame testFrame = 
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
 		MouseEvent testMousePressEvent = new MouseEvent(testFrame,
 				501, 0, 0,
 				testFrame.getPatrolBoat().getX() + 20,
-				testFrame.getPatrolBoat().getY() + 20,0,true);
+				testFrame.getPatrolBoat().getY() + 20, 0, true);
 		testFrame.mousePressed(testMousePressEvent);
 		MouseEvent testMouseClickEvent = new MouseEvent(testFrame,
 				500, 0, 0,
 				testFrame.getPatrolBoat().getX() + 20,
-				testFrame.getPatrolBoat().getY() + 20,0,true);
+				testFrame.getPatrolBoat().getY() + 20, 0, true);
 		testFrame.mouseClicked(testMouseClickEvent);	
 		assertEquals(false, testFrame.getPatrolBoat().isHorizontal());	
 	}
-	
+	/**
+	 * Test the CPU placing each ship horizontally.
+	 */
 	@Test
 	public void setCpuShipsHorizontal() {
-		ShipSetupFrame testFrame = new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+		ShipSetupFrame testFrame = 
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
 		testFrame.setCpuValues(1);
 		int count = 0;
 		
@@ -517,10 +669,13 @@ public class BattleShipTest {
 		assertEquals(17, count);
 		
 	}
-	
+	/**
+	 * Test CPU placing each ship vertically.
+	 */
 	@Test
 	public void setCpuShipsVertical() {
-		ShipSetupFrame testFrame = new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+		ShipSetupFrame testFrame = 
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
 		testFrame.setCpuValues(2);
 		int count = 0;
 		
@@ -533,179 +688,283 @@ public class BattleShipTest {
 		}
 		assertEquals(17, count);	
 	}
-	
+	/**
+	 * Test placing aircraft carrier over battleship.
+	 */
 	@Test
 	public void testShipOverLapAircraftOverBattleShip() {
-		ShipSetupFrame testFrame = new ShipSetupFrame(GameMode.OnePlayerMode, 1);
-		dragShipVerticalTo(testFrame, testFrame.getAircraftCarrier(), 850, 130);
-		dragShipHorizontalTo(testFrame, testFrame.getBattleShip(), 900, 130);
+		ShipSetupFrame testFrame = 
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+		dragShipVerticalTo(testFrame,
+				testFrame.getAircraftCarrier(), 850, 130);
+		dragShipHorizontalTo(testFrame,
+				testFrame.getBattleShip(), 900, 130);
 		assertEquals(0, testFrame.getBattleShip().getX());
 	}
-	
+	/**
+	 * Test placing aircraft carrier over cruiser.
+	 */
 	@Test
 	public void testShipOverLapAircraftOverCruiser() {
-		ShipSetupFrame testFrame = new ShipSetupFrame(GameMode.OnePlayerMode, 1);
-		dragShipVerticalTo(testFrame, testFrame.getAircraftCarrier(), 850, 130);
-		dragShipHorizontalTo(testFrame, testFrame.getCruiser(), 900, 130);
+		ShipSetupFrame testFrame = 
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+		dragShipVerticalTo(testFrame,
+				testFrame.getAircraftCarrier(), 850, 130);
+		dragShipHorizontalTo(testFrame,
+				testFrame.getCruiser(), 900, 130);
 		assertEquals(0, testFrame.getCruiser().getX());
 	}
-	
+	/**
+	 * Test placing aircraft carrier over submarine.
+	 */
 	@Test
 	public void testShipOverLapAircraftOverSubmarine() {
-		ShipSetupFrame testFrame = new ShipSetupFrame(GameMode.OnePlayerMode, 1);
-		dragShipVerticalTo(testFrame, testFrame.getAircraftCarrier(), 850, 130);
-		dragShipHorizontalTo(testFrame, testFrame.getSubmarine(), 900, 130);
+		ShipSetupFrame testFrame = 
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+		dragShipVerticalTo(testFrame,
+				testFrame.getAircraftCarrier(), 850, 130);
+		dragShipHorizontalTo(testFrame,
+				testFrame.getSubmarine(), 900, 130);
 		assertEquals(0, testFrame.getSubmarine().getX());
 	}
-	
+	/**
+	 * Test placing aircraft carrier over patrol boat.
+	 */
 	@Test
 	public void testShipOverLapAircraftOverPatrolBoat() {
-		ShipSetupFrame testFrame = new ShipSetupFrame(GameMode.OnePlayerMode, 1);
-		dragShipVerticalTo(testFrame, testFrame.getAircraftCarrier(), 850, 130);
-		dragShipHorizontalTo(testFrame, testFrame.getPatrolBoat(), 900, 130);
+		ShipSetupFrame testFrame = 
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+		dragShipVerticalTo(testFrame,
+				testFrame.getAircraftCarrier(), 850, 130);
+		dragShipHorizontalTo(testFrame,
+				testFrame.getPatrolBoat(), 900, 130);
 		assertEquals(0, testFrame.getPatrolBoat().getX());
 	}
-	
+	/**
+	 * Test placing battleship over aircraft carrier.
+	 */
 	@Test
 	public void testShipOverLapBattleShipOverAircraftCarrier() {
-		ShipSetupFrame testFrame = new ShipSetupFrame(GameMode.OnePlayerMode, 1);
-		dragShipVerticalTo(testFrame, testFrame.getBattleShip(), 850, 130);
-		dragShipHorizontalTo(testFrame, testFrame.getAircraftCarrier(), 900, 130);
+		ShipSetupFrame testFrame = 
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+		dragShipVerticalTo(testFrame,
+				testFrame.getBattleShip(), 850, 130);
+		dragShipHorizontalTo(testFrame,
+				testFrame.getAircraftCarrier(), 900, 130);
 		assertEquals(0, testFrame.getAircraftCarrier().getX());
 	}
-	
+	/**
+	 * Test placing battleship over cruiser.
+	 */
 	@Test
 	public void testShipOverLapBattleShipOverCruiser() {
-		ShipSetupFrame testFrame = new ShipSetupFrame(GameMode.OnePlayerMode, 1);
-		dragShipVerticalTo(testFrame, testFrame.getBattleShip(), 850, 130);
-		dragShipHorizontalTo(testFrame, testFrame.getCruiser(), 900, 130);
+		ShipSetupFrame testFrame =
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+		dragShipVerticalTo(testFrame, 
+				testFrame.getBattleShip(), 850, 130);
+		dragShipHorizontalTo(testFrame, 
+				testFrame.getCruiser(), 900, 130);
 		assertEquals(0, testFrame.getCruiser().getX());
 	}
-	
+	/**
+	 * Test placing battleship over submarine.
+	 */
 	@Test
 	public void testShipOverLapBattleShipOverSubmarine() {
-		ShipSetupFrame testFrame = new ShipSetupFrame(GameMode.OnePlayerMode, 1);
-		dragShipVerticalTo(testFrame, testFrame.getBattleShip(), 850, 130);
-		dragShipHorizontalTo(testFrame, testFrame.getSubmarine(), 900, 130);
+		ShipSetupFrame testFrame = 
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+		dragShipVerticalTo(testFrame,
+				testFrame.getBattleShip(), 850, 130);
+		dragShipHorizontalTo(testFrame,
+				testFrame.getSubmarine(), 900, 130);
 		assertEquals(0, testFrame.getSubmarine().getX());
 	}
-	
+	/**
+	 * Test placing battleship over patrol boat.
+	 */
 	@Test
 	public void testShipOverLapBattleShipOverPatrolBoat() {
-		ShipSetupFrame testFrame = new ShipSetupFrame(GameMode.OnePlayerMode, 1);
-		dragShipVerticalTo(testFrame, testFrame.getBattleShip(), 850, 130);
-		dragShipHorizontalTo(testFrame, testFrame.getPatrolBoat(), 900, 130);
+		ShipSetupFrame testFrame = 
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+		dragShipVerticalTo(testFrame,
+				testFrame.getBattleShip(), 850, 130);
+		dragShipHorizontalTo(testFrame,
+				testFrame.getPatrolBoat(), 900, 130);
 		assertEquals(0, testFrame.getPatrolBoat().getX());
 	}
-	
+	/**
+	 * Test placing cruiser over aircraft carrier.
+	 */
 	@Test
 	public void testShipOverLapCruiserOverAircraftCarrier() {
-		ShipSetupFrame testFrame = new ShipSetupFrame(GameMode.OnePlayerMode, 1);
-		dragShipVerticalTo(testFrame, testFrame.getCruiser(), 850, 130);
-		dragShipHorizontalTo(testFrame, testFrame.getAircraftCarrier(), 900, 130);
+		ShipSetupFrame testFrame = 
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+		dragShipVerticalTo(testFrame,
+				testFrame.getCruiser(), 850, 130);
+		dragShipHorizontalTo(testFrame,
+				testFrame.getAircraftCarrier(), 900, 130);
 		assertEquals(0, testFrame.getAircraftCarrier().getX());
 	}
-	
+	/**
+	 * Test placing cruiser over battleship.
+	 */
 	@Test
 	public void testShipOverLapCruiserOverBattleShip() {
-		ShipSetupFrame testFrame = new ShipSetupFrame(GameMode.OnePlayerMode, 1);
-		dragShipVerticalTo(testFrame, testFrame.getCruiser(), 850, 130);
-		dragShipHorizontalTo(testFrame, testFrame.getBattleShip(), 900, 130);
+		ShipSetupFrame testFrame = 
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+		dragShipVerticalTo(testFrame,
+				testFrame.getCruiser(), 850, 130);
+		dragShipHorizontalTo(testFrame,
+				testFrame.getBattleShip(), 900, 130);
 		assertEquals(0, testFrame.getBattleShip().getX());
 	}
-	
+	/**
+	 * Test placing cruiser over submarine.
+	 */
 	@Test
 	public void testShipOverLapCruiserOverSubmarine() {
-		ShipSetupFrame testFrame = new ShipSetupFrame(GameMode.OnePlayerMode, 1);
-		dragShipVerticalTo(testFrame, testFrame.getCruiser(), 850, 130);
-		dragShipHorizontalTo(testFrame, testFrame.getSubmarine(), 900, 130);
+		ShipSetupFrame testFrame = 
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+		dragShipVerticalTo(testFrame,
+				testFrame.getCruiser(), 850, 130);
+		dragShipHorizontalTo(testFrame,
+				testFrame.getSubmarine(), 900, 130);
 		assertEquals(0, testFrame.getSubmarine().getX());
 	}
-	
+	/**
+	 * Test placing cruiser over patrol boat.
+	 */
 	@Test
 	public void testShipOverLapCruiserOverPatrolBoat() {
-		ShipSetupFrame testFrame = new ShipSetupFrame(GameMode.OnePlayerMode, 1);
-		dragShipVerticalTo(testFrame, testFrame.getCruiser(), 850, 130);
-		dragShipHorizontalTo(testFrame, testFrame.getPatrolBoat(), 860, 130);
+		ShipSetupFrame testFrame = 
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+		dragShipVerticalTo(testFrame,
+				testFrame.getCruiser(), 850, 130);
+		dragShipHorizontalTo(testFrame,
+				testFrame.getPatrolBoat(), 860, 130);
 		assertEquals(0, testFrame.getPatrolBoat().getX());
 	}
-	
+	/**
+	 * Test placing submarine over aircraft carrier.
+	 */
 	@Test
 	public void testShipOverLapSubmarineOverAircraftCarrier() {
-		ShipSetupFrame testFrame = new ShipSetupFrame(GameMode.OnePlayerMode, 1);
-		dragShipVerticalTo(testFrame, testFrame.getSubmarine(), 850, 130);
-		dragShipHorizontalTo(testFrame, testFrame.getAircraftCarrier(), 900, 130);
+		ShipSetupFrame testFrame = 
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+		dragShipVerticalTo(testFrame,
+				testFrame.getSubmarine(), 850, 130);
+		dragShipHorizontalTo(testFrame,
+				testFrame.getAircraftCarrier(), 900, 130);
 		assertEquals(0, testFrame.getAircraftCarrier().getX());
 	}
-	
+	/**
+	 * Test placing submarine over battleship.
+	 */
 	@Test
 	public void testShipOverLapSubmarineOverBattleShip() {
-		ShipSetupFrame testFrame = new ShipSetupFrame(GameMode.OnePlayerMode, 1);
-		dragShipVerticalTo(testFrame, testFrame.getSubmarine(), 850, 130);
-		dragShipHorizontalTo(testFrame, testFrame.getBattleShip(), 900, 130);
+		ShipSetupFrame testFrame = 
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+		dragShipVerticalTo(testFrame,
+				testFrame.getSubmarine(), 850, 130);
+		dragShipHorizontalTo(testFrame,
+				testFrame.getBattleShip(), 900, 130);
 		assertEquals(0, testFrame.getBattleShip().getX());
 	}
-	
+	/**
+	 * Test placing submarine over cruiser.
+	 */
 	@Test
 	public void testShipOverLapSubmarineOverCruiser() {
-		ShipSetupFrame testFrame = new ShipSetupFrame(GameMode.OnePlayerMode, 1);
-		dragShipVerticalTo(testFrame, testFrame.getSubmarine(), 850, 130);
-		dragShipHorizontalTo(testFrame, testFrame.getCruiser(), 900, 130);
+		ShipSetupFrame testFrame = 
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+		dragShipVerticalTo(testFrame,
+				testFrame.getSubmarine(), 850, 130);
+		dragShipHorizontalTo(testFrame,
+				testFrame.getCruiser(), 900, 130);
 		assertEquals(0, testFrame.getCruiser().getX());
 	}
-	
+	/**
+	 * Test placing submarine over patrol boat.
+	 */
 	@Test
 	public void testShipOverLapSubmarineOverPatrolBoat() {
-		ShipSetupFrame testFrame = new ShipSetupFrame(GameMode.OnePlayerMode, 1);
-		dragShipVerticalTo(testFrame, testFrame.getSubmarine(), 850, 130);
-		dragShipHorizontalTo(testFrame, testFrame.getPatrolBoat(), 900, 130);
+		ShipSetupFrame testFrame = 
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+		dragShipVerticalTo(testFrame,
+				testFrame.getSubmarine(), 850, 130);
+		dragShipHorizontalTo(testFrame,
+				testFrame.getPatrolBoat(), 900, 130);
 		assertEquals(0, testFrame.getPatrolBoat().getX());
 	}
-	
+	/**
+	 * Test placing patrol boat over aircraft carrier.
+	 */
 	@Test
 	public void testShipOverLapPatrolBoatOverAircraftCarrier() {
-		ShipSetupFrame testFrame = new ShipSetupFrame(GameMode.OnePlayerMode, 1);
-		dragShipVerticalTo(testFrame, testFrame.getPatrolBoat(), 850, 130);
-		dragShipHorizontalTo(testFrame, testFrame.getAircraftCarrier(), 900, 130);
+		ShipSetupFrame testFrame = 
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+		dragShipVerticalTo(testFrame,
+				testFrame.getPatrolBoat(), 850, 130);
+		dragShipHorizontalTo(testFrame,
+				testFrame.getAircraftCarrier(), 900, 130);
 		assertEquals(0, testFrame.getAircraftCarrier().getX());
 	}
-	
+	/**
+	 * Test placing patrol boat over battleship.
+	 */
 	@Test
 	public void testShipOverLapPatrolBoatOverBattleShip() {
-		ShipSetupFrame testFrame = new ShipSetupFrame(GameMode.OnePlayerMode, 1);
-		dragShipVerticalTo(testFrame, testFrame.getPatrolBoat(), 850, 130);
-		dragShipHorizontalTo(testFrame, testFrame.getBattleShip(), 900, 130);
+		ShipSetupFrame testFrame = 
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+		dragShipVerticalTo(testFrame,
+				testFrame.getPatrolBoat(), 850, 130);
+		dragShipHorizontalTo(testFrame,
+				testFrame.getBattleShip(), 900, 130);
 		assertEquals(0, testFrame.getBattleShip().getX());
 	}
-	
+	/**
+	 * Test placing patrol boat over cruiser.
+	 */
 	@Test
 	public void testShipOverLapPatrolBoatOverCruiser() {
-		ShipSetupFrame testFrame = new ShipSetupFrame(GameMode.OnePlayerMode, 1);
-		dragShipVerticalTo(testFrame, testFrame.getPatrolBoat(), 850, 130);
-		dragShipHorizontalTo(testFrame, testFrame.getCruiser(), 900, 130);
+		ShipSetupFrame testFrame =
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+		dragShipVerticalTo(testFrame,
+				testFrame.getPatrolBoat(), 850, 130);
+		dragShipHorizontalTo(testFrame,
+				testFrame.getCruiser(), 900, 130);
 		assertEquals(0, testFrame.getCruiser().getX());
 	}
-	
+	/**
+	 * Test placing patrol boat over submarine.
+	 */
 	@Test
 	public void testShipOverLapPatrolBoatOverSubmarine() {
-		ShipSetupFrame testFrame = new ShipSetupFrame(GameMode.OnePlayerMode, 1);
-		dragShipVerticalTo(testFrame, testFrame.getPatrolBoat(), 850, 130);
-		dragShipHorizontalTo(testFrame, testFrame.getSubmarine(), 900, 130);
+		ShipSetupFrame testFrame = 
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+		dragShipVerticalTo(testFrame,
+				testFrame.getPatrolBoat(), 850, 130);
+		dragShipHorizontalTo(testFrame,
+				testFrame.getSubmarine(), 900, 130);
 		assertEquals(0, testFrame.getSubmarine().getX());
 	}
-
+	/**
+	 * Test running submit method after clicking on submit button.
+	 */
 	@Test
 	public void testSubmitButtonClick() {
-		ShipSetupFrame testFrame = new ShipSetupFrame(GameMode.OnePlayerMode, 1);
-		MouseEvent buttonClick = new MouseEvent(testFrame, 500, 0, 16, 311, 57, 1, false);
-		
-		testFrame.mouseClicked(buttonClick);
+		ShipSetupFrame testFrame = 
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
 		testFrame.submit();
 		assertEquals(true, testFrame.getInvalidShipPlacement());
 	}
+	/**
+	 * Test CPU placing its ships randomly.
+	 */
 	@Test
 	public void setCpuShipsRandom() {
-		ShipSetupFrame testFrame = new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+		ShipSetupFrame testFrame = 
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
 		testFrame.setCpuValues(0);
 		int count = 0;
 		
@@ -718,9 +977,11 @@ public class BattleShipTest {
 		}
 		assertEquals(17, count);	
 	}
-	
+	/**
+	 * Test CPU firing in a random spot.
+	 */
 	@Test
-	public void TestCpuFire() {
+	public void testCpuFire() {
 		GameBoard testBoard = new GameBoard(GameMode.OnePlayerMode);
 		ShipSetupFrame testFrame = createSSF();
 		testBoard.setPlayer1Ships(testFrame.getPlayer1Ships());
@@ -729,37 +990,39 @@ public class BattleShipTest {
 		testBoard.setPlayer2Values(testFrame.getPlayer2Values());
 		
 		//Test two shots on aircraft carrier
-		Point point = new Point(1,1);
+		Point point = new Point(1, 1);
 		testBoard.cpuFire(point);
 		assertEquals(1, testBoard.getCpuAircraftCarrierHits());
-		point = new Point(1,2);
+		point = new Point(1, 2);
 		testBoard.cpuFire(point);
 		assertEquals(2, testBoard.getCpuAircraftCarrierHits());
 		
 		//Test shot on battleship
-		point = new Point(2,1);
+		point = new Point(2, 1);
 		testBoard.cpuFire(point);
 		assertEquals(1, testBoard.getCpuBattleShipHits());
 		
 		//Test shot on cruiser
-		point = new Point(3,1);
+		point = new Point(3, 1);
 		testBoard.cpuFire(point);
 		assertEquals(1, testBoard.getCpuCruiserHits());
 		
 		//Test shot on submarine
-		point = new Point(4,1);
+		point = new Point(4, 1);
 		testBoard.cpuFire(point);
 		assertEquals(1, testBoard.getCpuSubmarineHits());
 		
 		//Test shot on patrol boat
-		point = new Point(5,1);
+		point = new Point(5, 1);
 		testBoard.cpuFire(point);
 		assertEquals(1, testBoard.getCpuPatrolBoatHits());
 		
 	}
-	
+	/**
+	 * Test the player firing on the CPU's ships.
+	 */
 	@Test
-	public void TestPlayerShot() {
+	public void testPlayerShot() {
 		GameBoard testBoard = new GameBoard(GameMode.OnePlayerMode);
 		JButton btn = new JButton();
 		btn.setName("0");
@@ -811,12 +1074,13 @@ public class BattleShipTest {
 	}
 	
 	/**
-	 * Creates a ShipSetupFrame for testing
+	 * Creates a ShipSetupFrame for testing.
 	 * @return a ShipSetupFrame
 	 */
 	public ShipSetupFrame createSSF() {
 		
-		ShipSetupFrame testFrame = new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+		ShipSetupFrame testFrame = 
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
 		
 		//snaps aircraft carrier to column 1 row 1
 		testFrame.getAircraftCarrier().setLocation(600, 130);

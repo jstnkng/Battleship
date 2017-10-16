@@ -83,6 +83,7 @@ public class ShipSetupFrame extends JFrame
 	private Ship aircraftCarrier;
 	/**
 	 * Returns the frame's aircraft carrier.
+	 *@return Ship aircraftCarrier
 	 */
 	public Ship getAircraftCarrier() {
 		return aircraftCarrier;
@@ -93,6 +94,7 @@ public class ShipSetupFrame extends JFrame
 	private Ship battleShip;
 	/**
 	 * Returns the frame's battleship.
+	 * @return Ship battleShip
 	 */
 	public Ship getBattleShip() {
 		return battleShip;
@@ -103,6 +105,7 @@ public class ShipSetupFrame extends JFrame
 	private Ship cruiser;
 	/**
 	 * Returns the frame's cruiser.
+	 * @return Ship cruiser
 	 */
 	public Ship getCruiser() {
 		return cruiser;
@@ -113,6 +116,7 @@ public class ShipSetupFrame extends JFrame
 	private Ship patrolBoat;
 	/**
 	 * Returns the frame's patrol boat.
+	 * @return Ship patrolBoat
 	 */
 	public Ship getPatrolBoat() {
 		return patrolBoat;
@@ -123,6 +127,7 @@ public class ShipSetupFrame extends JFrame
 	private Ship submarine;
 	/**
 	 * Returns the frame's submarine.
+	 * @return Ship submarine
 	 */
 	public Ship getSubmarine() {
 		return submarine;
@@ -148,7 +153,8 @@ public class ShipSetupFrame extends JFrame
 	 */
 	private int[][] player1Values = new int[boardSize][boardSize];
 	/**
-	 * Returns player1Values
+	 * Returns player1Values.
+	 * @return int[][] player1Values
 	 */
 	public int[][] getPlayer1Values() {
 		return player1Values;
@@ -158,7 +164,8 @@ public class ShipSetupFrame extends JFrame
 	 */
 	private int[][] player2Values = new int[boardSize][boardSize];
 	/**
-	 * Returns player2Values
+	 * Returns player2Values.
+	 * @return int[][] player2Values
 	 */
 	public int[][] getPlayer2Values() {
 		return player2Values;
@@ -168,7 +175,8 @@ public class ShipSetupFrame extends JFrame
 	 */
 	private Ship[] player1Ships = new Ship[5];
 	/**
-	 * Returns player1Ships
+	 * Returns player1Ships.
+	 * @return Ship[] player1Ships
 	 */
 	public Ship[] getPlayer1Ships() {
 		return player1Ships;
@@ -178,17 +186,19 @@ public class ShipSetupFrame extends JFrame
 	 */
 	private Ship[] player2Ships = new Ship[5];
 	/**
-	 * Returns player2Ships
+	 * Returns player2Ships.
+	 * @return Ship[] player2Ships
 	 */
 	public Ship[] getPlayer2Ships() {
 		return player2Ships;
 	}
 	/**
-	 * Flag to check if ships are set correctly or not
+	 * Flag to check if ships are set correctly or not.
 	 */
 	private boolean invalidShipPlacement;
 	/**
-	 * Returns invalidShipPlacement flag
+	 * Returns invalidShipPlacement flag.
+	 * @return boolean invalidShipPlacement
 	 */
 	public boolean getInvalidShipPlacement() {
 		return invalidShipPlacement;
@@ -401,7 +411,7 @@ public class ShipSetupFrame extends JFrame
 			int submarineY = my - dragFromY;
 			submarine.setLocation(submarineX, submarineY);
 			
-		} else {
+		} else if (pbCanDrag) {
 			if (patrolBoat.isHorizontal()) {
 				patrolBoat.setSize(patrolBoat.getWidthH(),
 						patrolBoat.getHeightH());
@@ -1060,7 +1070,7 @@ public class ShipSetupFrame extends JFrame
 	*be 0, but in testing it can be set to 1 for 
 	*a horizontal ship, or 2 for a vertical ship.
 	*/	
-	public void setCpuValues(int value) {
+	public void setCpuValues(final int value) {
 		setAircraftCarrier(value);
 		setBattleShip(value);
 		setCruiser(value);
@@ -1073,7 +1083,7 @@ public class ShipSetupFrame extends JFrame
 	*to 1 for a horizontal ship, or 2 for a 
 	*vertical ship. Otherwise set to 0.
 	*/	
-	private void setAircraftCarrier(int value) {
+	private void setAircraftCarrier(final int value) {
 		boolean aircraftCarrierSet = false;
 		while (!aircraftCarrierSet) {
 			boolean shipVertical = false;
@@ -1134,7 +1144,7 @@ public class ShipSetupFrame extends JFrame
 	*to 1 for a horizontal ship, or 2 for a 
 	*vertical ship. Otherwise set to 0.
 	*/	
-	private void setBattleShip(int value) {
+	private void setBattleShip(final int value) {
 		boolean battleShipSet = false;
 		while (!battleShipSet) {
 			boolean shipVertical = false;
@@ -1213,7 +1223,7 @@ public class ShipSetupFrame extends JFrame
 	*to 1 for a horizontal ship, or 2 for a 
 	*vertical ship. Otherwise set to 0.
 	*/	
-	private void setCruiser(int value) {
+	private void setCruiser(final int value) {
 		boolean cruiserSet = false;
 		while (!cruiserSet) {
 			boolean shipVertical = false;
@@ -1284,7 +1294,7 @@ public class ShipSetupFrame extends JFrame
 	*to 1 for a horizontal ship, or 2 for a 
 	*vertical ship. Otherwise set to 0.
 	*/	
-	private void setSubmarine(int value) {
+	private void setSubmarine(final int value) {
 		boolean submarineSet = false;
 		while (!submarineSet) {
 			boolean shipVertical = false;
@@ -1355,7 +1365,7 @@ public class ShipSetupFrame extends JFrame
 	*to 1 for a horizontal ship, or 2 for a 
 	*vertical ship. Otherwise set to 0.
 	*/	
-	private void setPatrolBoat(int value) {
+	private void setPatrolBoat(final int value) {
 		boolean patrolBoatSet = false;
 		while (!patrolBoatSet) {
 			boolean shipVertical = false;
