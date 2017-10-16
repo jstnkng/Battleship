@@ -317,7 +317,7 @@ public class Ship extends JPanel {
 		if (isHorizontal()) {
 			g.drawImage(scaledH, 0, 0, this);
 			
-		}else {
+		} else {
 			g.drawImage(scaledV, 0, 0, this);
 		}
 		

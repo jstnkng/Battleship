@@ -334,6 +334,10 @@ public class BattleShipTest {
 	/**
 	 * Method to simulate clicking, dragging, 
 	 * and releasing a ship vertically.
+	 * @param frame ShipSetupFrame for ships
+	 * @param shipToDrag ship that is being dragged
+	 * @param locX x-coordinate to drag to
+	 * @param locY y-coordinate to drag to
 	 */
 	public void dragShipVerticalTo(final ShipSetupFrame frame, 
 			final Ship shipToDrag, final int locX, final int locY) {
@@ -353,6 +357,10 @@ public class BattleShipTest {
 	/**
 	 * Method to simulate clicking, dragging, 
 	 * and releasing a ship horizontally.
+	 * @param frame ShipSetupFrame for ships
+	 * @param shipToDrag ship that is being dragged
+	 * @param locX x-coordinate to be dragged to
+	 * @param locY y-coordinate to be dragged to
 	 */
 	public void dragShipHorizontalTo(final ShipSetupFrame frame,
 			final Ship shipToDrag, final int locX, final int locY) {

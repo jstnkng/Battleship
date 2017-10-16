@@ -93,7 +93,7 @@ public class HomePageGui extends JFrame implements MouseListener {
 		
 		GridBagConstraints gbBtnPassPlay = new GridBagConstraints();
 		gbBtnPassPlay.insets = new Insets(50, 350, 5, 350);
-		gbBtnPassPlay.fill = gbBtnPassPlay.BOTH;
+		gbBtnPassPlay.fill = GridBagConstraints.BOTH;
 		gbBtnPassPlay.gridx = 1;
 		gbBtnPassPlay.gridy = 2;
 		gbBtnPassPlay.weightx = 1;
@@ -105,7 +105,7 @@ public class HomePageGui extends JFrame implements MouseListener {
 		
 		GridBagConstraints gbcBtnOnePlayer = new GridBagConstraints();
 		gbcBtnOnePlayer.insets = new Insets(50, 350, 50, 350);
-		gbcBtnOnePlayer.fill = gbcBtnOnePlayer.BOTH;
+		gbcBtnOnePlayer.fill = GridBagConstraints.BOTH;
 		gbcBtnOnePlayer.gridx = 1;
 		gbcBtnOnePlayer.gridy = 3;
 		gbcBtnOnePlayer.weightx = 1;
