@@ -34,7 +34,7 @@ public class HomePageGui extends JFrame implements MouseListener {
 	 */
 	private JButton btnOnePlayer;
 	/**
-	 * Creates button for pass & play mode.
+	 * Creates button for pass and play mode.
 	 */
 	private JButton btnPassPlay;
 	
@@ -131,7 +131,7 @@ public class HomePageGui extends JFrame implements MouseListener {
 	}
 	
 	/**
-	 * Creates ShipSetupFrame for pass & play game.
+	 * Creates ShipSetupFrame for pass and play game.
 	 * @return ShipSetupFrame
 	 */
 	public ShipSetupFrame startPassAndPlay() {
