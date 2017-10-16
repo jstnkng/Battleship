@@ -41,45 +41,30 @@ public class ShipSetupFrame extends JFrame
 	 * it is not clicked on yet.
 	 */
 	private boolean acCcanDrag = false;
-	public boolean getAcCanDrag() {
-		return acCcanDrag;
-	}
 	/**
 	 * Boolean to check if you can drag the
 	 * battle ship. Starts false because
 	 * it is not clicked on yet.
 	 */
 	private boolean bsCanDrag = false;
-	public boolean getBsCanDrag() {
-		return bsCanDrag;
-	}
 	/**
 	 * Boolean to check if you can drag the
 	 * cruiser. Starts false because
 	 * it is not clicked on yet.
 	 */
 	private boolean cCanDrag = false;
-	public boolean getcCanDrag() {
-		return cCanDrag;
-	}
 	/**
 	 * Boolean to check if you can drag the
 	 * submarine. Starts false because
 	 * it is not clicked on yet.
 	 */
 	private boolean sCanDrag = false;
-	public boolean getSCanDrag() {
-		return sCanDrag;
-	}
 	/**
 	 * Boolean to check if you can drag the
 	 * patrol boat. Starts false because
 	 * it is not clicked on yet.
 	 */
 	private boolean pbCanDrag = false;
-	public boolean getPbCanDrag() {
-		return pbCanDrag;
-	}
 	/**
 	 * Sets board size to 10.
 	 */
@@ -199,6 +184,16 @@ public class ShipSetupFrame extends JFrame
 		return player2Ships;
 	}
 	/**
+	 * Flag to check if ships are set correctly or not
+	 */
+	private boolean invalidShipPlacement;
+	/**
+	 * Returns invalidShipPlacement flag
+	 */
+	public boolean getInvalidShipPlacement() {
+		return invalidShipPlacement;
+	}
+	/**
 	 * Calls shipSetup passing gameMode and current player.
 	 * @param currentMode mode that the game is being played in
 	 * @param player either 1 or 2 to determine current player
@@ -213,12 +208,12 @@ public class ShipSetupFrame extends JFrame
 	 * @param player either 1 or 2 to determine current player
 	 */
 	public void shipSetup(final GameMode currentMode, final int player) {
-		if (player == 2) {
-			this.setTitle("Player 2 Set Ships");
-		} else {
-			this.setTitle("Player 1 Set Ships");
-		}
-		
+//		if (player == 2) {
+//			this.setTitle("Player 2 Set Ships");
+//		} else {
+//			this.setTitle("Player 1 Set Ships");
+//		}
+		this.setTitle("Player 1 Set Ships");
 		mode = currentMode;
 		currentPlayer = player;
 		//JComponent contentPane = new ShipSetupPanel(currentMode);
@@ -305,7 +300,6 @@ public class ShipSetupFrame extends JFrame
 		submit.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(final MouseEvent e) {
-				
 				submit();
 			}
 		});
@@ -407,7 +401,7 @@ public class ShipSetupFrame extends JFrame
 			int submarineY = my - dragFromY;
 			submarine.setLocation(submarineX, submarineY);
 			
-		} else if (pbCanDrag) {
+		} else {
 			if (patrolBoat.isHorizontal()) {
 				patrolBoat.setSize(patrolBoat.getWidthH(),
 						patrolBoat.getHeightH());
@@ -427,16 +421,18 @@ public class ShipSetupFrame extends JFrame
 
 	@Override
 	public void mouseMoved(final MouseEvent e) {
-		// TODO Auto-generated method stub
+
 		
 	}
 
 	@Override
 	public void mouseClicked(final MouseEvent e) {
+		
+//		int mx = e.getX();
+//		int my = e.getY();
 		//Aircraft Carrier
 		int acX = aircraftCarrier.getX();
-		int acY = aircraftCarrier.getY();
-		
+		int acY = aircraftCarrier.getY();	
 		int acW = aircraftCarrier.getWidth();
 		int acH = aircraftCarrier.getHeight();
 		
@@ -507,10 +503,8 @@ public class ShipSetupFrame extends JFrame
 
 	@Override
 	public void mousePressed(final MouseEvent e) {
-		System.out.println("Entered mouse pressed:");
 		mx = e.getX();
 		my = e.getY();
-		
 		//Aircraft Carrier
 		int acX = aircraftCarrier.getX();
 		int acY = aircraftCarrier.getY();
@@ -606,8 +600,6 @@ public class ShipSetupFrame extends JFrame
 	public void mouseReleased(final MouseEvent e) {
 		mx = e.getX();
 		my = e.getY();
-		
-		
 		
 		//Aircraft Carrier
 		int acX = aircraftCarrier.getX();
@@ -993,13 +985,13 @@ public class ShipSetupFrame extends JFrame
 		
 		//count is = to 17 if all ships are placed correctly
 		if (count == 17) {
-		
+			invalidShipPlacement = false;
 			GameBoard playingBoard = new GameBoard(mode);
-			if (this.getTitle().contains("1") 
-					&& mode == GameMode.OnePlayerMode) {
+//			if (this.getTitle().contains("1") 
+//					&& mode == GameMode.OnePlayerMode) {
 				playingBoard.setPlayer1Ships(player1Ships);
 				playingBoard.setPlayer1Values(player1Values);
-				setCpuValues();
+				setCpuValues(0);
 				playingBoard.setPlayer2Values(player2Values);
 				System.out.println("CPU Ships)");
 				for (int x = 0; x < 10; x++) {
@@ -1013,22 +1005,23 @@ public class ShipSetupFrame extends JFrame
 				playingBoard.setLocationRelativeTo(null);
 				playingBoard.setVisible(true);
 				playingBoard.beginGame();
-			} else if (this.getTitle().contains("1") && mode
-					== GameMode.TwoPlayerPassAndPlay) {
-			   playingBoard.setPlayer1Ships(player1Ships);
-			   playingBoard.setPlayer1Values(board.getValues());
-				this.setTitle("Player 2 Set Ships");
-				this.getContentPane().removeAll();
-				shipSetup(mode, 2);
-			} else {
-				playingBoard.setPlayer2Ships(player2Ships);
-			   playingBoard.setPlayer2Values(board.getValues());
-				this.setVisible(false);
-				playingBoard.setVisible(true);
-				playingBoard.beginGame();
-			}
+//			} else if (this.getTitle().contains("1") && mode
+//					== GameMode.TwoPlayerPassAndPlay) {
+//			   playingBoard.setPlayer1Ships(player1Ships);
+//			   playingBoard.setPlayer1Values(board.getValues());
+//				this.setTitle("Player 2 Set Ships");
+//				this.getContentPane().removeAll();
+//				shipSetup(mode, 2);
+//			} else {
+//				playingBoard.setPlayer2Ships(player2Ships);
+//			   playingBoard.setPlayer2Values(board.getValues());
+//				this.setVisible(false);
+//				playingBoard.setVisible(true);
+//				playingBoard.beginGame();
+//			}
 		} else {
 
+			invalidShipPlacement = true;
 			//if the ships aren't placed correctly
 			JOptionPane.showMessageDialog(null,
 			"Invalid ship placement.");
@@ -1039,6 +1032,7 @@ public class ShipSetupFrame extends JFrame
 			returnShipToStart(patrolBoat);
 			
 		}
+		
 		
 	}
 	/**
@@ -1062,18 +1056,24 @@ public class ShipSetupFrame extends JFrame
 	/**
 	*Sets the values for each cpu ship by calling
 	*their respective methods.
+	*@param value in game play this will always
+	*be 0, but in testing it can be set to 1 for 
+	*a horizontal ship, or 2 for a vertical ship.
 	*/	
-	private void setCpuValues() {
-		setAircraftCarrier();
-		setBattleShip();
-		setCruiser();
-		setSubmarine();
-		setPatrolBoat();				
+	public void setCpuValues(int value) {
+		setAircraftCarrier(value);
+		setBattleShip(value);
+		setCruiser(value);
+		setSubmarine(value);
+		setPatrolBoat(value);				
 	}
 	/**
 	*Sets the location for the cpu's aircraft carrier.
+	*@param value for testing this value can be set
+	*to 1 for a horizontal ship, or 2 for a 
+	*vertical ship. Otherwise set to 0.
 	*/	
-	private void setAircraftCarrier() {
+	private void setAircraftCarrier(int value) {
 		boolean aircraftCarrierSet = false;
 		while (!aircraftCarrierSet) {
 			boolean shipVertical = false;
@@ -1086,6 +1086,11 @@ public class ShipSetupFrame extends JFrame
 			if (randomX < 5) {
 				shipVertical = false;
 			} else {
+				shipVertical = true;
+			}
+			if (value == 1) {
+				shipVertical = false;
+			} else if (value == 2) {
 				shipVertical = true;
 			}
 			if (shipVertical) {
@@ -1125,8 +1130,11 @@ public class ShipSetupFrame extends JFrame
 	}
 	/**
 	*Sets the location for the cpu's battle ship.
+	*@param value for testing this value can be set
+	*to 1 for a horizontal ship, or 2 for a 
+	*vertical ship. Otherwise set to 0.
 	*/	
-	private void setBattleShip() {
+	private void setBattleShip(int value) {
 		boolean battleShipSet = false;
 		while (!battleShipSet) {
 			boolean shipVertical = false;
@@ -1139,6 +1147,11 @@ public class ShipSetupFrame extends JFrame
 			if (randomX < 5) {
 				shipVertical = false;
 			} else {
+				shipVertical = true;
+			}
+			if (value == 1) {
+				shipVertical = false;
+			} else if (value == 2) {
 				shipVertical = true;
 			}
 			if (shipVertical) {
@@ -1196,8 +1209,11 @@ public class ShipSetupFrame extends JFrame
 	}
 	/**
 	*Sets the location for the cpu's cruiser.
+	*@param value for testing this value can be set
+	*to 1 for a horizontal ship, or 2 for a 
+	*vertical ship. Otherwise set to 0.
 	*/	
-	private void setCruiser() {
+	private void setCruiser(int value) {
 		boolean cruiserSet = false;
 		while (!cruiserSet) {
 			boolean shipVertical = false;
@@ -1210,6 +1226,11 @@ public class ShipSetupFrame extends JFrame
 			if (randomX < 5) {
 				shipVertical = false;
 			} else {
+				shipVertical = true;
+			}
+			if (value == 1) {
+				shipVertical = false;
+			} else if (value == 2) {
 				shipVertical = true;
 			}
 			if (shipVertical) {
@@ -1259,8 +1280,11 @@ public class ShipSetupFrame extends JFrame
 	}
 	/**
 	*Sets the location for the cpu's submarine.
+	*@param value for testing this value can be set
+	*to 1 for a horizontal ship, or 2 for a 
+	*vertical ship. Otherwise set to 0.
 	*/	
-	private void setSubmarine() {
+	private void setSubmarine(int value) {
 		boolean submarineSet = false;
 		while (!submarineSet) {
 			boolean shipVertical = false;
@@ -1273,6 +1297,11 @@ public class ShipSetupFrame extends JFrame
 			if (randomX < 5) {
 				shipVertical = false;
 			} else {
+				shipVertical = true;
+			}
+			if (value == 1) {
+				shipVertical = false;
+			} else if (value == 2) {
 				shipVertical = true;
 			}
 			if (shipVertical) {
@@ -1322,8 +1351,11 @@ public class ShipSetupFrame extends JFrame
 	}
 	/**
 	*Sets the location for the cpu's patrol boat.
+	*@param value for testing this value can be set
+	*to 1 for a horizontal ship, or 2 for a 
+	*vertical ship. Otherwise set to 0.
 	*/	
-	private void setPatrolBoat() {
+	private void setPatrolBoat(int value) {
 		boolean patrolBoatSet = false;
 		while (!patrolBoatSet) {
 			boolean shipVertical = false;
@@ -1336,6 +1368,11 @@ public class ShipSetupFrame extends JFrame
 			if (randomX < 5) {
 				shipVertical = false;
 			} else {
+				shipVertical = true;
+			}
+			if (value == 1) {
+				shipVertical = false;
+			} else if (value == 2) {
 				shipVertical = true;
 			}
 			if (shipVertical) {
