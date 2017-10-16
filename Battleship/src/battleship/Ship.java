@@ -190,7 +190,8 @@ public class Ship extends JPanel {
 			heightV = 280;		
 			size = 5;
 			value = 5;
-			setImages(pathH, pathV);
+				setImages(pathH, pathV);
+
 		} else if (type == ShipType.Battleship) {
 		
 			pathH = "res\\BattleShipH.png";
@@ -215,7 +216,8 @@ public class Ship extends JPanel {
 			heightV = 164;
 			size = 3;
 			value = 3;
-			setImages(pathH, pathV);
+				setImages(pathH, pathV);
+				
 		} else if (type == ShipType.Submarine) {
 			pathH = "res\\SubmarineH.png";
 			pathV = "res\\SubmarineV.png";
@@ -239,7 +241,7 @@ public class Ship extends JPanel {
 			heightV = 106;
 			size = 2;
 			value = 1;
-			setImages(pathH, pathV);			
+			setImages(pathH, pathV);		
 		}
 	}
 	/**
@@ -247,6 +249,7 @@ public class Ship extends JPanel {
 	 * the correct height and width depending on orientation.
 	 * @param pathH the horizontal image of the ship
 	 * @param pathV the vertical image of the ship
+	 * @throws IOException Invalid image location string
 	 */
 	public void setImages(final String pathH, final String pathV) {
 		
@@ -259,8 +262,8 @@ public class Ship extends JPanel {
 				widthH, heightH, Image.SCALE_SMOOTH);
 			
 		} catch (IOException ex) {
-			//handle the exception
 			System.err.println("H image not found: " + pathH);
+			//handle the exception
 		}
 		
 		try {
