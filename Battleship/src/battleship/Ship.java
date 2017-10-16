@@ -249,7 +249,6 @@ public class Ship extends JPanel {
 	 * the correct height and width depending on orientation.
 	 * @param pathH the horizontal image of the ship
 	 * @param pathV the vertical image of the ship
-	 * @throws IOException Invalid image location string
 	 */
 	public void setImages(final String pathH, final String pathV) {
 		
