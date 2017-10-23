@@ -132,7 +132,7 @@ public class BattleShipTest {
 	public void testSetAircraftCarrierOnGrid() {
 		
 		ShipSetupFrame testFrame = 
-				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1, Difficulty.Easy);
 		testFrame.getAircraftCarrier().setLocation(700, 400);
 		testFrame.snapShipToX(testFrame.getAircraftCarrier());
 		testFrame.snapShipToY(testFrame.getAircraftCarrier());
@@ -145,7 +145,7 @@ public class BattleShipTest {
 	@Test
 	public void testSetBattleShipOnGrid() {
 		ShipSetupFrame testFrame = 
-				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1, Difficulty.Easy);
 		testFrame.getBattleShip().setLocation(784, 130);
 		testFrame.snapShipToX(testFrame.getBattleShip());
 		testFrame.snapShipToY(testFrame.getBattleShip());
@@ -158,7 +158,7 @@ public class BattleShipTest {
 	@Test
 	public void testSetCruiserOnGrid() {
 		ShipSetupFrame testFrame = 
-				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1, Difficulty.Easy);
 		testFrame.getCruiser().setLocation(600, 130);
 		testFrame.snapShipToX(testFrame.getCruiser());
 		testFrame.snapShipToY(testFrame.getCruiser());
@@ -171,7 +171,7 @@ public class BattleShipTest {
 	@Test
 	public void testSetSubmarineOnGrid() {
 		ShipSetupFrame testFrame = 
-				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1, Difficulty.Easy);
 		testFrame.getSubmarine().setLocation(600, 130);
 		testFrame.snapShipToX(testFrame.getSubmarine());
 		testFrame.snapShipToY(testFrame.getSubmarine());
@@ -184,7 +184,7 @@ public class BattleShipTest {
 	@Test
 	public void testSetPatrolBoatOnGrid() {
 		ShipSetupFrame testFrame = 
-				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1, Difficulty.Easy);
 		testFrame.getPatrolBoat().setLocation(600, 130);
 		testFrame.snapShipToX(testFrame.getPatrolBoat());
 		testFrame.snapShipToY(testFrame.getPatrolBoat());
@@ -198,7 +198,7 @@ public class BattleShipTest {
 	public void testSetShipOffGridToTheLeft() {
 		
 		ShipSetupFrame testFrame = 
-				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1, Difficulty.Easy);
 		testFrame.getAircraftCarrier().setLocation(300, 400);
 		testFrame.snapShipToX(testFrame.getAircraftCarrier());
 		testFrame.snapShipToY(testFrame.getAircraftCarrier());
@@ -212,7 +212,7 @@ public class BattleShipTest {
 	public void testSetShipOffGridToTheRight() {
 		
 		ShipSetupFrame testFrame = 
-				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1, Difficulty.Easy);
 		testFrame.getPatrolBoat().setLocation(400, 1200);
 		testFrame.snapShipToX(testFrame.getPatrolBoat());
 		testFrame.snapShipToY(testFrame.getPatrolBoat());
@@ -226,7 +226,7 @@ public class BattleShipTest {
 	public void testSetShipOffGridToTheTop() {
 		
 		ShipSetupFrame testFrame = 
-				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1, Difficulty.Easy);
 		testFrame.getSubmarine().setLocation(-20, 1200);
 		testFrame.snapShipToX(testFrame.getSubmarine());
 		testFrame.snapShipToY(testFrame.getSubmarine());
@@ -240,7 +240,7 @@ public class BattleShipTest {
 	public void testSetShipOffGridToTheBottom() {
 		
 		ShipSetupFrame testFrame = 
-				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1, Difficulty.Easy);
 		testFrame.getCruiser().setLocation(-20, 1200);
 		testFrame.snapShipToX(testFrame.getCruiser());
 		testFrame.snapShipToY(testFrame.getCruiser());
@@ -253,7 +253,7 @@ public class BattleShipTest {
 	@Test
 	public void testMouseDragAircraftCarrierHorizontal() {
 		ShipSetupFrame testFrame = 
-				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1, Difficulty.Easy);
 		MouseEvent testMousePressEvent = new MouseEvent(testFrame,
 				501, 0, 0,
 				testFrame.getAircraftCarrier().getX() + 5,
@@ -275,7 +275,7 @@ public class BattleShipTest {
 	@Test
 	public void testMouseDragAircraftCarrierVertical() {
 		ShipSetupFrame testFrame = 
-				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1, Difficulty.Easy);
 		testFrame.getAircraftCarrier().rotate();
 		MouseEvent testMousePressEvent = new MouseEvent(testFrame,
 				501, 0, 0,
@@ -298,7 +298,7 @@ public class BattleShipTest {
 	@Test
 	public void testPlaceShipsThroughOutGrid() {
 		ShipSetupFrame testFrame1 = 
-				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1, Difficulty.Easy);
 		dragShipVerticalTo(testFrame1, 
 				testFrame1.getAircraftCarrier(), 850, 130);	
 		assertEquals(5, testFrame1.getAircraftCarrier().getColumn());
@@ -320,7 +320,7 @@ public class BattleShipTest {
 		assertEquals(8, testFrame1.getSubmarine().getColumn());
 		assertEquals(0, testFrame1.getSubmarine().getRow());
 		ShipSetupFrame testFrame2 = 
-				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1, Difficulty.Easy);
 		dragShipVerticalTo(testFrame2, 
 				testFrame2.getPatrolBoat(), 1000, 500);	
 		assertEquals(7, testFrame2.getPatrolBoat().getColumn());
@@ -382,7 +382,7 @@ public class BattleShipTest {
 	@Test
 	public void testMouseDragBattleshipHorizontal() {
 		ShipSetupFrame testFrame = 
-				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1, Difficulty.Easy);
 		MouseEvent testMousePressEvent = new MouseEvent(testFrame,
 				501, 0, 0,
 				testFrame.getBattleShip().getX() + 5,
@@ -403,7 +403,7 @@ public class BattleShipTest {
 	@Test
 	public void testMouseDragBattleshipVertical() {
 		ShipSetupFrame testFrame = 
-				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1, Difficulty.Easy);
 		testFrame.getBattleShip().rotate();
 		MouseEvent testMousePressEvent = new MouseEvent(testFrame,
 				501, 0, 0,
@@ -427,7 +427,7 @@ public class BattleShipTest {
 	@Test
 	public void testMouseDragCruiserHorizontal() {
 		ShipSetupFrame testFrame = 
-				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1, Difficulty.Easy);
 		MouseEvent testMousePressEvent = new MouseEvent(testFrame,
 				501, 0, 0,
 				testFrame.getCruiser().getX() + 5,
@@ -450,7 +450,7 @@ public class BattleShipTest {
 	@Test
 	public void testMouseDragCruiserVertical() {
 		ShipSetupFrame testFrame = 
-				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1, Difficulty.Easy);
 		testFrame.getCruiser().rotate();
 		MouseEvent testMousePressEvent = new MouseEvent(testFrame,
 				501, 0, 0,
@@ -474,7 +474,7 @@ public class BattleShipTest {
 	@Test
 	public void testMouseDragSubmarineHorizontal() {
 		ShipSetupFrame testFrame = 
-				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1, Difficulty.Easy);
 		MouseEvent testMousePressEvent = new MouseEvent(testFrame,
 				501, 0, 0,
 				testFrame.getSubmarine().getX() + 5,
@@ -497,7 +497,7 @@ public class BattleShipTest {
 	@Test
 	public void testMouseDragSubmarineVertical() {
 		ShipSetupFrame testFrame =
-				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1, Difficulty.Easy);
 		testFrame.getSubmarine().rotate();
 		MouseEvent testMousePressEvent = new MouseEvent(testFrame,
 				501, 0, 0,
@@ -521,7 +521,7 @@ public class BattleShipTest {
 	@Test
 	public void testMouseDragPatrolBoatHorizontal() {
 		ShipSetupFrame testFrame = 
-				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1, Difficulty.Easy);
 		MouseEvent testMousePressEvent = new MouseEvent(testFrame,
 				501, 0, 0,
 				testFrame.getPatrolBoat().getX() + 20,
@@ -544,7 +544,7 @@ public class BattleShipTest {
 	@Test
 	public void testMouseDragPatrolBoatVertical() {
 		ShipSetupFrame testFrame = 
-				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1, Difficulty.Easy);
 		testFrame.getPatrolBoat().rotate();
 		MouseEvent testMousePressEvent = new MouseEvent(testFrame,
 				501, 0, 0,
@@ -568,7 +568,7 @@ public class BattleShipTest {
 	@Test
 	public void testMouseClickAircraftCarrier() {
 		ShipSetupFrame testFrame = 
-				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1, Difficulty.Easy);
 		MouseEvent testMousePressEvent = new MouseEvent(testFrame,
 				501, 0, 0,
 				testFrame.getAircraftCarrier().getX() + 5,
@@ -590,7 +590,7 @@ public class BattleShipTest {
 	@Test
 	public void testMouseClickBattleShip() {
 		ShipSetupFrame testFrame = 
-				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1, Difficulty.Easy);
 		MouseEvent testMousePressEvent = new MouseEvent(testFrame,
 				501, 0, 0,
 				testFrame.getBattleShip().getX() + 5,
@@ -609,7 +609,7 @@ public class BattleShipTest {
 	@Test
 	public void testMouseClickSubmarine() {
 		ShipSetupFrame testFrame = 
-				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1, Difficulty.Easy);
 		MouseEvent testMousePressEvent = new MouseEvent(testFrame,
 				501, 0, 0,
 				testFrame.getSubmarine().getX() + 5,
@@ -628,7 +628,7 @@ public class BattleShipTest {
 	@Test
 	public void testMouseClickCruiser() {
 		ShipSetupFrame testFrame = 
-				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1, Difficulty.Easy);
 		MouseEvent testMousePressEvent = new MouseEvent(testFrame,
 				501, 0, 0,
 				testFrame.getCruiser().getX() + 5,
@@ -647,7 +647,7 @@ public class BattleShipTest {
 	@Test
 	public void testMouseClickPatrolBoat() {
 		ShipSetupFrame testFrame = 
-				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1, Difficulty.Easy);
 		MouseEvent testMousePressEvent = new MouseEvent(testFrame,
 				501, 0, 0,
 				testFrame.getPatrolBoat().getX() + 20,
@@ -666,7 +666,7 @@ public class BattleShipTest {
 	@Test
 	public void setCpuShipsHorizontal() {
 		ShipSetupFrame testFrame = 
-				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1, Difficulty.Easy);
 		testFrame.setCpuValues(1);
 		int count = 0;
 		
@@ -686,7 +686,7 @@ public class BattleShipTest {
 	@Test
 	public void setCpuShipsVertical() {
 		ShipSetupFrame testFrame = 
-				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1, Difficulty.Easy);
 		testFrame.setCpuValues(2);
 		int count = 0;
 		
@@ -705,7 +705,7 @@ public class BattleShipTest {
 	@Test
 	public void testShipOverLapAircraftOverBattleShip() {
 		ShipSetupFrame testFrame = 
-				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1, Difficulty.Easy);
 		dragShipVerticalTo(testFrame,
 				testFrame.getAircraftCarrier(), 850, 130);
 		dragShipHorizontalTo(testFrame,
@@ -718,7 +718,7 @@ public class BattleShipTest {
 	@Test
 	public void testShipOverLapAircraftOverCruiser() {
 		ShipSetupFrame testFrame = 
-				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1, Difficulty.Easy);
 		dragShipVerticalTo(testFrame,
 				testFrame.getAircraftCarrier(), 850, 130);
 		dragShipHorizontalTo(testFrame,
@@ -731,7 +731,7 @@ public class BattleShipTest {
 	@Test
 	public void testShipOverLapAircraftOverSubmarine() {
 		ShipSetupFrame testFrame = 
-				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1, Difficulty.Easy);
 		dragShipVerticalTo(testFrame,
 				testFrame.getAircraftCarrier(), 850, 130);
 		dragShipHorizontalTo(testFrame,
@@ -744,7 +744,7 @@ public class BattleShipTest {
 	@Test
 	public void testShipOverLapAircraftOverPatrolBoat() {
 		ShipSetupFrame testFrame = 
-				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1, Difficulty.Easy);
 		dragShipVerticalTo(testFrame,
 				testFrame.getAircraftCarrier(), 850, 130);
 		dragShipHorizontalTo(testFrame,
@@ -757,7 +757,7 @@ public class BattleShipTest {
 	@Test
 	public void testShipOverLapBattleShipOverAircraftCarrier() {
 		ShipSetupFrame testFrame = 
-				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1, Difficulty.Easy);
 		dragShipVerticalTo(testFrame,
 				testFrame.getBattleShip(), 850, 130);
 		dragShipHorizontalTo(testFrame,
@@ -770,7 +770,7 @@ public class BattleShipTest {
 	@Test
 	public void testShipOverLapBattleShipOverCruiser() {
 		ShipSetupFrame testFrame =
-				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1, Difficulty.Easy);
 		dragShipVerticalTo(testFrame, 
 				testFrame.getBattleShip(), 850, 130);
 		dragShipHorizontalTo(testFrame, 
@@ -783,7 +783,7 @@ public class BattleShipTest {
 	@Test
 	public void testShipOverLapBattleShipOverSubmarine() {
 		ShipSetupFrame testFrame = 
-				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1, Difficulty.Easy);
 		dragShipVerticalTo(testFrame,
 				testFrame.getBattleShip(), 850, 130);
 		dragShipHorizontalTo(testFrame,
@@ -796,7 +796,7 @@ public class BattleShipTest {
 	@Test
 	public void testShipOverLapBattleShipOverPatrolBoat() {
 		ShipSetupFrame testFrame = 
-				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1, Difficulty.Easy);
 		dragShipVerticalTo(testFrame,
 				testFrame.getBattleShip(), 850, 130);
 		dragShipHorizontalTo(testFrame,
@@ -809,7 +809,7 @@ public class BattleShipTest {
 	@Test
 	public void testShipOverLapCruiserOverAircraftCarrier() {
 		ShipSetupFrame testFrame = 
-				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1, Difficulty.Easy);
 		dragShipVerticalTo(testFrame,
 				testFrame.getCruiser(), 850, 130);
 		dragShipHorizontalTo(testFrame,
@@ -822,7 +822,7 @@ public class BattleShipTest {
 	@Test
 	public void testShipOverLapCruiserOverBattleShip() {
 		ShipSetupFrame testFrame = 
-				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1, Difficulty.Easy);
 		dragShipVerticalTo(testFrame,
 				testFrame.getCruiser(), 850, 130);
 		dragShipHorizontalTo(testFrame,
@@ -835,7 +835,7 @@ public class BattleShipTest {
 	@Test
 	public void testShipOverLapCruiserOverSubmarine() {
 		ShipSetupFrame testFrame = 
-				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1, Difficulty.Easy);
 		dragShipVerticalTo(testFrame,
 				testFrame.getCruiser(), 850, 130);
 		dragShipHorizontalTo(testFrame,
@@ -848,7 +848,7 @@ public class BattleShipTest {
 	@Test
 	public void testShipOverLapCruiserOverPatrolBoat() {
 		ShipSetupFrame testFrame = 
-				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1, Difficulty.Easy);
 		dragShipVerticalTo(testFrame,
 				testFrame.getCruiser(), 850, 130);
 		dragShipHorizontalTo(testFrame,
@@ -861,7 +861,7 @@ public class BattleShipTest {
 	@Test
 	public void testShipOverLapSubmarineOverAircraftCarrier() {
 		ShipSetupFrame testFrame = 
-				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1, Difficulty.Easy);
 		dragShipVerticalTo(testFrame,
 				testFrame.getSubmarine(), 850, 130);
 		dragShipHorizontalTo(testFrame,
@@ -874,7 +874,7 @@ public class BattleShipTest {
 	@Test
 	public void testShipOverLapSubmarineOverBattleShip() {
 		ShipSetupFrame testFrame = 
-				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1, Difficulty.Easy);
 		dragShipVerticalTo(testFrame,
 				testFrame.getSubmarine(), 850, 130);
 		dragShipHorizontalTo(testFrame,
@@ -887,7 +887,7 @@ public class BattleShipTest {
 	@Test
 	public void testShipOverLapSubmarineOverCruiser() {
 		ShipSetupFrame testFrame = 
-				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1, Difficulty.Easy);
 		dragShipVerticalTo(testFrame,
 				testFrame.getSubmarine(), 850, 130);
 		dragShipHorizontalTo(testFrame,
@@ -900,7 +900,7 @@ public class BattleShipTest {
 	@Test
 	public void testShipOverLapSubmarineOverPatrolBoat() {
 		ShipSetupFrame testFrame = 
-				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1, Difficulty.Easy);
 		dragShipVerticalTo(testFrame,
 				testFrame.getSubmarine(), 850, 130);
 		dragShipHorizontalTo(testFrame,
@@ -913,7 +913,7 @@ public class BattleShipTest {
 	@Test
 	public void testShipOverLapPatrolBoatOverAircraftCarrier() {
 		ShipSetupFrame testFrame = 
-				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1, Difficulty.Easy);
 		dragShipVerticalTo(testFrame,
 				testFrame.getPatrolBoat(), 850, 130);
 		dragShipHorizontalTo(testFrame,
@@ -926,7 +926,7 @@ public class BattleShipTest {
 	@Test
 	public void testShipOverLapPatrolBoatOverBattleShip() {
 		ShipSetupFrame testFrame = 
-				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1, Difficulty.Easy);
 		dragShipVerticalTo(testFrame,
 				testFrame.getPatrolBoat(), 850, 130);
 		dragShipHorizontalTo(testFrame,
@@ -939,7 +939,7 @@ public class BattleShipTest {
 	@Test
 	public void testShipOverLapPatrolBoatOverCruiser() {
 		ShipSetupFrame testFrame =
-				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1, Difficulty.Easy);
 		dragShipVerticalTo(testFrame,
 				testFrame.getPatrolBoat(), 850, 130);
 		dragShipHorizontalTo(testFrame,
@@ -952,7 +952,7 @@ public class BattleShipTest {
 	@Test
 	public void testShipOverLapPatrolBoatOverSubmarine() {
 		ShipSetupFrame testFrame = 
-				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1, Difficulty.Easy);
 		dragShipVerticalTo(testFrame,
 				testFrame.getPatrolBoat(), 850, 130);
 		dragShipHorizontalTo(testFrame,
@@ -965,7 +965,7 @@ public class BattleShipTest {
 	@Test
 	public void testSubmitButtonClick() {
 		ShipSetupFrame testFrame = 
-				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1, Difficulty.Easy);
 		testFrame.submit();
 		assertEquals(true, testFrame.getInvalidShipPlacement());
 	}
@@ -975,7 +975,7 @@ public class BattleShipTest {
 	@Test
 	public void setCpuShipsRandom() {
 		ShipSetupFrame testFrame = 
-				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1, Difficulty.Easy);
 		testFrame.setCpuValues(0);
 		int count = 0;
 		
@@ -1015,7 +1015,7 @@ public class BattleShipTest {
 	 */
 	@Test
 	public void testCpuFire() {
-		GameBoard testBoard = new GameBoard(GameMode.OnePlayerMode);
+		GameBoard testBoard = new GameBoard(GameMode.OnePlayerMode, Difficulty.Easy);
 		ShipSetupFrame testFrame = createSSF();
 		testBoard.setPlayer1Ships(testFrame.getPlayer1Ships());
 		testBoard.setPlayer2Ships(testFrame.getPlayer2Ships());
@@ -1056,7 +1056,7 @@ public class BattleShipTest {
 	 */
 	@Test
 	public void testCpuWin() {
-		GameBoard testBoard = new GameBoard(GameMode.OnePlayerMode);
+		GameBoard testBoard = new GameBoard(GameMode.OnePlayerMode, Difficulty.Easy);
 		//Test win JOptionPane for cpu
 		testBoard.setCpuAircraftCarrierHits(5);
 		testBoard.setCpuBattleShipHits(4);
@@ -1079,7 +1079,7 @@ public class BattleShipTest {
 	 */
 	@Test
 	public void testPlayerWin() {
-		GameBoard testBoard = new GameBoard(GameMode.OnePlayerMode);
+		GameBoard testBoard = new GameBoard(GameMode.OnePlayerMode, Difficulty.Easy);
 		
 		testBoard.setAircraftCarrierHits(5);
 		testBoard.setBattleShipHits(4);
@@ -1106,7 +1106,7 @@ public class BattleShipTest {
 	 */
 	@Test
 	public void testPlayerShotAlreadyShot() {
-		GameBoard testBoard = new GameBoard(GameMode.OnePlayerMode);
+		GameBoard testBoard = new GameBoard(GameMode.OnePlayerMode, Difficulty.Easy);
 		JButton btn = new JButton();
 		btn.setName("0");
 		testBoard.playerShot(btn);
@@ -1124,7 +1124,7 @@ public class BattleShipTest {
 	 */
 	@Test
 	public void testPlayerShotsACC() {
-		GameBoard testBoard = new GameBoard(GameMode.OnePlayerMode);
+		GameBoard testBoard = new GameBoard(GameMode.OnePlayerMode, Difficulty.Easy);
 		ShipSetupFrame testFrame = createSSF();
 		testBoard.setPlayer1Ships(testFrame.getPlayer1Ships());
 		testBoard.setPlayer2Ships(testFrame.getPlayer2Ships());
@@ -1147,7 +1147,7 @@ public class BattleShipTest {
 	 */
 	@Test
 	public void testPlayerShotsBS() {
-		GameBoard testBoard = new GameBoard(GameMode.OnePlayerMode);
+		GameBoard testBoard = new GameBoard(GameMode.OnePlayerMode, Difficulty.Easy);
 		ShipSetupFrame testFrame = createSSF();
 		testBoard.setPlayer1Ships(testFrame.getPlayer1Ships());
 		testBoard.setPlayer2Ships(testFrame.getPlayer2Ships());
@@ -1170,7 +1170,7 @@ public class BattleShipTest {
 	 */
 	@Test
 	public void testPlayerShotsC() {
-		GameBoard testBoard = new GameBoard(GameMode.OnePlayerMode);
+		GameBoard testBoard = new GameBoard(GameMode.OnePlayerMode, Difficulty.Easy);
 		ShipSetupFrame testFrame = createSSF();
 		testBoard.setPlayer1Ships(testFrame.getPlayer1Ships());
 		testBoard.setPlayer2Ships(testFrame.getPlayer2Ships());
@@ -1193,7 +1193,7 @@ public class BattleShipTest {
 	 */
 	@Test
 	public void testPlayerShotsS() {
-		GameBoard testBoard = new GameBoard(GameMode.OnePlayerMode);
+		GameBoard testBoard = new GameBoard(GameMode.OnePlayerMode, Difficulty.Easy);
 		ShipSetupFrame testFrame = createSSF();
 		testBoard.setPlayer1Ships(testFrame.getPlayer1Ships());
 		testBoard.setPlayer2Ships(testFrame.getPlayer2Ships());
@@ -1216,7 +1216,7 @@ public class BattleShipTest {
 	 */
 	@Test
 	public void testPlayerShotsPB() {
-		GameBoard testBoard = new GameBoard(GameMode.OnePlayerMode);
+		GameBoard testBoard = new GameBoard(GameMode.OnePlayerMode, Difficulty.Easy);
 		ShipSetupFrame testFrame = createSSF();
 		testBoard.setPlayer1Ships(testFrame.getPlayer1Ships());
 		testBoard.setPlayer2Ships(testFrame.getPlayer2Ships());
@@ -1241,7 +1241,7 @@ public class BattleShipTest {
 	public ShipSetupFrame createSSF() {
 		
 		ShipSetupFrame testFrame = 
-				new ShipSetupFrame(GameMode.OnePlayerMode, 1);
+				new ShipSetupFrame(GameMode.OnePlayerMode, 1, Difficulty.Easy);
 		
 		//snaps aircraft carrier to column 1 row 1
 		testFrame.getAircraftCarrier().setLocation(600, 130);

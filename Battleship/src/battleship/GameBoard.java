@@ -300,12 +300,17 @@ public class GameBoard extends JFrame implements MouseListener {
 	 */
 	private GameMode currentMode;
 	/**
+	 * Current difficulty being played.
+	 */
+	private Difficulty diffChoice;
+	/**
 	 * Sets the gameMode to the current gameMode.
 	 * Sets the size and layout of the panel.
 	 * @param mode current mode being played
 	 */	
-	public GameBoard(final GameMode mode) {
+	public GameBoard(final GameMode mode, final Difficulty difficulty) {
 		currentMode = mode;
+		diffChoice = difficulty;
 		this.setSize(1200, 700);
 		this.setLayout(new GridLayout(0, 2));
 	}
@@ -458,8 +463,17 @@ public class GameBoard extends JFrame implements MouseListener {
 		}
 		player2Turn = !player2Turn;
 		player1Turn = !player1Turn;
-		if (currentMode == GameMode.OnePlayerMode) {
-			chooseShot();
+		if (currentMode == GameMode.OnePlayerMode && diffChoice == Difficulty.Easy) {
+			chooseShotEasy();
+			System.out.println("Difficulty = Easy");
+		}else if (currentMode == GameMode.OnePlayerMode && diffChoice == Difficulty.Normal) {
+			chooseShotNormal();
+			System.out.println("Difficulty = Normal");
+		}else if (currentMode == GameMode.OnePlayerMode && diffChoice == Difficulty.Hard) {
+			chooseShotHard();
+			System.out.println("Difficulty = Hard");
+		}else {
+			System.out.println("Difficulty = null");
 		}
 	}
 	
@@ -510,10 +524,10 @@ public class GameBoard extends JFrame implements MouseListener {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			randomBox
-					.setBackground(Color.RED);
-			randomBox
-					.setForeground(Color.RED);
+//			randomBox
+//					.setBackground(Color.RED);
+//			randomBox
+//					.setForeground(Color.RED);
 			cpuPatrolBoatHits++;
 			
 		} else if (randomBox
@@ -528,10 +542,10 @@ public class GameBoard extends JFrame implements MouseListener {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			randomBox
-					.setBackground(Color.RED);
-			randomBox
-					.setForeground(Color.RED);
+//			randomBox
+//					.setBackground(Color.RED);
+//			randomBox
+//					.setForeground(Color.RED);
 			cpuSubmarineHits++;
 			
 		} else if (randomBox
@@ -546,10 +560,10 @@ public class GameBoard extends JFrame implements MouseListener {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			randomBox
-					.setBackground(Color.RED);
-			randomBox
-					.setForeground(Color.RED);
+//			randomBox
+//					.setBackground(Color.RED);
+//			randomBox
+//					.setForeground(Color.RED);
 			cpuCruiserHits++;
 			
 		} else if (randomBox
@@ -564,10 +578,10 @@ public class GameBoard extends JFrame implements MouseListener {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			randomBox
-					.setBackground(Color.RED);
-			randomBox
-					.setForeground(Color.RED);
+//			randomBox
+//					.setBackground(Color.RED);
+//			randomBox
+//					.setForeground(Color.RED);
 			cpuBattleShipHits++;
 			
 		} else if (randomBox
@@ -582,10 +596,10 @@ public class GameBoard extends JFrame implements MouseListener {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			randomBox
-					.setBackground(Color.RED);
-			randomBox
-					.setForeground(Color.RED);
+//			randomBox
+//					.setBackground(Color.RED);
+//			randomBox
+//					.setForeground(Color.RED);
 			cpuAircraftCarrierHits++;
 			
 		} else {
@@ -599,10 +613,10 @@ public class GameBoard extends JFrame implements MouseListener {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			randomBox
-					.setBackground(Color.WHITE);
-			randomBox
-					.setForeground(Color.WHITE);
+//			randomBox
+//					.setBackground(Color.WHITE);
+//			randomBox
+//					.setForeground(Color.WHITE);
 		}
 		
 		if (cpuAircraftCarrierHits + cpuBattleShipHits 
@@ -618,10 +632,11 @@ public class GameBoard extends JFrame implements MouseListener {
 	//making sure it always picks a different spot
 	/**
 	 * Chooses a random coordinate on the board to
-	 * have the cpu shoot. Verifies that the cpu
+	 * have the cpu shoot for the easy difficulty.
+	 * Verifies that the cpu
 	 * cannot shoot in the same spot twice.
 	 */
-	public void chooseShot() {
+	public void chooseShotEasy() {
 		
 		int minimum = 0;
 		int maximum = 9;
@@ -633,7 +648,59 @@ public class GameBoard extends JFrame implements MouseListener {
 		Point point = new Point(x, y);
 		
 		if (cpuShots.contains(point)) {
-			chooseShot();
+			chooseShotEasy();
+		} else {
+			cpuShots.add(point);
+			cpuFire(point);
+		}
+	}
+	
+	/**
+	 * Chooses a random coordinate on the board to
+	 * have the cpu shoot for the Normal difficulty.
+	 * Verifies that the cpu
+	 * cannot shoot in the same spot twice.
+	 */
+	public void chooseShotNormal() {
+		//TODO make cpu better
+		
+		int minimum = 0;
+		int maximum = 9;
+		Random rn = new Random();
+		int range = maximum - minimum + 1;
+		int x =  rn.nextInt(range) + minimum;
+		int y = rn.nextInt(range) + minimum;
+		
+		Point point = new Point(x, y);
+		
+		if (cpuShots.contains(point)) {
+			chooseShotEasy();
+		} else {
+			cpuShots.add(point);
+			cpuFire(point);
+		}
+	}
+	
+	/**
+	 * Chooses a random coordinate on the board to
+	 * have the cpu shoot for the Hard difficulty.
+	 * Verifies that the cpu
+	 * cannot shoot in the same spot twice.
+	 */
+	public void chooseShotHard() {
+		//TODO make cpu better
+		
+		int minimum = 0;
+		int maximum = 9;
+		Random rn = new Random();
+		int range = maximum - minimum + 1;
+		int x =  rn.nextInt(range) + minimum;
+		int y = rn.nextInt(range) + minimum;
+		
+		Point point = new Point(x, y);
+		
+		if (cpuShots.contains(point)) {
+			chooseShotEasy();
 		} else {
 			cpuShots.add(point);
 			cpuFire(point);

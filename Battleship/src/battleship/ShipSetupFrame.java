@@ -141,6 +141,10 @@ public class ShipSetupFrame extends JFrame
 	 */
 	private GameMode mode;
 	/**
+	 * Current difficulty being played.
+	 */
+	private Difficulty diffChoice;
+	/**
 	 * Current player setting ships.
 	 */
 	private int currentPlayer;
@@ -207,17 +211,21 @@ public class ShipSetupFrame extends JFrame
 	 * Calls shipSetup passing gameMode and current player.
 	 * @param currentMode mode that the game is being played in
 	 * @param player either 1 or 2 to determine current player
+	 * @param difficulty difficulty to be played
 	 */
-	public ShipSetupFrame(final GameMode currentMode, final int player) {
-		shipSetup(currentMode, player);
+	public ShipSetupFrame(final GameMode currentMode, final int player,
+			final Difficulty difficulty) {
+		shipSetup(currentMode, player, difficulty);
 	}
 	/**
 	 * Creates the frame and populates it with the board,
 	 * the ships, and the submit button.
 	 * @param currentMode mode that the game is being played in
 	 * @param player either 1 or 2 to determine current player
+	 * @param difficulty difficulty to be played
 	 */
-	public void shipSetup(final GameMode currentMode, final int player) {
+	public void shipSetup(final GameMode currentMode, final int player,
+			final Difficulty difficulty) {
 //		if (player == 2) {
 //			this.setTitle("Player 2 Set Ships");
 //		} else {
@@ -225,6 +233,7 @@ public class ShipSetupFrame extends JFrame
 //		}
 		this.setTitle("Player 1 Set Ships");
 		mode = currentMode;
+		diffChoice = difficulty;
 		currentPlayer = player;
 		//JComponent contentPane = new ShipSetupPanel(currentMode);
 		getContentPane().setLayout(
@@ -996,7 +1005,7 @@ public class ShipSetupFrame extends JFrame
 		//count is = to 17 if all ships are placed correctly
 		if (count == 17) {
 			invalidShipPlacement = false;
-			GameBoard playingBoard = new GameBoard(mode);
+			GameBoard playingBoard = new GameBoard(mode, diffChoice);
 //			if (this.getTitle().contains("1") 
 //					&& mode == GameMode.OnePlayerMode) {
 				playingBoard.setPlayer1Ships(player1Ships);
