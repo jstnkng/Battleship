@@ -2,12 +2,13 @@ package battleship;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.Random;
-
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -20,7 +21,7 @@ import javax.swing.JOptionPane;
  * the board to place ships on the right.
  */
 public class ShipSetupFrame extends JFrame 
-	implements MouseListener, MouseMotionListener {
+	implements MouseListener, MouseMotionListener, KeyListener {
 	
 	/**
 	 * ID for serializable class.
@@ -363,6 +364,7 @@ public class ShipSetupFrame extends JFrame
 		returnShipToStart(submarine);
 		returnShipToStart(patrolBoat);
 		
+		submit.addKeyListener(this);
 	}
 
 	@Override
@@ -978,6 +980,22 @@ public class ShipSetupFrame extends JFrame
 	 * to make sure all ships are set.
 	 */
 	public void submit() {
+		
+		JLabel[][] oldGridLoc = new JLabel[boardSize][boardSize];
+		
+		//creates 2d array to remember old locations of grid
+		//for reseting grid if ships aren't set correctly
+		for (int x = 0; x < boardSize; x++) {
+			for (int y = 0; y < boardSize; y++) {
+				oldGridLoc[x][y] = new JLabel();
+				oldGridLoc[x][y].setLocation(
+					(int) grid[x][y].getLocation().getX(), 
+					(int) grid[x][y].getLocation().getY());
+				
+			}
+		}
+		
+		//sets grid location to the locations on screen
 		for (int x = 0; x < boardSize; x++) {
 			for (int y = 0; y < boardSize; y++) {
 				grid[x][y].setLocation(grid[x][y]
@@ -994,18 +1012,21 @@ public class ShipSetupFrame extends JFrame
 		//Count the number of values occupied by a ship
 		int count = 0;
 		
-		for (int x = 0; x < boardSize; x++) {
-			for (int y = 0; y < boardSize; y++) {
-				if (player1Values[x][y] != 0) {
-					count++;
+		if (player1Values != null) {
+			for (int x = 0; x < boardSize; x++) {
+				for (int y = 0; y < boardSize; y++) {
+					if (player1Values[x][y] != 0) {
+						count++;
+					}
 				}
 			}
 		}
-		
+
 		//count is = to 17 if all ships are placed correctly
 		if (count == 17) {
 			invalidShipPlacement = false;
-			GameBoard playingBoard = new GameBoard(mode, diffChoice);
+			GameBoard playingBoard = new 
+				GameBoard(mode, diffChoice);
 //			if (this.getTitle().contains("1") 
 //					&& mode == GameMode.OnePlayerMode) {
 				playingBoard.setPlayer1Ships(player1Ships);
@@ -1039,17 +1060,23 @@ public class ShipSetupFrame extends JFrame
 //				playingBoard.beginGame();
 //			}
 		} else {
+			
+			//returns grid to original location and sets values to 0
+			for (int x = 0; x < boardSize; x++) {
+				for (int y = 0; y < boardSize; y++) {
+					grid[x][y].setLocation(
+						(int) oldGridLoc[x][y]
+							.getLocation().getX(),
+						(int) oldGridLoc[x][y]
+							.getLocation().getY());
+					player1Values[x][y] = 0;
+				}
+			}
 
 			invalidShipPlacement = true;
 			//if the ships aren't placed correctly
 			JOptionPane.showMessageDialog(null,
 			"Invalid ship placement.");
-			returnShipToStart(aircraftCarrier);
-			returnShipToStart(battleShip);
-			returnShipToStart(cruiser);
-			returnShipToStart(submarine);
-			returnShipToStart(patrolBoat);
-			
 		}
 		
 		
@@ -1059,6 +1086,7 @@ public class ShipSetupFrame extends JFrame
 	 * @param shipToSet the selected ship
 	 */
 	public void setValues(final Ship shipToSet) {
+		
 		for (int s = 0; s < shipToSet.getShipSize(); s++) {
 			if (shipToSet.isHorizontal()) {
 			 player1Values[shipToSet.getRow()]
@@ -1431,5 +1459,55 @@ public class ShipSetupFrame extends JFrame
 			}
 		}
 	}
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+		//on S keypress auto set ships and continue
+		if(e.getKeyCode() == KeyEvent.VK_S) {
+			System.out.println("Keyboard press");
+			
+			aircraftCarrier.rotate();
+			battleShip.rotate();
+			battleShip.rotate();
+			submarine.rotate();
+			cruiser.rotate();
+			cruiser.rotate();
+			patrolBoat.rotate();
+			
+			aircraftCarrier.setLocation(1050, 125);
+			snapShipToX(aircraftCarrier);
+			snapShipToY(aircraftCarrier);
+			
+			battleShip.setLocation(800, 550);
+			snapShipToX(battleShip);
+			snapShipToY(battleShip);
+			
+			submarine.setLocation(550, 400);
+			snapShipToX(submarine);
+			snapShipToY(submarine);
+			
+			cruiser.setLocation(600, 125);
+			snapShipToX(cruiser);
+			snapShipToY(cruiser);
+			
+			patrolBoat.setLocation(900, 200);
+			snapShipToX(patrolBoat);
+			snapShipToY(patrolBoat);
+			
+			submit();
+		}
+	}
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 	
 }

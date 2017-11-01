@@ -8,9 +8,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Random;
-
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -101,10 +98,6 @@ public class GameBoard extends JFrame implements MouseListener {
 	 * Starts false so player2 has second move.
 	 */
 	private boolean player2Turn = false;
-	/**
-	 * ArrayList of points to hold where the cpu has already shot.
-	 */
-	private ArrayList<Point> cpuShots = new ArrayList<Point>();
 	/**
 	 * Current number of hits that the cpu has
 	 * hit player 1's aircraft carrier.
@@ -304,13 +297,43 @@ public class GameBoard extends JFrame implements MouseListener {
 	 */
 	private Difficulty diffChoice;
 	/**
+	 * Boolean if cpu is still trying to sink certain ship.
+	 */
+	private boolean inPursuit = false;
+	/**
+	 * ships sunk by cpu.
+	 */
+	private int shipsSunk = 0;
+	/**
+	 * location of last cpu hit.
+	 */
+	private Point lastHitLoc = null;
+	/**
+	 * location of first cpu hit on ship.
+	 */
+	private Point firstHitLoc = null;
+	/**
+	 * boolean if last cpu shot was a hit.
+	 */
+	private boolean wasHit = false;
+	/**
+	 * counts sunken ships by cpu.
+	 */
+	private int countSunk = 0;
+	/**
+	 * creates a cpu.
+	 */
+	private Cpu computer;
+	/**
 	 * Sets the gameMode to the current gameMode.
 	 * Sets the size and layout of the panel.
 	 * @param mode current mode being played
+	 * @param difficulty current difficulty being played
 	 */	
 	public GameBoard(final GameMode mode, final Difficulty difficulty) {
 		currentMode = mode;
 		diffChoice = difficulty;
+		computer = new Cpu(difficulty);
 		this.setSize(1200, 700);
 		this.setLayout(new GridLayout(0, 2));
 	}
@@ -327,7 +350,7 @@ public class GameBoard extends JFrame implements MouseListener {
 		int y2 = 0;
 		for (JLabel[] row  : Grid.getLabelGrid()) {
 			for (JLabel box : row) {
-				if (player1Values[y2][x2] == 0) {
+				if (player1Values[x2][y2] == 0) {
 				    Image img;
 					try {
 					img = ImageIO.read(
@@ -342,12 +365,12 @@ public class GameBoard extends JFrame implements MouseListener {
 					box.setForeground(Color.GRAY);
 					box.setBackground(Color.GRAY);
 				}
-				box.setText(player1Values[y2][x2] + "");
+				box.setText(player1Values[x2][y2] + "");
 				
-				x2++;
+				y2++;
 			}
-			y2++;
-			x2 = 0;
+			x2++;
+			y2 = 0;
 		}		
 		this.add(player1Board);
 		
@@ -358,16 +381,16 @@ public class GameBoard extends JFrame implements MouseListener {
 		for (JButton[] row  : Grid.getButtonGrid()) {
 			for (JButton button : row) {
 				button.addMouseListener(this);
-				button.setName(player2Values[y][x] + "");
-				if (player2Values[y][x] == 1) {
+				button.setName(player2Values[x][y] + "");
+				if (player2Values[x][y] == 1) {
 					button.setForeground(Color.RED);
 				} else {
 					button.setForeground(Color.black);
 				}
-				x++;
+				y++;
 			}
-			y++;
-			x = 0;
+			x++;
+			y = 0;
 		}
 		this.add(player2Board);
 		
@@ -463,17 +486,12 @@ public class GameBoard extends JFrame implements MouseListener {
 		}
 		player2Turn = !player2Turn;
 		player1Turn = !player1Turn;
-		if (currentMode == GameMode.OnePlayerMode && diffChoice == Difficulty.Easy) {
-			chooseShotEasy();
-			System.out.println("Difficulty = Easy");
-		}else if (currentMode == GameMode.OnePlayerMode && diffChoice == Difficulty.Normal) {
-			chooseShotNormal();
-			System.out.println("Difficulty = Normal");
-		}else if (currentMode == GameMode.OnePlayerMode && diffChoice == Difficulty.Hard) {
-			chooseShotHard();
-			System.out.println("Difficulty = Hard");
-		}else {
-			System.out.println("Difficulty = null");
+		
+		//initiates and makes the computers shot
+		if (this.isVisible()) {
+			Point p = computer.fire(
+				firstHitLoc, lastHitLoc, wasHit, inPursuit);
+			cpuFire(p);
 		}
 	}
 	
@@ -509,9 +527,10 @@ public class GameBoard extends JFrame implements MouseListener {
 	 */
 	public void cpuFire(final Point point) {	
 		
-		int randomX = (int) point.getX();
-		int randomY = (int) point.getY();
-		JLabel randomBox = Grid.getLabel(randomX, randomY);
+		int randomX = point.x;
+		int randomY = point.y;
+		//TODO fix weird bug x and y flipped for some reason
+		JLabel randomBox = Grid.getLabel(randomY, randomX);
 		if (randomBox
 				.getText().contains("1")) {
 			Image hit;
@@ -524,12 +543,17 @@ public class GameBoard extends JFrame implements MouseListener {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-//			randomBox
-//					.setBackground(Color.RED);
-//			randomBox
-//					.setForeground(Color.RED);
 			cpuPatrolBoatHits++;
-			
+			if (cpuPatrolBoatHits == 2) {
+				shipsSunk++;
+			} else if (cpuPatrolBoatHits == 1) {
+				firstHitLoc = new Point(randomX, randomY);
+				inPursuit = true;
+				lastHitLoc = new Point(randomX, randomY);
+			} else {
+				lastHitLoc = new Point(randomX, randomY);
+				wasHit = true;
+			}
 		} else if (randomBox
 				.getText().contains("2")) {
 			Image hit;
@@ -542,12 +566,17 @@ public class GameBoard extends JFrame implements MouseListener {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-//			randomBox
-//					.setBackground(Color.RED);
-//			randomBox
-//					.setForeground(Color.RED);
 			cpuSubmarineHits++;
-			
+			if (cpuSubmarineHits == 3) {
+				shipsSunk++;
+			} else if (cpuSubmarineHits == 1) {
+				firstHitLoc = new Point(randomX, randomY);
+				inPursuit = true;
+				lastHitLoc = new Point(randomX, randomY);
+			} else {
+				lastHitLoc = new Point(randomX, randomY);
+				wasHit = true;
+			}
 		} else if (randomBox
 				.getText().contains("3")) {
 			Image hit;
@@ -560,12 +589,17 @@ public class GameBoard extends JFrame implements MouseListener {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-//			randomBox
-//					.setBackground(Color.RED);
-//			randomBox
-//					.setForeground(Color.RED);
 			cpuCruiserHits++;
-			
+			if (cpuCruiserHits == 3) {
+				shipsSunk++;
+			} else if (cpuCruiserHits == 1) {
+				firstHitLoc = new Point(randomX, randomY);
+				inPursuit = true;
+				lastHitLoc = new Point(randomX, randomY);
+			} else {
+				lastHitLoc = new Point(randomX, randomY);
+				wasHit = true;
+			}
 		} else if (randomBox
 				.getText().contains("4")) {
 			Image hit;
@@ -578,12 +612,17 @@ public class GameBoard extends JFrame implements MouseListener {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-//			randomBox
-//					.setBackground(Color.RED);
-//			randomBox
-//					.setForeground(Color.RED);
 			cpuBattleShipHits++;
-			
+			if (cpuBattleShipHits == 4) {
+				shipsSunk++;
+			} else if (cpuBattleShipHits == 1) {
+				firstHitLoc = new Point(randomX, randomY);
+				inPursuit = true;
+				lastHitLoc = new Point(randomX, randomY);
+			} else {
+				lastHitLoc = new Point(randomX, randomY);
+				wasHit = true;
+			}
 		} else if (randomBox
 				.getText().contains("5")) {
 			Image hit;
@@ -596,12 +635,17 @@ public class GameBoard extends JFrame implements MouseListener {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-//			randomBox
-//					.setBackground(Color.RED);
-//			randomBox
-//					.setForeground(Color.RED);
 			cpuAircraftCarrierHits++;
-			
+			if (cpuAircraftCarrierHits == 5) {
+				shipsSunk++;
+			} else if (cpuAircraftCarrierHits == 1) {
+				firstHitLoc = new Point(randomX, randomY);
+				inPursuit = true;
+				lastHitLoc = new Point(randomX, randomY);
+			} else {
+				lastHitLoc = new Point(randomX, randomY);
+				wasHit = true;
+			}
 		} else {
 			Image miss;
 			try {
@@ -613,101 +657,23 @@ public class GameBoard extends JFrame implements MouseListener {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-//			randomBox
-//					.setBackground(Color.WHITE);
-//			randomBox
-//					.setForeground(Color.WHITE);
+			wasHit = false;
 		}
 		
-		if (cpuAircraftCarrierHits + cpuBattleShipHits 
-				+ cpuCruiserHits + cpuSubmarineHits
-				+ cpuPatrolBoatHits == 17) {
+		//check if another ship was sunk
+		if (shipsSunk > countSunk) {
+			inPursuit = false;
+			countSunk = shipsSunk;
+		}
+		
+		//check win condition
+		if (countSunk == 5) {
 			JOptionPane.showMessageDialog(null, "Player 2 wins");
 			
 			this.setVisible(false);
 		}
 	}
 	
-	//Picks the point for the cpu to shoot
-	//making sure it always picks a different spot
-	/**
-	 * Chooses a random coordinate on the board to
-	 * have the cpu shoot for the easy difficulty.
-	 * Verifies that the cpu
-	 * cannot shoot in the same spot twice.
-	 */
-	public void chooseShotEasy() {
-		
-		int minimum = 0;
-		int maximum = 9;
-		Random rn = new Random();
-		int range = maximum - minimum + 1;
-		int x =  rn.nextInt(range) + minimum;
-		int y = rn.nextInt(range) + minimum;
-		
-		Point point = new Point(x, y);
-		
-		if (cpuShots.contains(point)) {
-			chooseShotEasy();
-		} else {
-			cpuShots.add(point);
-			cpuFire(point);
-		}
-	}
-	
-	/**
-	 * Chooses a random coordinate on the board to
-	 * have the cpu shoot for the Normal difficulty.
-	 * Verifies that the cpu
-	 * cannot shoot in the same spot twice.
-	 */
-	public void chooseShotNormal() {
-		//TODO make cpu better
-		
-		int minimum = 0;
-		int maximum = 9;
-		Random rn = new Random();
-		int range = maximum - minimum + 1;
-		int x =  rn.nextInt(range) + minimum;
-		int y = rn.nextInt(range) + minimum;
-		
-		Point point = new Point(x, y);
-		
-		if (cpuShots.contains(point)) {
-			chooseShotEasy();
-		} else {
-			cpuShots.add(point);
-			cpuFire(point);
-		}
-	}
-	
-	/**
-	 * Chooses a random coordinate on the board to
-	 * have the cpu shoot for the Hard difficulty.
-	 * Verifies that the cpu
-	 * cannot shoot in the same spot twice.
-	 */
-	public void chooseShotHard() {
-		//TODO make cpu better
-		
-		int minimum = 0;
-		int maximum = 9;
-		Random rn = new Random();
-		int range = maximum - minimum + 1;
-		int x =  rn.nextInt(range) + minimum;
-		int y = rn.nextInt(range) + minimum;
-		
-		Point point = new Point(x, y);
-		
-		if (cpuShots.contains(point)) {
-			chooseShotEasy();
-		} else {
-			cpuShots.add(point);
-			cpuFire(point);
-		}
-	}
-
-
 	@Override
 	public void mouseEntered(final MouseEvent e) {
 		// TODO Auto-generated method stub

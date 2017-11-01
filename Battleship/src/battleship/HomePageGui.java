@@ -317,7 +317,8 @@ public class HomePageGui extends JFrame implements MouseListener,
 	 */
 	public ShipSetupFrame startPassAndPlay() {
 		ShipSetupFrame p1 = new 
-			ShipSetupFrame(GameMode.TwoPlayerPassAndPlay, 1, diffChoice);
+			ShipSetupFrame(GameMode.TwoPlayerPassAndPlay, 1, 
+					diffChoice);
 		p1.setLocationRelativeTo(null);
 		p1.setVisible(true);
 		System.out.println("Pass & Play");
@@ -341,13 +342,13 @@ public class HomePageGui extends JFrame implements MouseListener,
 	
 	@Override
 	public void actionPerformed(final ActionEvent e) {
-		if(e.getSource() == easyButton) {
+		if (e.getSource() == easyButton) {
 			diffChoice = Difficulty.Easy;
 		}
-		if(e.getSource() == normalButton) {
+		if (e.getSource() == normalButton) {
 			diffChoice = Difficulty.Normal;
 		}
-		if(e.getSource() == hardButton) {
+		if (e.getSource() == hardButton) {
 			diffChoice = Difficulty.Hard;
 		}
 		
