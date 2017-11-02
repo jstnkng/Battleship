@@ -90,9 +90,7 @@ public class Cpu {
 			} else {
 				p = null;
 			}
-			
-			System.out.println("cpu shot at: " + p);
-			
+						
 			return p;
 			
 		}
@@ -134,9 +132,7 @@ public class Cpu {
 			
 			int x = 0;
 			int y = 0;
-			
-			System.out.println("inPursuit: " + inPursuit);
-			
+						
 			while (!isValid(p)) {
 				
 				if (!inPursuit) {
@@ -195,22 +191,18 @@ public class Cpu {
 			
 			if (num == 0) {
 				//try right
-				System.out.println("try right");
 				x = lastHitLoc.x + 1;
 				y = lastHitLoc.y;
 			} else if (num == 1) {
 				//try left
-				System.out.println("try left");
 				x = lastHitLoc.x - 1;
 				y = lastHitLoc.y;
 			} else if (num == 2) {
 				//try up
-				System.out.println("try up");
 				x = lastHitLoc.x;
 				y = lastHitLoc.y - 1;
 			} else if (num == 3) {
 				//try down
-				System.out.println("try down");
 				x = lastHitLoc.x;
 				y = lastHitLoc.y + 1;	
 			}
@@ -230,28 +222,24 @@ public class Cpu {
 			
 			if (lastHitLoc.x < firstHitLoc.x) {
 				//ship is horizontal. guess left
-				System.out.println("go left");
 				isH = true;
 				isV = false;
 				x = lastHitLoc.x - 1;
 				y = lastHitLoc.y;
 			} else if (lastHitLoc.x > firstHitLoc.x) {
 				//ship is horizontal. guess right
-				System.out.println("go right");
 				isH = true;
 				isV = false;
 				x = lastHitLoc.x + 1;
 				y = lastHitLoc.y;
 			} else if (lastHitLoc.y < firstHitLoc.y) {
 				//ship is vertical. guess up
-				System.out.println("go up");
 				isV = true;
 				isH = false;
 				x = lastHitLoc.x;
 				y = lastHitLoc.y - 1;
 			} else if (lastHitLoc.y > firstHitLoc.y) {
 				//ship is vertical. guess down
-				System.out.println("go down");
 				isV = true;
 				isH = false;
 				x = lastHitLoc.x;
@@ -289,9 +277,6 @@ public class Cpu {
 			int y = 0;
 			
 			if (isH) {
-				System.out.println(
-					"Jump to opposite side of "
-					+ "start horizontal");
 				if (lastHitLoc.x < firstHitLoc.x) {
 					//jump to right
 					x = firstHitLoc.x + 1;
@@ -302,9 +287,6 @@ public class Cpu {
 					y = firstHitLoc.y;
 				}
 			} else if (isV) {
-				System.out.println(
-					"Jump to opposite side of "
-					+ "start vertical");
 				if (lastHitLoc.y < firstHitLoc.y) {
 					//jump to bottom of first hit
 					x = firstHitLoc.x;
