@@ -397,11 +397,12 @@ public class GameBoard extends JFrame implements MouseListener {
 	}
 	
 	@Override
-	public void mouseClicked(final MouseEvent e) {
+	public void mousePressed(final MouseEvent e) {
 		// TODO Auto-generated method stub
 		JButton button = (JButton) e.getSource();
 		playerShot(button);
 	}
+	
 	/**
 	 * Called by mouseClicked when the player clicks on a JButton
 	 * at a certain coordinate. Determines if spot has already been shot
@@ -687,9 +688,10 @@ public class GameBoard extends JFrame implements MouseListener {
 	}
 
 	@Override
-	public void mousePressed(final MouseEvent e) {
+	public void mouseClicked(final MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+//		JButton button = (JButton) e.getSource();
+//		playerShot(button);
 	}
 
 	@Override

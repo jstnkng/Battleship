@@ -329,15 +329,13 @@ public class HomePageGui extends JFrame implements MouseListener,
 	}
 
 	@Override
-	public void mouseClicked(final MouseEvent e) {
-		
+	public void mousePressed(final MouseEvent e) {
 		if (e.getSource() == btnOnePlayer) {
 			startOnePlayer();
 		}
 		if (e.getSource() == btnPassPlay) {
 			startPassAndPlay();
-		}
-			
+		}	
 	}
 	
 	@Override
@@ -367,9 +365,8 @@ public class HomePageGui extends JFrame implements MouseListener,
 	}
 
 	@Override
-	public void mousePressed(final MouseEvent arg0) {
+	public void mouseClicked(final MouseEvent e) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override

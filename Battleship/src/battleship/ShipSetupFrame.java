@@ -319,7 +319,7 @@ public class ShipSetupFrame extends JFrame
 		layeredPane.add(submit,  c, 1);
 		submit.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(final MouseEvent e) {
+			public void mousePressed(final MouseEvent e) {
 				submit();
 			}
 		});
