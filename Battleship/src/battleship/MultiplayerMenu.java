@@ -1,8 +1,5 @@
 package battleship;
 
-import java.awt.BorderLayout;
-import java.awt.Container;
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -13,17 +10,19 @@ import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
-import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 
+/**
+ * Creates the gui menu for multiplayer servers.
+ * @author Sam Carson
+ *
+ */
 public class MultiplayerMenu extends JFrame implements MouseListener {
 	
 		/**
@@ -35,41 +34,48 @@ public class MultiplayerMenu extends JFrame implements MouseListener {
 		 */
 		private GameMode modeChoice;
 		/**
-		 * servers
+		 * servers.
 		 */
 		private String[][] servers;
 		/**
-		 * server name
+		 * server name.
 		 */
 		private String serverName;
 		/**
-		 * server name
+		 * server password.
 		 */
 		private String serverPassword;
 		/**
-		 * column names
+		 * Arraylist of serverInfo.
 		 */
-		private String[] columns = {"Name", "Private"};
+		private ArrayList<ServerInfo> serverList = 
+				new ArrayList<ServerInfo>();
 		/**
-		 * JTable for servers
+		 * column names.
+		 */
+		private Object[] columns = {"Server Name", "Private"};
+		/**
+		 * JTable for servers.
 		 */
 		private JTable table;
 		/**
-		 * button for creating server
+		 * button for creating server.
 		 */
 		private JButton btnCreateServer;
 		/**
-		 * button for joining server
+		 * button for joining server.
 		 */
 		private JButton btnJoinServer;
-		
+		/**
+		 * table model for the table of servers.
+		 */
 		private DefaultTableModel model;
 		
 		/**
 		 * creates the menu frame.
-		 * @param mode
+		 * @param mode the current mode to be played
 		 */
-		public MultiplayerMenu(GameMode mode) {
+		public MultiplayerMenu(final GameMode mode) {
 			//setup the frame
 			this.setTitle("Multiplayer Menu");
 			this.setSize(1200, 700);
@@ -120,15 +126,18 @@ public class MultiplayerMenu extends JFrame implements MouseListener {
 		 * and set its location within the
 		 * grid bag layout.
 		 * 
-		 * @param label The background to add the component to
+		 * @param panel The panel to add to
 		 * @param c The component to add
+		 * @param gx the horizontal grid location
 		 * @param gy The vertical grid location
 		 * @param weighty The vertical weight
+		 * @param gridW the grid width of the component
 		 * @param fill The fill of its area
 		 */
 		public void addItem(final JPanel panel, final JComponent c,
 				final int gx, final int gy, 
-				final double weighty, final int gridW, final int fill) {
+				final double weighty, final int gridW, 
+				final int fill) {
 			
 			GridBagConstraints gbc = new GridBagConstraints();
 			gbc.insets = new Insets(10, 10, 10, 10);
@@ -161,31 +170,68 @@ public class MultiplayerMenu extends JFrame implements MouseListener {
 
 		@Override
 		public void mousePressed(final MouseEvent e) {
-			// TODO Auto-generated method stub
+			
+			//creating server and putting in server table
 			if (e.getSource() == btnCreateServer) {
 				JTextField name = new JTextField();
 				JTextField password = new JTextField();
 				Object[] message = {"Server Name: ", name,
-									"Password (Optional): ", password
+						"Password (Optional): ", password
 				};
 				
-				int n = JOptionPane.showConfirmDialog(null, message,
-						"Create Server", JOptionPane.OK_CANCEL_OPTION);
+				int n = JOptionPane.showConfirmDialog(null,
+						message, "Create Server", 
+						JOptionPane.OK_CANCEL_OPTION);
 				System.out.println("Create Button pressed");
 				
 				if (n == JOptionPane.OK_OPTION) {
 					serverName = name.getText();
 					serverPassword = password.getText();
+					ServerInfo server = new ServerInfo(
+							serverName, serverPassword, null);
+					serverList.add(server);
 					String isPrivate = "";
-					if (serverPassword.length() > 0) {
+					if (serverList.get(serverList.size() - 1)
+							.getPassword().length() > 0) {
 						isPrivate = "Yes";
 					} else {
 						isPrivate = "No";
 					}
 
-					model.addRow(new String[] {serverName, isPrivate});
+					model.addRow(new Object[] {
+							serverList.get(serverList.size() - 1).getName(), isPrivate});
 				}
 				
+			}
+			
+			//joining server
+			if (e.getSource() == btnJoinServer) {
+				if (table.getSelectedRow() != -1) {
+					int row = table.getSelectedRow();
+					if (serverList.get(row).getPassword().length() > 0) {
+						
+						JTextField password = new JTextField();
+						Object[] message = 
+							{"Enter Server Password: ", password};
+			
+						int n = JOptionPane.showConfirmDialog(null, message,
+								"Password", JOptionPane.OK_CANCEL_OPTION);
+						if (n == JOptionPane.OK_OPTION) {
+							String pass = password.getText();
+							if (pass.equals(serverList.get(row).getPassword())) {
+								
+								System.out.println("Joining server " 
+										+ serverList.get(row).getName());
+							} else {
+								System.out.println("incorrect password");
+							}
+						}
+					} else {
+						System.out.println("Joining " 
+							+ serverList.get(row)
+							.getName());
+					}
+				}
 			}
 		}
 
