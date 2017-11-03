@@ -87,7 +87,9 @@ public class Cpu {
 			} else if (currentDiff == Difficulty.Normal) {
 				p = normal(firstHitLoc, lastHitLoc, 
 						wasHit, inPursuit);
-			} else {
+			} else if (currentDiff == Difficulty.Hard) {
+				p = hard();
+			}else {
 				p = null;
 			}
 						
@@ -170,14 +172,14 @@ public class Cpu {
 			cpuShots.add(p);
 			return p;
 		}
-//		
-//		private Point Hard() {
-//			Point p;
-//			
-//			
-//			
-//			return p;
-//		}
+		
+		private Point hard() {
+			Point p = null;
+			
+			
+			
+			return p;
+		}
 		/**
 		 * chooses a shot based on the first hit.
 		 * @return Point point to shoot

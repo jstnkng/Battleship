@@ -365,14 +365,13 @@ public class HomePageGui extends JFrame implements MouseListener,
 	}
 
 	@Override
-	public void mouseClicked(final MouseEvent e) {
+	public void mouseClicked(final MouseEvent e) { 
 		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public void mouseReleased(final MouseEvent arg0) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	
