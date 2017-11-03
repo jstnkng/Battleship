@@ -49,6 +49,10 @@ public class HomePageGui extends JFrame implements MouseListener,
 	 */
 	private JButton btnOnePlayer;
 	/**
+	 * Creates button for multiplayer
+	 */
+	private JButton btnMultiplayer;
+	/**
 	 * Creates button for pass and play mode.
 	 */
 	private JButton btnPassPlay;
@@ -173,9 +177,41 @@ public class HomePageGui extends JFrame implements MouseListener,
 		btnOnePlayer.addMouseListener(this);
 		
 		
-		//add one player button to panel and Grid bag layout
-		addItem(background, btnOnePlayer, 2, .1, 
+		//add player button to panel and Grid bag layout
+		addItem(background, btnOnePlayer, 3, .1, 
 				GridBagConstraints.CENTER);
+		
+		//create button for multi player
+				btnMultiplayer = new JButton("Multiplayer");
+				btnMultiplayer.setBackground(Color.LIGHT_GRAY);
+				btnMultiplayer.setForeground(Color.BLACK);
+				btnMultiplayer.setPreferredSize(new Dimension(400, 50));
+				
+				btnMultiplayer.setBorder(BorderFactory.createLineBorder(
+						Color.BLACK));
+				
+				//Changes button border on mouse hover
+				btnMultiplayer.getModel().addChangeListener(new ChangeListener() {
+					@Override
+					public void stateChanged(final ChangeEvent e) {
+						if (btnMultiplayer.getModel().isRollover()) {
+							btnMultiplayer.setBorder(
+								BorderFactory.
+								createEtchedBorder());
+						} else {
+							btnMultiplayer.setBorder(
+								BorderFactory.
+								createLineBorder(Color.BLACK));
+						}
+					}
+				});
+				
+				btnMultiplayer.addMouseListener(this);
+				
+				
+				//add multi player player button to panel and Grid bag layout
+				addItem(background, btnMultiplayer, 2, .1, 
+						GridBagConstraints.CENTER);
 		
 		//create strings for radio buttons
 		String easy = "Easy";
@@ -221,7 +257,7 @@ public class HomePageGui extends JFrame implements MouseListener,
 	    		Color.BLACK));
 	    
 	    //add group to panel and Grid bag layout
-	    addItem(background, difficultyBox, 3, .1, 
+	    addItem(background, difficultyBox, 4, .1, 
 	    		GridBagConstraints.CENTER);
 	    
 	    //add action listeners
@@ -238,7 +274,7 @@ public class HomePageGui extends JFrame implements MouseListener,
 	    blank.setOpaque(false);
 	    
 	    //add blank to panel and Grid bag layout
-	    addItem(background, blank, 4, .856, 
+	    addItem(background, blank, 5, .856, 
 	    		GridBagConstraints.BOTH);
 	    		
 	}
@@ -327,6 +363,21 @@ public class HomePageGui extends JFrame implements MouseListener,
 		
 		return p1;
 	}
+	
+	/**
+	 * Creates multiplayer menu for multiplayer game.
+	 * @return MultiplayerMenu
+	 */
+	public MultiplayerMenu startMultiplayer() {
+		MultiplayerMenu p1 = new 
+			MultiplayerMenu(GameMode.MultiplayerMode);
+		p1.setLocationRelativeTo(null);
+		System.out.println("Multiplayer");
+		System.out.println("x: " + btnMultiplayer.getLocationOnScreen().x 
+			+ " y: " + btnMultiplayer.getLocationOnScreen().y);
+		
+		return p1;
+	}
 
 	@Override
 	public void mousePressed(final MouseEvent e) {
@@ -335,7 +386,10 @@ public class HomePageGui extends JFrame implements MouseListener,
 		}
 		if (e.getSource() == btnPassPlay) {
 			startPassAndPlay();
-		}	
+		}
+		if (e.getSource() == btnMultiplayer) {
+			startMultiplayer();
+		}
 	}
 	
 	@Override
