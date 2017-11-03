@@ -16,5 +16,10 @@ public enum GameMode {
 	 * while passing the device back and forth.
 	 *
 	 */
-	TwoPlayerPassAndPlay
+	TwoPlayerPassAndPlay,
+	/**
+	 * Mode for person against person online.
+	 *
+	 */
+	MultiplayerMode
 }
