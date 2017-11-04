@@ -321,6 +321,14 @@ public class GameBoard extends JFrame implements MouseListener {
 	 */
 	private int countSunk = 0;
 	/**
+	 * value of the square hit by the cpu
+	 */
+	private int hitValue = 0;
+	/**
+	 * boolean if the cpu sunk the ship it was targeting
+	 */
+	private boolean targetSunk = true;
+	/**
 	 * creates a cpu.
 	 */
 	private Cpu computer;
@@ -490,9 +498,20 @@ public class GameBoard extends JFrame implements MouseListener {
 		
 		//initiates and makes the computers shot
 		if (this.isVisible()) {
-			Point p = computer.fire(
-				firstHitLoc, lastHitLoc, wasHit, inPursuit);
-			cpuFire(p);
+			Point nextPoint;
+			if (diffChoice == Difficulty.Easy) {
+				nextPoint = computer.fireEasy();
+			}else if (diffChoice == Difficulty.Normal) {
+				nextPoint = computer.fireNormal(
+						firstHitLoc, lastHitLoc, wasHit, inPursuit);
+			}else {
+				System.out.println("Getting next point...");
+				System.out.println("(Target: "+ hitValue + ", Target sunk: " + targetSunk + ")");
+				nextPoint = computer.fireHard(hitValue, player1Values, targetSunk);
+				System.out.println("Next point complete. CPU Fire at " + nextPoint.y + ", " + nextPoint.x);
+			}
+
+			cpuFire(nextPoint);
 		}
 	}
 	
@@ -534,6 +553,7 @@ public class GameBoard extends JFrame implements MouseListener {
 		JLabel randomBox = Grid.getLabel(randomY, randomX);
 		if (randomBox
 				.getText().contains("1")) {
+			hitValue = 1;
 			Image hit;
 			try {
 				hit = ImageIO.read(
@@ -546,17 +566,21 @@ public class GameBoard extends JFrame implements MouseListener {
 			}
 			cpuPatrolBoatHits++;
 			if (cpuPatrolBoatHits == 2) {
+				targetSunk = true;
 				shipsSunk++;
 			} else if (cpuPatrolBoatHits == 1) {
+				targetSunk = false;
 				firstHitLoc = new Point(randomX, randomY);
 				inPursuit = true;
 				lastHitLoc = new Point(randomX, randomY);
 			} else {
+				targetSunk = false;
 				lastHitLoc = new Point(randomX, randomY);
 				wasHit = true;
 			}
 		} else if (randomBox
 				.getText().contains("2")) {
+			hitValue = 2;
 			Image hit;
 			try {
 				hit = ImageIO.read(
@@ -570,16 +594,20 @@ public class GameBoard extends JFrame implements MouseListener {
 			cpuSubmarineHits++;
 			if (cpuSubmarineHits == 3) {
 				shipsSunk++;
+				targetSunk = true;
 			} else if (cpuSubmarineHits == 1) {
+				targetSunk = false;
 				firstHitLoc = new Point(randomX, randomY);
 				inPursuit = true;
 				lastHitLoc = new Point(randomX, randomY);
 			} else {
+				targetSunk = false;
 				lastHitLoc = new Point(randomX, randomY);
 				wasHit = true;
 			}
 		} else if (randomBox
 				.getText().contains("3")) {
+			hitValue = 3;
 			Image hit;
 			try {
 				hit = ImageIO.read(
@@ -593,16 +621,20 @@ public class GameBoard extends JFrame implements MouseListener {
 			cpuCruiserHits++;
 			if (cpuCruiserHits == 3) {
 				shipsSunk++;
+				targetSunk = true;
 			} else if (cpuCruiserHits == 1) {
+				targetSunk = false;
 				firstHitLoc = new Point(randomX, randomY);
 				inPursuit = true;
 				lastHitLoc = new Point(randomX, randomY);
 			} else {
+				targetSunk = false;
 				lastHitLoc = new Point(randomX, randomY);
 				wasHit = true;
 			}
 		} else if (randomBox
 				.getText().contains("4")) {
+			hitValue = 4;
 			Image hit;
 			try {
 				hit = ImageIO.read(
@@ -616,16 +648,20 @@ public class GameBoard extends JFrame implements MouseListener {
 			cpuBattleShipHits++;
 			if (cpuBattleShipHits == 4) {
 				shipsSunk++;
+				targetSunk = true;
 			} else if (cpuBattleShipHits == 1) {
+				targetSunk = false;
 				firstHitLoc = new Point(randomX, randomY);
 				inPursuit = true;
 				lastHitLoc = new Point(randomX, randomY);
 			} else {
+				targetSunk = false;
 				lastHitLoc = new Point(randomX, randomY);
 				wasHit = true;
 			}
 		} else if (randomBox
 				.getText().contains("5")) {
+			hitValue = 5;
 			Image hit;
 			try {
 				hit = ImageIO.read(
@@ -639,16 +675,20 @@ public class GameBoard extends JFrame implements MouseListener {
 			cpuAircraftCarrierHits++;
 			if (cpuAircraftCarrierHits == 5) {
 				shipsSunk++;
+				targetSunk = true;
 			} else if (cpuAircraftCarrierHits == 1) {
+				targetSunk = false;
 				firstHitLoc = new Point(randomX, randomY);
 				inPursuit = true;
 				lastHitLoc = new Point(randomX, randomY);
 			} else {
+				targetSunk = false;
 				lastHitLoc = new Point(randomX, randomY);
 				wasHit = true;
 			}
 		} else {
 			Image miss;
+			hitValue = 0;
 			try {
 				miss = ImageIO.read(
 				new File("res\\waves_whitedot.png"));

@@ -61,47 +61,12 @@ public class Cpu {
 			currentDiff = d;
 		}
 		
-		/**
-		 * Fires the shot for the cpu based on difficulty.
-		 * @param first first shot location
-		 * @param last last shit location
-		 * @param hit if last shot was hit
-		 * @param pursuit if in pursuit
-		 * @return Point point to shoot
-		 */
-		public Point fire(final Point first, final Point last, 
-				final boolean hit, final boolean pursuit) {
-			Point p;
-			
-			firstHitLoc = first;
-			lastHitLoc = last;
-			wasHit = hit;
-			inPursuit = pursuit;
-			
-			if (!firstHits.contains(firstHitLoc)) {
-				firstHits.add(firstHitLoc);
-			}
-			
-			if (currentDiff == Difficulty.Easy) {
-				p = easy();
-			} else if (currentDiff == Difficulty.Normal) {
-				p = normal(firstHitLoc, lastHitLoc, 
-						wasHit, inPursuit);
-			} else if (currentDiff == Difficulty.Hard) {
-				p = hard();
-			}else {
-				p = null;
-			}
-						
-			return p;
-			
-		}
 		
 		/**
 		 * computer for easy difficulty.
 		 * @return Point point to shoot
 		 */
-		private Point easy() {
+		public Point fireEasy() {
 			Point p = null;
 			
 			while (!isValid(p)) {
@@ -114,7 +79,7 @@ public class Cpu {
 
 				p = new Point(x, y);
 			}
-			
+			cpuShots.add(p);
 			return p;
 		}
 		
@@ -126,9 +91,14 @@ public class Cpu {
 		 * @param inPursuit if in pursuit
 		 * @return Point point to shoot
 		 */
-		private Point normal(final Point firstHitLoc, 
-				final Point lastHitLoc, final boolean wasHit, 
-				final boolean inPursuit) {
+		public Point fireNormal(final Point firstHit, 
+				final Point lastHit, final boolean hit, 
+				final boolean pursuit) {
+			
+			firstHitLoc = firstHit;
+			lastHitLoc = lastHit;
+			wasHit = hit;
+			inPursuit = pursuit;
 			
 			Point p = null;
 			
@@ -173,11 +143,36 @@ public class Cpu {
 			return p;
 		}
 		
-		private Point hard() {
+		public Point fireHard(final int target, final int[][] values, final boolean targetSunk) {
 			Point p = null;
-			
-			
-			
+			//If the last hit was a miss and its not in the middle of sinking a ship, pick a new random place
+			if (target == 0 || targetSunk) {
+				System.out.println("Easy fire");
+				p = fireEasy();
+			}
+			else {
+				boolean foundPoint = false;
+				while(!foundPoint) {
+					for (int x = 0; x < 10; x++) {
+						for (int y = 0; y < 10; y++) {
+							if (values[x][y] == target) {
+								p = new Point(y,x);
+								if (cpuShots.contains(p)) {
+									
+								}
+								else {
+									cpuShots.add(p);
+									foundPoint = true;
+									//System.out.println("Target square is " + y + ", " + x + ". Target is " + target + ". Value is " + values[x][y]);
+									return p;
+								}
+
+							}
+						}
+					}	
+				}
+				
+			}
 			return p;
 		}
 		/**
