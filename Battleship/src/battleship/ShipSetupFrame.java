@@ -79,6 +79,10 @@ public class ShipSetupFrame extends JFrame
 	 */
 	private Grid board;
 	/**
+	 * Creates a Grid for the board.
+	 */
+	private Grid player2Board;
+	/**
 	 * Creates an instance of Ship for the aircraft carrier.
 	 */
 	private Ship aircraftCarrier;
@@ -146,6 +150,10 @@ public class ShipSetupFrame extends JFrame
 	 */
 	private Difficulty diffChoice;
 	/**
+	 * Board for the values
+	 */
+	private GameBoard playingBoard;
+	/**
 	 * Current player setting ships.
 	 */
 	private int currentPlayer;
@@ -153,6 +161,10 @@ public class ShipSetupFrame extends JFrame
 	 * Creates a 2D array of labels for the board.
 	 */
 	private JLabel[][] grid = new JLabel[boardSize][boardSize];
+	/**
+	 * Creates a 2D array of labels for the player 2 board.
+	 */
+	private JLabel[][] player2Grid = new JLabel[boardSize][boardSize];
 	/**
 	 * Creates a 2D array of int to hold the values for player1's ships.
 	 */
@@ -202,6 +214,10 @@ public class ShipSetupFrame extends JFrame
 	 */
 	private boolean invalidShipPlacement;
 	/**
+	 * Flag to check if player 2 ships are set correctly or not.
+	 */
+	private boolean invalidShipPlacement2;
+	/**
 	 * Returns invalidShipPlacement flag.
 	 * @return boolean invalidShipPlacement
 	 */
@@ -216,7 +232,7 @@ public class ShipSetupFrame extends JFrame
 	 */
 	public ShipSetupFrame(final GameMode currentMode, final int player,
 			final Difficulty difficulty) {
-		shipSetup(currentMode, player, difficulty);
+		shipSetup(currentMode, player, difficulty, null);
 	}
 	/**
 	 * Creates the frame and populates it with the board,
@@ -226,16 +242,17 @@ public class ShipSetupFrame extends JFrame
 	 * @param difficulty difficulty to be played
 	 */
 	public void shipSetup(final GameMode currentMode, final int player,
-			final Difficulty difficulty) {
-//		if (player == 2) {
-//			this.setTitle("Player 2 Set Ships");
-//		} else {
-//			this.setTitle("Player 1 Set Ships");
-//		}
-		this.setTitle("Player 1 Set Ships");
+			final Difficulty difficulty, GameBoard playBoard) {
+		if (player == 2) {
+			this.setTitle("Player 2 Set Ships");
+		} else {
+			this.setTitle("Player 1 Set Ships");
+		}
+		playingBoard = playBoard;
 		mode = currentMode;
 		diffChoice = difficulty;
 		currentPlayer = player;
+		System.out.println("Player: " + currentPlayer);
 		//JComponent contentPane = new ShipSetupPanel(currentMode);
 		getContentPane().setLayout(
 			    new BoxLayout(getContentPane(), BoxLayout.PAGE_AXIS)
@@ -325,10 +342,11 @@ public class ShipSetupFrame extends JFrame
 		});
 		
 		board = new Grid(boardSize, "Label");
-		grid = Grid.getLabelGrid();
-		if (currentPlayer == 1) {
-			player1Values = board.getValues();
-		}
+		player2Board = new Grid(boardSize, "Label");
+		grid = board.getLabelGrid();
+		grid = player2Board.getLabelGrid();
+		player1Values = board.getValues();
+		player2Values = player2Board.getValues();
 
 //		for (JLabel[] row  : board.labelGrid) {
 //			for (JLabel box : row) {
@@ -996,13 +1014,13 @@ public class ShipSetupFrame extends JFrame
 		}
 		
 		//sets grid location to the locations on screen
-		for (int x = 0; x < boardSize; x++) {
-			for (int y = 0; y < boardSize; y++) {
-				grid[x][y].setLocation(grid[x][y]
-				.getLocationOnScreen().x,
-				grid[x][y].getLocationOnScreen().y);
-			}
-		}
+//		for (int x = 0; x < boardSize; x++) {
+//			for (int y = 0; y < boardSize; y++) {
+//				grid[x][y].setLocation(grid[x][y]
+//				.getLocationOnScreen().x,
+//				grid[x][y].getLocationOnScreen().y);
+//			}
+//		}
 		setValues(aircraftCarrier);
 		setValues(battleShip);
 		setValues(cruiser);
@@ -1010,94 +1028,184 @@ public class ShipSetupFrame extends JFrame
 		setValues(patrolBoat);
 		
 		//Count the number of values occupied by a ship
-		int count = 0;
-		
-		if (player1Values != null) {
-			for (int x = 0; x < boardSize; x++) {
-				for (int y = 0; y < boardSize; y++) {
-					if (player1Values[x][y] != 0) {
-						count++;
+		int player1Count = 0;
+			if (player1Values != null) {
+				for (int x = 0; x < boardSize; x++) {
+					for (int y = 0; y < boardSize; y++) {
+						if (player1Values[x][y] != 0) {
+							player1Count++;
+						}
+					}
+				}
+			}
+		int player2Count = 0;
+			if (player2Values != null) {
+				for (int x = 0; x < boardSize; x++) {
+					for (int y = 0; y < boardSize; y++) {
+						if (player2Values[x][y] != 0) {
+							player2Count++;
+						}
+					}
+				}
+			}
+
+
+		//count is = to 17 if all ships are placed correctly
+		if (currentPlayer == 1) {
+			if (player1Count == 17) {
+				invalidShipPlacement = false;
+			}
+			else {
+				invalidShipPlacement = true;
+				JOptionPane.showMessageDialog(null,
+						"Invalid ship placement.");
+				for (int x = 0; x < boardSize; x++) {
+					for (int y = 0; y < boardSize; y++) {
+						grid[x][y].setLocation(
+							(int) oldGridLoc[x][y]
+								.getLocation().getX(),
+							(int) oldGridLoc[x][y]
+								.getLocation().getY());
+						player1Values[x][y] = 0;
+					}
+				}
+			}
+		}
+		else if (currentPlayer == 2) {
+			if (player2Count == 17) {
+				invalidShipPlacement2 = false;
+			}
+			else {
+				invalidShipPlacement2 = true;
+				JOptionPane.showMessageDialog(null,
+						"Invalid ship placement.");
+				for (int x = 0; x < boardSize; x++) {
+					for (int y = 0; y < boardSize; y++) {
+						player2Grid[x][y].setLocation(
+							(int) oldGridLoc[x][y]
+								.getLocation().getX(),
+							(int) oldGridLoc[x][y]
+								.getLocation().getY());
+						player2Values[x][y] = 0;
 					}
 				}
 			}
 		}
 
-		//count is = to 17 if all ships are placed correctly
-		if (count == 17) {
-			invalidShipPlacement = false;
-			GameBoard playingBoard = new 
-				GameBoard(mode, diffChoice);
+		if (currentPlayer == 1 && invalidShipPlacement == false && mode == GameMode.OnePlayerMode) { 
+			playingBoard = new 
+					GameBoard(mode, diffChoice);
+			playingBoard.setPlayer1Ships(player1Ships);
+			playingBoard.setPlayer1Values(player1Values);
+			setCpuValues(0);
+			playingBoard.setPlayer2Values(player2Values);
+			System.out.println("CPU Ships)");
+			for (int x = 0; x < 10; x++) {
+				for (int y = 0; y < 10; y++) {
+				System.out.print(player2Values[x][y]);
+				}
+				
+				System.out.println("");
+			}
+			this.setVisible(false);
+			playingBoard.setLocationRelativeTo(null);
+			playingBoard.setVisible(true);
+			playingBoard.beginGame();
+		}
+		else if (currentPlayer == 1 && invalidShipPlacement == false && mode == GameMode.TwoPlayerPassAndPlay) {
+			playingBoard = new 
+					GameBoard(mode, diffChoice);
+			playingBoard.setPlayer1Values(player1Values);
+			this.setTitle("Player 2 Set Ships");
+			this.getContentPane().removeAll();
+			shipSetup(mode, 2, diffChoice, playingBoard);
+			//setPlayer2Ships(playingBoard);		
+		}
+		else if (currentPlayer == 2 && invalidShipPlacement == false && mode == GameMode.TwoPlayerPassAndPlay) {
+			setPlayer2Ships(playingBoard);
+		}
+		
+	}
+	
+	private void setPlayer2Ships(GameBoard board) {
+		board.setPlayer2Values(player2Values);
+		this.setVisible(false);
+		board.setVisible(true);
+		board.beginGame();
+	}
+		
+//		else if (currentPlayer == 2 && invalidShipPlacement2 == false && mode == GameMode.TwoPlayerPassAndPlay) {
+//			playingBoard.setPlayer2Values(player2Values);
+//		}
 //			if (this.getTitle().contains("1") 
 //					&& mode == GameMode.OnePlayerMode) {
-				playingBoard.setPlayer1Ships(player1Ships);
-				playingBoard.setPlayer1Values(player1Values);
-				setCpuValues(0);
-				playingBoard.setPlayer2Values(player2Values);
-				System.out.println("CPU Ships)");
-				for (int x = 0; x < 10; x++) {
-					for (int y = 0; y < 10; y++) {
-					System.out.print(player2Values[x][y]);
-					}
-					
-					System.out.println("");
-				}
-				this.setVisible(false);
-				playingBoard.setLocationRelativeTo(null);
-				playingBoard.setVisible(true);
-				playingBoard.beginGame();
+//				playingBoard.setPlayer1Ships(player1Ships);
+//				playingBoard.setPlayer1Values(player1Values);
+//				setCpuValues(0);
+//				playingBoard.setPlayer2Values(player2Values);
+//				System.out.println("CPU Ships)");
+//				for (int x = 0; x < 10; x++) {
+//					for (int y = 0; y < 10; y++) {
+//					System.out.print(player2Values[x][y]);
+//					}
+//					
+//					System.out.println("");
+//				}
+//				this.setVisible(false);
+//				playingBoard.setLocationRelativeTo(null);
+//				playingBoard.setVisible(true);
+//				playingBoard.beginGame();
 //			} else if (this.getTitle().contains("1") && mode
 //					== GameMode.TwoPlayerPassAndPlay) {
 //			   playingBoard.setPlayer1Ships(player1Ships);
 //			   playingBoard.setPlayer1Values(board.getValues());
 //				this.setTitle("Player 2 Set Ships");
 //				this.getContentPane().removeAll();
-//				shipSetup(mode, 2);
+//				shipSetup(mode, 2, diffChoice);
 //			} else {
+//				player1Values = getPlayer1Values();
+//				player2Values = board.getValues();
+//				
 //				playingBoard.setPlayer2Ships(player2Ships);
 //			   playingBoard.setPlayer2Values(board.getValues());
 //				this.setVisible(false);
 //				playingBoard.setVisible(true);
 //				playingBoard.beginGame();
 //			}
-		} else {
-			
-			//returns grid to original location and sets values to 0
-			for (int x = 0; x < boardSize; x++) {
-				for (int y = 0; y < boardSize; y++) {
-					grid[x][y].setLocation(
-						(int) oldGridLoc[x][y]
-							.getLocation().getX(),
-						(int) oldGridLoc[x][y]
-							.getLocation().getY());
-					player1Values[x][y] = 0;
-				}
-			}
-
-			invalidShipPlacement = true;
-			//if the ships aren't placed correctly
-			JOptionPane.showMessageDialog(null,
-			"Invalid ship placement.");
-		}
+//		
 		
-		
-	}
 	/**
 	 * sets the values of the ships in the 2D array.
 	 * @param shipToSet the selected ship
 	 */
 	public void setValues(final Ship shipToSet) {
-		
-		for (int s = 0; s < shipToSet.getShipSize(); s++) {
-			if (shipToSet.isHorizontal()) {
-			 player1Values[shipToSet.getRow()]
-					 [shipToSet.getColumn() + s] 
-						= shipToSet.getValue();
-			} else {
-			 player1Values[shipToSet.getRow() + s]
-					 [shipToSet.getColumn()] 
-						= shipToSet.getValue();
+		if(currentPlayer == 1) {
+			for (int s = 0; s < shipToSet.getShipSize(); s++) {
+				if (shipToSet.isHorizontal()) {
+				 player1Values[shipToSet.getRow()]
+						 [shipToSet.getColumn() + s] 
+							= shipToSet.getValue();
+				} else {
+				 player1Values[shipToSet.getRow() + s]
+						 [shipToSet.getColumn()] 
+							= shipToSet.getValue();
+				}
 			}
 		}
+		else if(currentPlayer == 2) {
+			for (int s = 0; s < shipToSet.getShipSize(); s++) {
+				if (shipToSet.isHorizontal()) {
+				 player2Values[shipToSet.getRow()]
+						 [shipToSet.getColumn() + s] 
+							= shipToSet.getValue();
+				} else {
+				 player2Values[shipToSet.getRow() + s]
+						 [shipToSet.getColumn()] 
+							= shipToSet.getValue();
+				}
+			}
+		}
+		
 	}
 	
 	/**

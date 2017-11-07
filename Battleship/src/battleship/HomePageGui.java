@@ -337,7 +337,7 @@ public class HomePageGui extends JFrame implements MouseListener,
 	 */
 	public ShipSetupFrame startOnePlayer() {
 		ShipSetupFrame p1 = new 
-			ShipSetupFrame(GameMode.OnePlayerMode, 0, diffChoice);
+			ShipSetupFrame(GameMode.OnePlayerMode, 1, diffChoice);
 		p1.setLocationRelativeTo(null);
 		p1.setVisible(true);
 		System.out.println("Single Player");

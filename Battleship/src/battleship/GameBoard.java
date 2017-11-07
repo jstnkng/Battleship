@@ -29,13 +29,13 @@ public class GameBoard extends JFrame implements MouseListener {
 	 * The board where the current players ships
 	 * are displayed.
 	 */
-	private Grid player1Board;
+	private Grid leftBoard;
 	/**
 	 * The board where the second players ships 
 	 * are. The current player clicks on buttons
 	 * on this board to fire.
 	 */
-	private Grid player2Board;
+	private Grid rightBoard;
 	/**
 	 * The array of ints that store the locations of each
 	 * point that contains player 1's ships.
@@ -352,58 +352,96 @@ public class GameBoard extends JFrame implements MouseListener {
 	 */
 	public void beginGame() {
 		
-		player1Board = new Grid(10, "Label");
-		player1Board.setValues(player1Values);
-		int x2 = 0;
-		int y2 = 0;
-		for (JLabel[] row  : Grid.getLabelGrid()) {
-			for (JLabel box : row) {
-				if (player1Values[x2][y2] == 0) {
-				    Image img;
-					try {
-					img = ImageIO.read(
-					new File("res\\waves.png"));
-					box.setIcon(new ImageIcon(img));
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-					box.setForeground(Color.BLUE);
-					box.setBackground(Color.BLUE);
-				} else {
-					box.setForeground(Color.GRAY);
-					box.setBackground(Color.GRAY);
-				}
-				box.setText(player1Values[x2][y2] + "");
-				
-				y2++;
-			}
-			x2++;
-			y2 = 0;
-		}		
-		this.add(player1Board);
-		
-		player2Board = new Grid(10, "Button");
-		player2Board.setValues(player2Values);
-		int x = 0;
-		int y = 0;
-		for (JButton[] row  : Grid.getButtonGrid()) {
-			for (JButton button : row) {
-				button.addMouseListener(this);
-				button.setName(player2Values[x][y] + "");
-				if (player2Values[x][y] == 1) {
-					button.setForeground(Color.RED);
-				} else {
-					button.setForeground(Color.black);
-				}
-				y++;
-			}
-			x++;
-			y = 0;
-		}
-		this.add(player2Board);
-		
+		leftBoard = new Grid(10, "Label");
+		rightBoard = new Grid(10, "Button");
+		loadBoards(1);
+		this.add(leftBoard);
+		this.add(rightBoard);
 	}
 	
+	public void loadBoards(final int currentPlayer) {
+		int x2 = 0;
+		int y2 = 0;
+		if (currentPlayer == 1) {
+			leftBoard.setValues(player1Values);
+			for (JLabel[] row  : Grid.getLabelGrid()) {
+				for (JLabel box : row) {
+					if (player1Values[x2][y2] == 0) {
+					    Image img;
+					    //Probably need code here for putting in hits and misses too instead of just waves
+						try {
+						img = ImageIO.read(
+						new File("res\\waves.png"));
+						box.setIcon(new ImageIcon(img));
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+						box.setForeground(Color.BLUE);
+						box.setBackground(Color.BLUE);
+					} else {
+						box.setForeground(Color.GRAY);
+						box.setBackground(Color.GRAY);
+					}
+					box.setText(player1Values[x2][y2] + "");
+					
+					y2++;
+				}
+				x2++;
+				y2 = 0;
+			}
+			rightBoard.setValues(player2Values);
+			int x = 0;
+			int y = 0;
+			for (JButton[] row  : Grid.getButtonGrid()) {
+				for (JButton button : row) {
+					button.addMouseListener(this);
+					button.setName(player2Values[x][y] + "");
+					y++;
+				}
+				x++;
+				y = 0;
+			}		
+		}
+		else if (currentPlayer == 2){
+			leftBoard.setValues(player2Values);
+			for (JLabel[] row  : Grid.getLabelGrid()) {
+				for (JLabel box : row) {
+					if (player2Values[x2][y2] == 0) {
+					    Image img;
+						try {
+						img = ImageIO.read(
+						new File("res\\waves.png"));
+						box.setIcon(new ImageIcon(img));
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+						box.setForeground(Color.BLUE);
+						box.setBackground(Color.BLUE);
+					} else {
+						box.setForeground(Color.GRAY);
+						box.setBackground(Color.GRAY);
+					}
+					box.setText(player2Values[x2][y2] + "");
+					
+					y2++;
+				}
+				x2++;
+				y2 = 0;
+			}
+			rightBoard.setValues(player1Values);
+			int x = 0;
+			int y = 0;
+			for (JButton[] row  : Grid.getButtonGrid()) {
+				for (JButton button : row) {
+					button.addMouseListener(this);
+					button.setName(player1Values[x][y] + "");
+					y++;
+				}
+				x++;
+				y = 0;
+			}
+		}
+	}
 	@Override
 	public void mousePressed(final MouseEvent e) {
 		// TODO Auto-generated method stub
@@ -497,21 +535,31 @@ public class GameBoard extends JFrame implements MouseListener {
 		player1Turn = !player1Turn;
 		
 		//initiates and makes the computers shot
-		if (this.isVisible()) {
-			Point nextPoint;
-			if (diffChoice == Difficulty.Easy) {
-				nextPoint = computer.fireEasy();
-			}else if (diffChoice == Difficulty.Normal) {
-				nextPoint = computer.fireNormal(
-						firstHitLoc, lastHitLoc, wasHit, inPursuit);
-			}else {
-				System.out.println("Getting next point...");
-				System.out.println("(Target: "+ hitValue + ", Target sunk: " + targetSunk + ")");
-				nextPoint = computer.fireHard(hitValue, player1Values, targetSunk);
-				System.out.println("Next point complete. CPU Fire at " + nextPoint.y + ", " + nextPoint.x);
+		if (currentMode == GameMode.TwoPlayerPassAndPlay) {
+			if (player2Turn) {
+				loadBoards(2);
 			}
-
-			cpuFire(nextPoint);
+			else loadBoards(1);
+		}
+		else if (currentMode == GameMode.MultiplayerMode) {
+			
+		}
+		else {
+			if (this.isVisible()) {
+				Point nextPoint;
+				if (diffChoice == Difficulty.Easy) {
+					nextPoint = computer.fireEasy();
+				}else if (diffChoice == Difficulty.Normal) {
+					nextPoint = computer.fireNormal(
+							firstHitLoc, lastHitLoc, wasHit, inPursuit);
+				}else {
+					System.out.println("Getting next point...");
+					System.out.println("(Target: "+ hitValue + ", Target sunk: " + targetSunk + ")");
+					nextPoint = computer.fireHard(hitValue, player1Values, targetSunk);
+					System.out.println("Next point complete. CPU Fire at " + nextPoint.y + ", " + nextPoint.x);
+				}
+				cpuFire(nextPoint);
+			}
 		}
 	}
 	
