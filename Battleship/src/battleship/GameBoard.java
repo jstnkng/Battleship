@@ -373,12 +373,6 @@ public class GameBoard extends JFrame implements MouseListener {
 		lastShot.equals(null);
 	}
 	
-	
-	private GameBoardConnector connector;
-	
-	public void setConnector(GameBoardConnector con) {
-		connector = con;
-	}
 	/**
 	 * Sets the gameMode to the current gameMode.
 	 * Sets the size and layout of the panel.
