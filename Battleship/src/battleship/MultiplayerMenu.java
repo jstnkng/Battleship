@@ -3,6 +3,7 @@ package battleship;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.List;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
@@ -16,14 +17,18 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.event.RowSorterEvent;
+import javax.swing.event.RowSorterListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  * Creates the gui menu for multiplayer servers.
  * @author Sam Carson
  *
  */
-public class MultiplayerMenu extends JFrame implements MouseListener {
+public class MultiplayerMenu extends JFrame implements MouseListener, RowSorterListener {
 	
 		/**
 		 * 
@@ -102,6 +107,14 @@ public class MultiplayerMenu extends JFrame implements MouseListener {
 			table.setFillsViewportHeight(true);
 			
 			table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+			
+			//TODO also sort arraylist to match
+			TableRowSorter<TableModel> sorter = new TableRowSorter<>(table.getModel());
+			table.setRowSorter(sorter);
+			
+			sorter.addRowSorterListener(this);
+			
+			
 			
 			addItem(panel, scroller, 1, 0, 1, 2, GridBagConstraints.BOTH);
 			
@@ -237,6 +250,12 @@ public class MultiplayerMenu extends JFrame implements MouseListener {
 
 		@Override
 		public void mouseReleased(final MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void sorterChanged(RowSorterEvent arg0) {
 			// TODO Auto-generated method stub
 			
 		}

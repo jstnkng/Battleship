@@ -2,6 +2,8 @@ package battleship;
 
 import java.awt.Button;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -13,12 +15,15 @@ import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 /**
  * Displays the two boards, one with the players ships and one
@@ -363,10 +368,15 @@ public class GameBoard extends JFrame implements MouseListener {
 	
 	private JPanel player2Panel;
 	
+	private JPanel middlePanel;
+	
 	private ButtonGrid player1ButtonGrid;
 	private LabelGrid player1LabelGrid;
 	private ButtonGrid player2ButtonGrid;
 	private LabelGrid player2LabelGrid;
+	private LabelGrid currentGrid;
+	
+	private JButton switchPlayers;
 	
 	
 	public void resetLastShot() {
@@ -391,20 +401,79 @@ public class GameBoard extends JFrame implements MouseListener {
 	
 	public void beginPassAndPlay() {
 		this.setLayout(new GridBagLayout());
+		this.setTitle("Player 1");
 		GridBagConstraints c = new GridBagConstraints();
+		
+		//create the panels
 		player1Panel = new JPanel();
 		player2Panel = new JPanel();
-		player2Panel.setVisible(false);
+		middlePanel = new JPanel();
+		
+		
+		//set panel Layouts
 		player1Panel.setLayout(new GridLayout(0,2));
 		player2Panel.setLayout(new GridLayout(0,2));
+		//middlePanel.setLayout(new GridLayout(0,2));
+		middlePanel.setLayout(new GridLayout(0,2));
+
+		//create the grids
 		player1ButtonGrid = new ButtonGrid();
 		player2LabelGrid = new LabelGrid();
 		player1LabelGrid = new LabelGrid();
 		player2ButtonGrid = new ButtonGrid();
+		currentGrid = new LabelGrid();
+		
+		//create switch button
+		switchPlayers = new JButton("<html><center>"+"Next Player"+"<br>"+"Click Here To Continue"+"</center></html>");
+		switchPlayers.setFont(new Font("Arial", Font.PLAIN, 50));
+		switchPlayers.setBackground(Color.LIGHT_GRAY);
+		switchPlayers.setForeground(Color.BLACK);
+		switchPlayers.setPreferredSize(new Dimension(400, 50));
+
+		switchPlayers.setBorder(BorderFactory.createLineBorder(
+				Color.BLACK));
+
+		//Changes button border on mouse hover
+		switchPlayers.getModel().addChangeListener(new ChangeListener() {
+			@Override
+			public void stateChanged(final ChangeEvent e) {
+				if (switchPlayers.getModel().isRollover()) {
+					switchPlayers.setBorder(
+							BorderFactory.
+							createEtchedBorder());
+				} else {
+					switchPlayers.setBorder(
+							BorderFactory.
+							createLineBorder(Color.BLACK));
+				}
+			}
+		});
+				
+		
+		//set panel visibility for start
+		player2Panel.setVisible(false);
+		middlePanel.setVisible(false);
+		
+		//add button to the middlePanel
+		middlePanel.add(switchPlayers);
+		
+		//add grid to the middlePanel
+		middlePanel.add(currentGrid);
+		
+		c.fill = GridBagConstraints.BOTH;
+		c.gridx = 0;
+		c.gridy = 0;
+		c.weightx = 1;
+		c.weighty = 1;
+		this.add(middlePanel, c);
+		
+		//add the grids to the panels
 		player1Panel.add(player1LabelGrid);
 		player1Panel.add(player2ButtonGrid);
 		player2Panel.add(player2LabelGrid);
 		player2Panel.add(player1ButtonGrid);
+		
+		//set constraints and add to the frame
 		c.fill = GridBagConstraints.BOTH;
 		c.gridx = 0;
 		c.gridy = 0;
@@ -419,9 +488,12 @@ public class GameBoard extends JFrame implements MouseListener {
 		c.weighty = 1;
 		this.add(player2Panel, c);
 		
-		player1LabelGrid.loadPictures(player1Values);
+		//set Mouse listener
+		switchPlayers.addMouseListener(this);
+		
+		player1LabelGrid.loadPictures(player1Values, true);
 		player2ButtonGrid.loadPictures(player2Values, this);
-		player2LabelGrid.loadPictures(player2Values);
+		player2LabelGrid.loadPictures(player2Values, true);
 		player1ButtonGrid.loadPictures(player1Values, this);
 		this.setVisible(true);
 		
@@ -693,8 +765,30 @@ public class GameBoard extends JFrame implements MouseListener {
 	@Override
 	public void mousePressed(final MouseEvent e) {
 		// TODO Auto-generated method stub
-		JButton button = (JButton) e.getSource();
-		playerShot(button);
+		if (e.getSource() == switchPlayers) {
+			switchPlayers();
+		} else {
+			JButton button = (JButton) e.getSource();
+			playerShot(button);
+		}
+	}
+	
+	public void switchPlayers() {
+		if (!player1Turn) {
+			this.setTitle("Player 2");
+			middlePanel.setVisible(false);
+			player2Panel.setVisible(true);
+			//p2.setVisible(false);
+			//p1.setVisible(true);
+			player2LabelGrid.loadPictures(player2Values, true);
+		} else {
+			this.setTitle("Player 1");
+			middlePanel.setVisible(false);
+			player1Panel.setVisible(true);
+			//p2.setVisible(false);
+			//p1.setVisible(true);
+			player1LabelGrid.loadPictures(player1Values, true);
+		}
 	}
 	
 	/**
@@ -744,6 +838,8 @@ public class GameBoard extends JFrame implements MouseListener {
 							int hits = player1ButtonGrid.getAircraftCarrierHits();
 							if (hits == 5) {
 								showCpuShipPlayer1(ShipType.AircraftCarrier);
+								showShipMiddle(65);
+								
 							}
 						}
 						else if (this.getTitle().contains("2")) {
@@ -751,6 +847,7 @@ public class GameBoard extends JFrame implements MouseListener {
 							int hits = player2ButtonGrid.getAircraftCarrierHits();
 							if (hits == 5) {
 								showCpuShipPlayer2(ShipType.AircraftCarrier);
+								showShipMiddle(65);
 							}
 						}
 					}
@@ -779,6 +876,7 @@ public class GameBoard extends JFrame implements MouseListener {
 						int hits = player1ButtonGrid.getBattleShipHits();
 						if (hits == 4) {
 							showCpuShipPlayer1(ShipType.Battleship);
+							showShipMiddle(64);
 						}
 					}
 					else if (this.getTitle().contains("2")) {
@@ -786,6 +884,7 @@ public class GameBoard extends JFrame implements MouseListener {
 						int hits = player2ButtonGrid.getBattleShipHits();
 						if (hits == 4) {
 							showCpuShipPlayer2(ShipType.Battleship);
+							showShipMiddle(64);
 						}
 					}
 				}
@@ -813,6 +912,7 @@ public class GameBoard extends JFrame implements MouseListener {
 						int hits = player1ButtonGrid.getSubmarineHits();
 						if (hits == 3) {
 							showCpuShipPlayer1(ShipType.Submarine);
+							showShipMiddle(62);
 						}
 					}
 					else if (this.getTitle().contains("2")) {
@@ -820,6 +920,7 @@ public class GameBoard extends JFrame implements MouseListener {
 						int hits = player2ButtonGrid.getSubmarineHits();
 						if (hits == 3) {
 							showCpuShipPlayer2(ShipType.Submarine);
+							showShipMiddle(62);
 						}
 					}
 				}
@@ -847,6 +948,7 @@ public class GameBoard extends JFrame implements MouseListener {
 						int hits = player1ButtonGrid.getCruiserHits();
 						if (hits == 3) {
 							showCpuShipPlayer1(ShipType.Cruiser);
+							showShipMiddle(63);
 						}
 					}
 					else if (this.getTitle().contains("2")) {
@@ -854,6 +956,7 @@ public class GameBoard extends JFrame implements MouseListener {
 						int hits = player2ButtonGrid.getCruiserHits();
 						if (hits == 3) {
 							showCpuShipPlayer2(ShipType.Cruiser);
+							showShipMiddle(63);
 						}
 					}
 				}
@@ -881,6 +984,7 @@ public class GameBoard extends JFrame implements MouseListener {
 						int hits = player1ButtonGrid.getPatrolBoatHits();
 						if (hits == 2) {
 							showCpuShipPlayer1(ShipType.PatrolBoat);
+							showShipMiddle(61);
 						}
 					}
 					else if (this.getTitle().contains("2")) {
@@ -888,6 +992,7 @@ public class GameBoard extends JFrame implements MouseListener {
 						int hits = player2ButtonGrid.getPatrolBoatHits();
 						if (hits == 2) {
 							showCpuShipPlayer2(ShipType.PatrolBoat);
+							showShipMiddle(61);
 						}
 					}
 				}
@@ -913,18 +1018,34 @@ public class GameBoard extends JFrame implements MouseListener {
 		player1Turn = !player1Turn;
 		//initiates and makes the computers shot
 		if (currentMode == GameMode.TwoPlayerPassAndPlay) {
-			JOptionPane.showMessageDialog(null, "Pass to other player");
-			if (player1Panel.isVisible()) {
-				this.setTitle("Player 2");
-				player1Panel.setVisible(false);
-				player2Panel.setVisible(true);
-				player2LabelGrid.loadPictures(player2Values);
+			
+			//check to see who wins
+			if (player1ButtonGrid.getAircraftCarrierHits() + player1ButtonGrid.getBattleShipHits()
+				+ player1ButtonGrid.getCruiserHits() + player1ButtonGrid.getSubmarineHits()
+				+ player1ButtonGrid.getPatrolBoatHits() == 17) {
+					JOptionPane.showMessageDialog(null, "Player 1 Wins");
+					this.setVisible(false);
 			}
-			else {
-				this.setTitle("Player 1");
+			
+			if (player2ButtonGrid.getAircraftCarrierHits() + player2ButtonGrid.getBattleShipHits()
+				+ player2ButtonGrid.getCruiserHits() + player2ButtonGrid.getSubmarineHits()
+				+ player2ButtonGrid.getPatrolBoatHits() == 17) {
+					JOptionPane.showMessageDialog(null, "Player 2 Wins");
+					this.setVisible(false);
+		}
+			
+			//show middlePanel and update panel visibility
+			if (player1Panel.isVisible()) {
+				this.setTitle("Switch Players");
+				player1Panel.setVisible(false);
+				currentGrid.loadPictures(player2Values, false);
+				middlePanel.setVisible(true);
+				//player2LabelGrid.loadPictures(player2Values);
+			} else if (player2Panel.isVisible()) {
+				this.setTitle("Switch Players");
 				player2Panel.setVisible(false);
-				player1Panel.setVisible(true);
-				player1LabelGrid.loadPictures(player1Values);
+				currentGrid.loadPictures(player1Values, false);
+				middlePanel.setVisible(true);
 			}
 			
 		}
@@ -949,6 +1070,29 @@ public class GameBoard extends JFrame implements MouseListener {
 			}
 		}
 		//System.out.println("User Point " + lastShot.x + "," + lastShot.y);
+	}
+	
+	public void showShipMiddle(final int ship ) {
+		
+		if(this.getTitle().contains("1")) {
+			for (int x = 0; x < 10; x++) {
+				for (int y = 0; y < 10; y++) {
+					if (player2Values[x][y] == ship) {
+						player2Values[x][y] = 80;
+					}
+				}
+			}
+		} else if (this.getTitle().contains("2")) {
+			for (int x = 0; x < 10; x++) {
+				for (int y = 0; y < 10; y++) {
+					if (player1Values[x][y] == ship) {
+						player1Values[x][y] = 80;
+					}
+				}
+			}
+		}
+		
+		
 	}
 	
 	/**
@@ -1115,7 +1259,7 @@ public class GameBoard extends JFrame implements MouseListener {
 		
 		//check win condition
 		if (countSunk == 5) {
-			JOptionPane.showMessageDialog(null, "Player 2 wins");
+			JOptionPane.showMessageDialog(null, "Computer wins");
 			
 			this.setVisible(false);
 		}

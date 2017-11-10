@@ -39,7 +39,7 @@ public class LabelGrid extends Grid{
 			}
 	}
 	
-	public void loadPictures(int[][] values) {
+	public void loadPictures(int[][] values, boolean showShips) {
 		int x2 = 0;
 		int y2 = 0;
 			for (JLabel[] row  : labels) {
@@ -63,7 +63,7 @@ public class LabelGrid extends Grid{
 							} catch (IOException e) {
 								e.printStackTrace();
 							}
-					} else if (values[x2][y2] > 60) {
+					} else if (values[x2][y2] > 60 && showShips) {
 						 Image img;
 							try {
 							img = ImageIO.read(
@@ -72,10 +72,36 @@ public class LabelGrid extends Grid{
 							} catch (IOException e) {
 								e.printStackTrace();
 							}
-					}
-					else {
+					} else if (values[x2][y2] == 80 && !showShips) {
+						 Image img;
+							try {
+							img = ImageIO.read(
+							new File("res\\ship_reddot.png"));
+							box.setIcon(new ImageIcon(img));
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+					}else if (values[x2][y2] > 60 && values[x2][y2] < 70 && !showShips) {
+						 Image img;
+							try {
+							img = ImageIO.read(
+							new File("res\\waves_reddot.png"));
+							box.setIcon(new ImageIcon(img));
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+					}else if (showShips) {
 						box.setForeground(Color.GRAY);
 						box.setBackground(Color.GRAY);
+					}else {
+						Image img;
+						try {
+						img = ImageIO.read(
+						new File("res\\waves.png"));
+						box.setIcon(new ImageIcon(img));
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
 					}
 					box.setText(values[x2][y2] + "");
 					

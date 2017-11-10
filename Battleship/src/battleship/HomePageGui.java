@@ -182,36 +182,36 @@ public class HomePageGui extends JFrame implements MouseListener,
 				GridBagConstraints.CENTER);
 		
 		//create button for multi player
-				btnMultiplayer = new JButton("Multiplayer");
-				btnMultiplayer.setBackground(Color.LIGHT_GRAY);
-				btnMultiplayer.setForeground(Color.BLACK);
-				btnMultiplayer.setPreferredSize(new Dimension(400, 50));
-				
-				btnMultiplayer.setBorder(BorderFactory.createLineBorder(
-						Color.BLACK));
-				
-				//Changes button border on mouse hover
-				btnMultiplayer.getModel().addChangeListener(new ChangeListener() {
-					@Override
-					public void stateChanged(final ChangeEvent e) {
-						if (btnMultiplayer.getModel().isRollover()) {
-							btnMultiplayer.setBorder(
-								BorderFactory.
-								createEtchedBorder());
-						} else {
-							btnMultiplayer.setBorder(
-								BorderFactory.
-								createLineBorder(Color.BLACK));
-						}
-					}
-				});
-				
-				btnMultiplayer.addMouseListener(this);
-				
-				
-				//add multi player player button to panel and Grid bag layout
-				addItem(background, btnMultiplayer, 2, .1, 
-						GridBagConstraints.CENTER);
+		btnMultiplayer = new JButton("Multiplayer");
+		btnMultiplayer.setBackground(Color.LIGHT_GRAY);
+		btnMultiplayer.setForeground(Color.BLACK);
+		btnMultiplayer.setPreferredSize(new Dimension(400, 50));
+
+		btnMultiplayer.setBorder(BorderFactory.createLineBorder(
+				Color.BLACK));
+
+		//Changes button border on mouse hover
+		btnMultiplayer.getModel().addChangeListener(new ChangeListener() {
+			@Override
+			public void stateChanged(final ChangeEvent e) {
+				if (btnMultiplayer.getModel().isRollover()) {
+					btnMultiplayer.setBorder(
+							BorderFactory.
+							createEtchedBorder());
+				} else {
+					btnMultiplayer.setBorder(
+							BorderFactory.
+							createLineBorder(Color.BLACK));
+				}
+			}
+		});
+
+		btnMultiplayer.addMouseListener(this);
+
+
+		//add multi player player button to panel and Grid bag layout
+		addItem(background, btnMultiplayer, 2, .1, 
+				GridBagConstraints.CENTER);
 		
 		//create strings for radio buttons
 		String easy = "Easy";
