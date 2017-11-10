@@ -140,6 +140,7 @@ public class Cpu {
 			}
 			
 			cpuShots.add(p);
+			System.out.println(p.x + "," + p.y);
 			return p;
 		}
 		

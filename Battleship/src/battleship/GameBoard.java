@@ -1,8 +1,12 @@
 package battleship;
 
+import java.awt.Button;
 import java.awt.Color;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.Label;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -14,6 +18,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 /**
  * Displays the two boards, one with the players ships and one
@@ -30,6 +35,11 @@ public class GameBoard extends JFrame implements MouseListener {
 	 * are displayed.
 	 */
 	private Grid leftBoard;
+	public Grid getLeftBoard() {
+		return leftBoard;
+	}
+	
+	
 	/**
 	 * The board where the second players ships 
 	 * are. The current player clicks on buttons
@@ -75,6 +85,14 @@ public class GameBoard extends JFrame implements MouseListener {
 	public void setPlayer1Ships(final Ship[] ships) {
 		player1Ships = ships;
 	}
+	
+	public int[][] getPlayer1Values(){
+		return player1Values;
+	}
+	
+	public void setPlayer1Value(Point shot) {
+		cpuFire(shot);
+	}
 	/**
 	 * set ship pictures on gameboard.
 	 */
@@ -98,6 +116,8 @@ public class GameBoard extends JFrame implements MouseListener {
 	 * Starts false so player2 has second move.
 	 */
 	private boolean player2Turn = false;
+	
+	
 	/**
 	 * Current number of hits that the cpu has
 	 * hit player 1's aircraft carrier.
@@ -332,6 +352,33 @@ public class GameBoard extends JFrame implements MouseListener {
 	 * creates a cpu.
 	 */
 	private Cpu computer;
+	
+	private Point lastShot;
+	
+	public Point getLastShot() {
+		return lastShot;
+	}
+	
+	private JPanel player1Panel;
+	
+	private JPanel player2Panel;
+	
+	private ButtonGrid player1ButtonGrid;
+	private LabelGrid player1LabelGrid;
+	private ButtonGrid player2ButtonGrid;
+	private LabelGrid player2LabelGrid;
+	
+	
+	public void resetLastShot() {
+		lastShot.equals(null);
+	}
+	
+	
+	private GameBoardConnector connector;
+	
+	public void setConnector(GameBoardConnector con) {
+		connector = con;
+	}
 	/**
 	 * Sets the gameMode to the current gameMode.
 	 * Sets the size and layout of the panel.
@@ -343,32 +390,74 @@ public class GameBoard extends JFrame implements MouseListener {
 		diffChoice = difficulty;
 		computer = new Cpu(difficulty);
 		this.setSize(1200, 700);
-		this.setLayout(new GridLayout(0, 2));
+		if (currentMode == GameMode.OnePlayerMode) {
+			this.setLayout(new GridLayout(0, 2));
+		}
 	}
+	
+	public void beginPassAndPlay() {
+		this.setLayout(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
+		player1Panel = new JPanel();
+		player2Panel = new JPanel();
+		player2Panel.setVisible(false);
+		player1Panel.setLayout(new GridLayout(0,2));
+		player2Panel.setLayout(new GridLayout(0,2));
+		player1ButtonGrid = new ButtonGrid();
+		player2LabelGrid = new LabelGrid();
+		player1LabelGrid = new LabelGrid();
+		player2ButtonGrid = new ButtonGrid();
+		player1Panel.add(player1LabelGrid);
+		player1Panel.add(player2ButtonGrid);
+		player2Panel.add(player2LabelGrid);
+		player2Panel.add(player1ButtonGrid);
+		c.fill = GridBagConstraints.BOTH;
+		c.gridx = 0;
+		c.gridy = 0;
+		c.weightx = 1;
+		c.weighty = 1;
+		this.add(player1Panel,c);
+		
+		c.fill = GridBagConstraints.BOTH;
+		c.gridx = 0;
+		c.gridy = 0;
+		c.weightx = 1;
+		c.weighty = 1;
+		this.add(player2Panel, c);
+		
+		player1LabelGrid.loadPictures(player1Values);
+		player2ButtonGrid.loadPictures(player2Values, this);
+		player2LabelGrid.loadPictures(player2Values);
+		player1ButtonGrid.loadPictures(player1Values, this);
+		this.setVisible(true);
+		
+	}
+	
 	/**
 	 * Creates the side by side boards in the panel.
 	 * Player 1's board on the left.
 	 * Player 2's/cpu's board on the right.
 	 */
-	public void beginGame() {
-		
+	public void beginGame() {		
 		leftBoard = new Grid(10, "Label");
 		rightBoard = new Grid(10, "Button");
-		loadBoards(1);
-		this.add(leftBoard);
+		loadBoards();
+		this.add(leftBoard);		
 		this.add(rightBoard);
+		lastShot = new Point(0,0);
 	}
 	
-	public void loadBoards(final int currentPlayer) {
+	public void loadBoards() {
+		System.out.println(this.getTitle());
+		System.out.println("Player 1 values");
 		int x2 = 0;
 		int y2 = 0;
-		if (currentPlayer == 1) {
 			leftBoard.setValues(player1Values);
-			for (JLabel[] row  : Grid.getLabelGrid()) {
+			for (JLabel[] row  : leftBoard.getLabelGrid()) {
 				for (JLabel box : row) {
+					System.out.print(player1Values[x2][y2] +",");
 					if (player1Values[x2][y2] == 0) {
 					    Image img;
-					    //Probably need code here for putting in hits and misses too instead of just waves
 						try {
 						img = ImageIO.read(
 						new File("res\\waves.png"));
@@ -376,9 +465,224 @@ public class GameBoard extends JFrame implements MouseListener {
 						} catch (IOException e) {
 							e.printStackTrace();
 						}
-						box.setForeground(Color.BLUE);
-						box.setBackground(Color.BLUE);
-					} else {
+					} else if (player1Values[x2][y2] == 70) {
+						 Image img;
+							try {
+							img = ImageIO.read(
+							new File("res\\waves_whitedot.png"));
+							box.setIcon(new ImageIcon(img));
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+					} else if (player1Values[x2][y2] > 60) {
+						 Image img;
+							try {
+							img = ImageIO.read(
+							new File("res\\ship_reddot.png"));
+							box.setIcon(new ImageIcon(img));
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+					}
+					else {
+						box.setForeground(Color.GRAY);
+						box.setBackground(Color.GRAY);
+					}
+					box.setText(player1Values[x2][y2] + "");
+					
+					x2++;
+				}
+				System.out.println("");
+				y2++;
+				x2 = 0;
+			}
+			System.out.println("");
+			System.out.println("Player 2 values");
+			rightBoard.setValues(player2Values);
+			int x = 0;
+			int y = 0;
+			for (JButton[] row  : rightBoard.getButtonGrid()) {
+				for (JButton button : row) {
+					System.out.print(player2Values[x][y]);
+					button.addMouseListener(this);
+					button.setName(player2Values[x][y] + "");
+					button.setText(x + "," + y);
+					y++;
+				}
+				System.out.println("");
+				x++;
+				y = 0;
+			}
+	}
+	
+//	public void loadGrids() {
+//		System.out.println(this.getTitle());
+//		System.out.println("Player 1 values");
+//		int x2 = 0;
+//		int y2 = 0;
+//			player1LabelGrid.setValues(player1Values);
+//			for (JLabel[] row  : player1LabelGrid.getLabelGrid()) {
+//				for (JLabel box : row) {
+//					System.out.print(player1Values[x2][y2]);
+//					if (player1Values[x2][y2] == 0) {
+//					    Image img;
+//						try {
+//						img = ImageIO.read(
+//						new File("res\\waves.png"));
+//						box.setIcon(new ImageIcon(img));
+//						} catch (IOException e) {
+//							e.printStackTrace();
+//						}
+//					} else if (player1Values[x2][y2] == 70) {
+//						 Image img;
+//							try {
+//							img = ImageIO.read(
+//							new File("res\\waves_whitedot.png"));
+//							box.setIcon(new ImageIcon(img));
+//							} catch (IOException e) {
+//								e.printStackTrace();
+//							}
+//					} else if (player1Values[x2][y2] > 60) {
+//						 Image img;
+//							try {
+//							img = ImageIO.read(
+//							new File("res\\ship_reddot.png"));
+//							box.setIcon(new ImageIcon(img));
+//							} catch (IOException e) {
+//								e.printStackTrace();
+//							}
+//					}
+//					else {
+//						box.setForeground(Color.GRAY);
+//						box.setBackground(Color.GRAY);
+//					}
+//					box.setText(player1Values[x2][y2] + "");
+//					
+//					x2++;
+//				}
+//				System.out.println("");
+//				y2++;
+//				x2 = 0;
+//			}
+//			int x21 = 0;
+//			int y21 = 0;
+//				player2LabelGrid.setValues(player2Values);
+//				for (JLabel[] row  : player2LabelGrid.getLabelGrid()) {
+//					for (JLabel box : row) {
+//						System.out.print(player2Values[x21][y21]);
+//						if (player2Values[x21][y21] == 0) {
+//						    Image img;
+//							try {
+//							img = ImageIO.read(
+//							new File("res\\waves.png"));
+//							box.setIcon(new ImageIcon(img));
+//							} catch (IOException e) {
+//								e.printStackTrace();
+//							}
+//						} else if (player2Values[x21][y21] == 70) {
+//							 Image img;
+//								try {
+//								img = ImageIO.read(
+//								new File("res\\waves_whitedot.png"));
+//								box.setIcon(new ImageIcon(img));
+//								} catch (IOException e) {
+//									e.printStackTrace();
+//								}
+//						} else if (player2Values[x21][y21] > 60) {
+//							 Image img;
+//								try {
+//								img = ImageIO.read(
+//								new File("res\\ship_reddot.png"));
+//								box.setIcon(new ImageIcon(img));
+//								} catch (IOException e) {
+//									e.printStackTrace();
+//								}
+//						}
+//						else {
+//							box.setForeground(Color.GRAY);
+//							box.setBackground(Color.GRAY);
+//						}
+//						box.setText(player2Values[x21][y21] + "");
+//						
+//						x21++;
+//					}
+//					System.out.println("");
+//					y21++;
+//					x21 = 0;
+//				}
+//			System.out.println("");
+//			System.out.println("Player 2 values");
+//			player1ButtonGrid.setValues(player1Values);
+//			int x = 0;
+//			int y = 0;
+//			for (JButton[] row  : player1ButtonGrid.getButtonGrid()) {
+//				for (JButton button : row) {
+//					System.out.print(player1Values[x][y]);
+//					button.addMouseListener(this);
+//					button.setName(player1Values[x][y] + "");
+//					button.setText(x + "," + y);
+//					y++;
+//				}
+//				System.out.println("");
+//				x++;
+//				y = 0;
+//			}
+//			player2ButtonGrid.setValues(player2Values);
+//			int x1 = 0;
+//			int y1 = 0;
+//			for (JButton[] row  : player2ButtonGrid.getButtonGrid()) {
+//				for (JButton button : row) {
+//					System.out.print(player2Values[x1][y1]);
+//					button.addMouseListener(this);
+//					button.setName(player2Values[x1][y1] + "");
+//					button.setText(x1 + "," + y1);
+//					y1++;
+//				}
+//				System.out.println("");
+//				x1++;
+//				y1 = 0;
+//			}
+//	}
+//	
+//	
+	
+	private void updateLeftBoard() {
+		int x2 = 0;
+		int y2 = 0;
+		System.out.println(this.getTitle());
+		System.out.println("Updated player 1 values");
+			for (JLabel[] row  : leftBoard.getLabelGrid()) {
+				for (JLabel box : row) {
+					System.out.print(player1Values[x2][y2]);
+					if (player1Values[x2][y2] == 0) {
+					    Image img;
+						try {
+						img = ImageIO.read(
+						new File("res\\waves.png"));
+						box.setIcon(new ImageIcon(img));
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+					} else if (player1Values[x2][y2] == 70) {
+						 Image img;
+							try {
+							img = ImageIO.read(
+							new File("res\\waves_whitedot.png"));
+							box.setIcon(new ImageIcon(img));
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+					} else if (player1Values[x2][y2] > 60) {
+						 Image img;
+							try {
+							img = ImageIO.read(
+							new File("res\\ship_reddot.png"));
+							box.setIcon(new ImageIcon(img));
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+					}
+					else {
 						box.setForeground(Color.GRAY);
 						box.setBackground(Color.GRAY);
 					}
@@ -386,62 +690,12 @@ public class GameBoard extends JFrame implements MouseListener {
 					
 					y2++;
 				}
+				System.out.println("");
 				x2++;
 				y2 = 0;
 			}
-			rightBoard.setValues(player2Values);
-			int x = 0;
-			int y = 0;
-			for (JButton[] row  : Grid.getButtonGrid()) {
-				for (JButton button : row) {
-					button.addMouseListener(this);
-					button.setName(player2Values[x][y] + "");
-					y++;
-				}
-				x++;
-				y = 0;
-			}		
-		}
-		else if (currentPlayer == 2){
-			leftBoard.setValues(player2Values);
-			for (JLabel[] row  : Grid.getLabelGrid()) {
-				for (JLabel box : row) {
-					if (player2Values[x2][y2] == 0) {
-					    Image img;
-						try {
-						img = ImageIO.read(
-						new File("res\\waves.png"));
-						box.setIcon(new ImageIcon(img));
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-						box.setForeground(Color.BLUE);
-						box.setBackground(Color.BLUE);
-					} else {
-						box.setForeground(Color.GRAY);
-						box.setBackground(Color.GRAY);
-					}
-					box.setText(player2Values[x2][y2] + "");
-					
-					y2++;
-				}
-				x2++;
-				y2 = 0;
-			}
-			rightBoard.setValues(player1Values);
-			int x = 0;
-			int y = 0;
-			for (JButton[] row  : Grid.getButtonGrid()) {
-				for (JButton button : row) {
-					button.addMouseListener(this);
-					button.setName(player1Values[x][y] + "");
-					y++;
-				}
-				x++;
-				y = 0;
-			}
-		}
 	}
+	
 	@Override
 	public void mousePressed(final MouseEvent e) {
 		// TODO Auto-generated method stub
@@ -457,6 +711,7 @@ public class GameBoard extends JFrame implements MouseListener {
 	 */
 	public void playerShot(final JButton button) {
 		try {
+			System.out.println("Button shot name: " + button.getName());
 			Image hit = ImageIO.read(
 					new File("res\\waves_reddot.png"));
 			Image miss = ImageIO.read(
@@ -465,64 +720,192 @@ public class GameBoard extends JFrame implements MouseListener {
 				if (button.getName().contains("0")) {
 					button.setIcon(new ImageIcon(miss));
 					button.setName("shot");
-				} else { 
+					String location = button.getText();
+					int x = Integer.parseInt(location.split(",")[0]);
+					int y = Integer.parseInt(location.split(",")[1]);
+					if (this.getTitle().contains("2")) {
+						player1Values[x][y] = 70;	
+					}
+					else player2Values[x][y] = 70;
+				}  else	if (button.getName().contains("5")) {
+					String location = button.getText();
+					int x = Integer.parseInt(location.split(",")[0]);
+					int y = Integer.parseInt(location.split(",")[1]);
 					button.setIcon(new ImageIcon(hit));
-					if (button.getName().contains("5")) {
-						button.setName("shot5");
+					button.setName("shot5");
+					if (this.getTitle().contains("2")) {
+						player1Values[x][y] = 65;	
+					}
+					else player2Values[x][y] = 65; 		
+					if (currentMode == GameMode.OnePlayerMode) {
 						aircraftCarrierHits++;
 						if (aircraftCarrierHits == 5) {
-						showCpuShip(
-						 ShipType.AircraftCarrier);
-//						JOptionPane.showMessageDialog(
-//						null, "Aircraft Carrier Sunk");
+							showCpuShip(
+									ShipType.AircraftCarrier);
 						}
-					} else if (button.getName()
-							.contains("4")) {
-						button.setName("shot4");
-						battleShipHits++;
-						if (battleShipHits == 4) {
-						showCpuShip(
-							ShipType.Battleship);
-//						JOptionPane.showMessageDialog(
-//						null, "BattleShip Sunk");
+					}
+					else {
+						if (this.getTitle().contains("1")) {
+							player1ButtonGrid.hit(ShipType.AircraftCarrier);
+							int hits = player1ButtonGrid.getAircraftCarrierHits();
+							if (hits == 5) {
+								showCpuShipPlayer1(ShipType.AircraftCarrier);
+							}
 						}
-					} else if (button.getName()
-							.contains("2")) {
-						button.setName("shot2");
-						submarineHits++;
-						if (submarineHits == 3) {
-						showCpuShip(
-							ShipType.Submarine);
-//						JOptionPane.showMessageDialog(
-//						null, "Submarine Sunk");
+						else if (this.getTitle().contains("2")) {
+							player2ButtonGrid.hit(ShipType.AircraftCarrier);
+							int hits = player2ButtonGrid.getAircraftCarrierHits();
+							if (hits == 5) {
+								showCpuShipPlayer2(ShipType.AircraftCarrier);
+							}
 						}
-					} else if (button.getName()
-							.contains("3")) {
-						button.setName("shot3");
-						cruiserHits++;
-						if (cruiserHits == 3) {
+					}
+				}else if (button.getName()
+					.contains("4")) {
+					
+				String location = button.getText();
+				int x = Integer.parseInt(location.split(",")[0]);
+				int y = Integer.parseInt(location.split(",")[1]);
+				if (this.getTitle().contains("2")) {
+					player1Values[x][y] = 64;	
+				}
+				else player2Values[x][y] = 64;
+				button.setIcon(new ImageIcon(hit));
+				button.setName("shot4");
+				if (currentMode == GameMode.OnePlayerMode) {
+					battleShipHits++;
+					if (battleShipHits == 4) {
 						showCpuShip(
-							ShipType.Cruiser);
-//						JOptionPane.showMessageDialog(
-//							null, "Cruiser Sunk");
+								ShipType.Battleship);
+					}
+				}
+				else {
+					if (this.getTitle().contains("1")) {
+						player1ButtonGrid.hit(ShipType.Battleship);
+						int hits = player1ButtonGrid.getBattleShipHits();
+						if (hits == 4) {
+							showCpuShipPlayer1(ShipType.Battleship);
 						}
-					} else if (button.getName()
-							.contains("1")) {
-						button.setName("shot1");
-						patrolBoatHits++;
-						if (patrolBoatHits == 2) {
-						showCpuShip(
-							ShipType.PatrolBoat);
-//						JOptionPane.showMessageDialog(
-//						null, "Patrol Boat Sunk");
+					}
+					else if (this.getTitle().contains("2")) {
+						player2ButtonGrid.hit(ShipType.Battleship);
+						int hits = player2ButtonGrid.getBattleShipHits();
+						if (hits == 4) {
+							showCpuShipPlayer2(ShipType.Battleship);
 						}
 					}
 				}
+			} else if (button.getName()
+					.contains("2")) {
+				String location = button.getText();
+				int x = Integer.parseInt(location.split(",")[0]);
+				int y = Integer.parseInt(location.split(",")[1]);
+				if (this.getTitle().contains("2")) {
+					player1Values[x][y] = 62;	
+				}
+				else player2Values[x][y] = 62;
+				button.setIcon(new ImageIcon(hit));
+				button.setName("shot2");
+				if (currentMode == GameMode.OnePlayerMode) {
+					submarineHits++;
+					if (submarineHits == 3) {
+						showCpuShip(
+								ShipType.Submarine);
+					}
+				}
+				else {
+					if (this.getTitle().contains("1")) {
+						player1ButtonGrid.hit(ShipType.Submarine);
+						int hits = player1ButtonGrid.getSubmarineHits();
+						if (hits == 3) {
+							showCpuShipPlayer1(ShipType.Submarine);
+						}
+					}
+					else if (this.getTitle().contains("2")) {
+						player2ButtonGrid.hit(ShipType.Submarine);
+						int hits = player2ButtonGrid.getSubmarineHits();
+						if (hits == 3) {
+							showCpuShipPlayer2(ShipType.Submarine);
+						}
+					}
+				}
+			} else if (button.getName()
+					.contains("3")) {
+				String location = button.getText();
+				int x = Integer.parseInt(location.split(",")[0]);
+				int y = Integer.parseInt(location.split(",")[1]);
+				if (this.getTitle().contains("2")) {
+					player1Values[x][y] = 63;	
+				}
+				else player2Values[x][y] = 63;
+				button.setIcon(new ImageIcon(hit));
+				button.setName("shot3");
+				if (currentMode == GameMode.OnePlayerMode) {
+					cruiserHits++;
+					if (cruiserHits == 3) {
+						showCpuShip(
+								ShipType.Cruiser);
+					}
+				}
+				else {
+					if (this.getTitle().contains("1")) {
+						player1ButtonGrid.hit(ShipType.Cruiser);
+						int hits = player1ButtonGrid.getCruiserHits();
+						if (hits == 3) {
+							showCpuShipPlayer1(ShipType.Cruiser);
+						}
+					}
+					else if (this.getTitle().contains("2")) {
+						player2ButtonGrid.hit(ShipType.Cruiser);
+						int hits = player2ButtonGrid.getCruiserHits();
+						if (hits == 3) {
+							showCpuShipPlayer2(ShipType.Cruiser);
+						}
+					}
+				}
+			} else if (button.getName()
+					.contains("1")) {
+				String location = button.getText();
+				int x = Integer.parseInt(location.split(",")[0]);
+				int y = Integer.parseInt(location.split(",")[1]);
+				if (this.getTitle().contains("2")) {
+					player1Values[x][y] = 61;	
+				}
+				else player2Values[x][y] = 61;
+				button.setIcon(new ImageIcon(hit));
+				button.setName("shot1");
+				if (currentMode == GameMode.OnePlayerMode) {
+					patrolBoatHits++;
+					if (patrolBoatHits == 2) {
+						showCpuShip(
+								ShipType.PatrolBoat);
+					}
+				}
+				else {
+					if (this.getTitle().contains("1")) {
+						player1ButtonGrid.hit(ShipType.PatrolBoat);
+						int hits = player1ButtonGrid.getPatrolBoatHits();
+						if (hits == 2) {
+							showCpuShipPlayer1(ShipType.PatrolBoat);
+						}
+					}
+					else if (this.getTitle().contains("2")) {
+						player2ButtonGrid.hit(ShipType.PatrolBoat);
+						int hits = player2ButtonGrid.getPatrolBoatHits();
+						if (hits == 2) {
+							showCpuShipPlayer2(ShipType.PatrolBoat);
+						}
+					}
+				}
+
+			}
+
 			}  else {
 				JOptionPane.showMessageDialog(null,
 						"You already shot here");
 				return;
 			}
+
 		} catch (Exception ex) {
 			System.out.println(ex);
 		}
@@ -531,18 +914,28 @@ public class GameBoard extends JFrame implements MouseListener {
 			JOptionPane.showMessageDialog(null, "You Win!");
 			this.setVisible(false);
 		}
+
 		player2Turn = !player2Turn;
 		player1Turn = !player1Turn;
-		
 		//initiates and makes the computers shot
 		if (currentMode == GameMode.TwoPlayerPassAndPlay) {
-			if (player2Turn) {
-				loadBoards(2);
+			JOptionPane.showMessageDialog(null, "Pass to other player");
+			if (player1Panel.isVisible()) {
+				this.setTitle("Player 2");
+				player1Panel.setVisible(false);
+				player2Panel.setVisible(true);
+				player2LabelGrid.loadPictures(player2Values);
 			}
-			else loadBoards(1);
+			else {
+				this.setTitle("Player 1");
+				player2Panel.setVisible(false);
+				player1Panel.setVisible(true);
+				player1LabelGrid.loadPictures(player1Values);
+			}
+			
 		}
 		else if (currentMode == GameMode.MultiplayerMode) {
-			
+
 		}
 		else {
 			if (this.isVisible()) {
@@ -561,6 +954,7 @@ public class GameBoard extends JFrame implements MouseListener {
 				cpuFire(nextPoint);
 			}
 		}
+		//System.out.println("User Point " + lastShot.x + "," + lastShot.y);
 	}
 	
 	/**
@@ -570,7 +964,7 @@ public class GameBoard extends JFrame implements MouseListener {
 	public void showCpuShip(final ShipType type) {
 		
 		Ship sunkShip = new Ship(type);
-			for (JButton[] row  : Grid.getButtonGrid()) {
+			for (JButton[] row  : rightBoard.getButtonGrid()) {
 				for (JButton box : row) {
 					if (box.getName().
 						contains(sunkShip.getValue()
@@ -587,7 +981,152 @@ public class GameBoard extends JFrame implements MouseListener {
 				}
 			}
 	}
+	
+	public void showCpuShipPlayer1(final ShipType type) {
+		Ship sunkShip = new Ship(type);
+		for (JButton[] row  : player2ButtonGrid.getButtons()) {
+			for (JButton box : row) {
+				if (box.getName().
+					contains(sunkShip.getValue()
+						+ "")) {
+				   Image img;
+				   try {
+				   img = ImageIO.read(
+				   new File("res\\ship_reddot.png"));
+				   box.setIcon(new ImageIcon(img));
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+	}
+	
+	public void showCpuShipPlayer2(final ShipType type) {
+		Ship sunkShip = new Ship(type);
+		for (JButton[] row  : player1ButtonGrid.getButtons()) {
+			for (JButton box : row) {
+				if (box.getName().
+					contains(sunkShip.getValue()
+						+ "")) {
+				   Image img;
+				   try {
+				   img = ImageIO.read(
+				   new File("res\\ship_reddot.png"));
+				   box.setIcon(new ImageIcon(img));
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+	}
 		
+	public void fire(final JLabel randomBox) {
+		if (randomBox
+				.getText().contains("1")) {
+			hitValue = 1;
+			Image hit;
+			try {
+				hit = ImageIO.read(
+				new File("res\\ship_reddot.png"));
+				randomBox
+						.setIcon(new ImageIcon(hit));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			cpuPatrolBoatHits++;
+		
+		} else if (randomBox
+				.getText().contains("2")) {
+			hitValue = 2;
+			Image hit;
+			try {
+				hit = ImageIO.read(
+				new File("res\\ship_reddot.png"));
+				randomBox
+						.setIcon(new ImageIcon(hit));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			cpuSubmarineHits++;
+		
+		} else if (randomBox
+				.getText().contains("3")) {
+			hitValue = 3;
+			Image hit;
+			try {
+				hit = ImageIO.read(
+				new File("res\\ship_reddot.png"));
+				randomBox
+						.setIcon(new ImageIcon(hit));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			cpuCruiserHits++;
+			
+		} else if (randomBox
+				.getText().contains("4")) {
+			hitValue = 4;
+			Image hit;
+			try {
+				hit = ImageIO.read(
+				new File("res\\ship_reddot.png"));
+				randomBox
+						.setIcon(new ImageIcon(hit));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			cpuBattleShipHits++;
+			
+		} else if (randomBox
+				.getText().contains("5")) {
+			hitValue = 5;
+			Image hit;
+			try {
+				hit = ImageIO.read(
+				new File("res\\ship_reddot.png"));
+				randomBox
+						.setIcon(new ImageIcon(hit));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			cpuAircraftCarrierHits++;
+			
+		} else {
+			Image miss;
+			hitValue = 0;
+			try {
+				miss = ImageIO.read(
+				new File("res\\waves_whitedot.png"));
+				randomBox
+						.setIcon(new ImageIcon(miss));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			wasHit = false;
+		}
+		
+		//check if another ship was sunk
+		if (shipsSunk > countSunk) {
+			inPursuit = false;
+			countSunk = shipsSunk;
+		}
+		
+		//check win condition
+		if (countSunk == 5) {
+			JOptionPane.showMessageDialog(null, "Player 2 wins");
+			
+			this.setVisible(false);
+		}
+	}
+	
 	/**
 	 * Executes the cpu's shot at the given coordinate.
 	 * Then changes the image for a hit or miss.
@@ -597,8 +1136,9 @@ public class GameBoard extends JFrame implements MouseListener {
 		
 		int randomX = point.x;
 		int randomY = point.y;
-		//TODO fix weird bug x and y flipped for some reason
-		JLabel randomBox = Grid.getLabel(randomY, randomX);
+		
+		System.out.println(this.getTitle());
+		JLabel randomBox = this.leftBoard.getLabel(randomX, randomY);
 		if (randomBox
 				.getText().contains("1")) {
 			hitValue = 1;

@@ -20,6 +20,28 @@ import javax.swing.border.EmptyBorder;
  */
 public class Grid extends JPanel {
 	
+	public GridLayout boardLayout;
+	public Border boardBorder;
+	
+	public Grid() {
+		boardLayout = new GridLayout(11,11);
+
+		//create board
+		this.setLayout(boardLayout);
+		this.setBorder(new EmptyBorder(10, 10, 10, 10));
+		this.add(new JLabel());
+
+		//create border
+		boardBorder = 
+				BorderFactory.createLineBorder(Color.BLACK);
+
+		for (int x = 1; x < 11; x++) {
+			JLabel letterLabel = 
+				new JLabel(letterFromNumber(x),
+						SwingConstants.CENTER);
+			this.add(letterLabel, new Integer(0));
+		}
+	}
 	/**
 	 * ID for serializable class.
 	 */
@@ -80,10 +102,10 @@ public class Grid extends JPanel {
 			this.add(letterLabel, new Integer(0));
 		}
 
-		for (int x = 0; x < boardLayout.getColumns() - 1; x++) {
+		for (int y = 0; y < boardLayout.getColumns() - 1; y++) {
 			this.add(
-			 new JLabel("" + (x + 1), SwingConstants.CENTER));
-			for (int y = 0; y < boardLayout.getRows() - 1; y++) {
+			 new JLabel("" + (y + 1), SwingConstants.CENTER));
+			for (int x = 0; x < boardLayout.getRows() - 1; x++) {
 				if (type.equals("Label")) {
 					JLabel box = new JLabel();
 					box.setBackground(Color.WHITE);
@@ -130,7 +152,7 @@ public class Grid extends JPanel {
 	 * Returns the grid of labels.
 	 * @return JLabel[][]
 	 */
-	public static JLabel[][] getLabelGrid() {		
+	public JLabel[][] getLabelGrid() {		
 		return labelGrid;		
 	}
 	/**
@@ -139,14 +161,14 @@ public class Grid extends JPanel {
 	 * @param y y-coordinate
 	 * @return JLabel
 	 */
-	public static JLabel getLabel(final int x, final int y) {
+	public JLabel getLabel(final int x, final int y) {
 		return labelGrid[x][y];
 	}
 	/**
 	 * Returns the grid of buttons.
 	 * @return JButton[][]
 	 */
-	public static JButton[][] getButtonGrid() {
+	public JButton[][] getButtonGrid() {
 		return buttonGrid;
 	}
 	/**

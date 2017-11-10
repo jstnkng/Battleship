@@ -150,9 +150,14 @@ public class ShipSetupFrame extends JFrame
 	 */
 	private Difficulty diffChoice;
 	/**
-	 * Board for the values
+	 * Board for the values that player 1 sees
 	 */
-	private GameBoard playingBoard;
+	private GameBoard player1GameBoard;
+	/**
+	 * Board for the values that player 1 sees
+	 */
+	private GameBoard player2GameBoard;
+
 	/**
 	 * Current player setting ships.
 	 */
@@ -232,8 +237,9 @@ public class ShipSetupFrame extends JFrame
 	 */
 	public ShipSetupFrame(final GameMode currentMode, final int player,
 			final Difficulty difficulty) {
-		shipSetup(currentMode, player, difficulty, null);
+		shipSetup(currentMode, player, difficulty);
 	}
+	
 	/**
 	 * Creates the frame and populates it with the board,
 	 * the ships, and the submit button.
@@ -242,13 +248,13 @@ public class ShipSetupFrame extends JFrame
 	 * @param difficulty difficulty to be played
 	 */
 	public void shipSetup(final GameMode currentMode, final int player,
-			final Difficulty difficulty, GameBoard playBoard) {
+			final Difficulty difficulty) {
 		if (player == 2) {
 			this.setTitle("Player 2 Set Ships");
 		} else {
 			this.setTitle("Player 1 Set Ships");
 		}
-		playingBoard = playBoard;
+		
 		mode = currentMode;
 		diffChoice = difficulty;
 		currentPlayer = player;
@@ -383,6 +389,7 @@ public class ShipSetupFrame extends JFrame
 		returnShipToStart(patrolBoat);
 		
 		submit.addKeyListener(this);
+		System.out.println("end of ship set up frame");
 	}
 
 	@Override
@@ -1093,12 +1100,12 @@ public class ShipSetupFrame extends JFrame
 		}
 
 		if (currentPlayer == 1 && invalidShipPlacement == false && mode == GameMode.OnePlayerMode) { 
-			playingBoard = new 
+			player1GameBoard = new 
 					GameBoard(mode, diffChoice);
-			playingBoard.setPlayer1Ships(player1Ships);
-			playingBoard.setPlayer1Values(player1Values);
+			player1GameBoard.setPlayer1Ships(player1Ships);
+			player1GameBoard.setPlayer1Values(player1Values);
 			setCpuValues(0);
-			playingBoard.setPlayer2Values(player2Values);
+			player1GameBoard.setPlayer2Values(player2Values);
 			System.out.println("CPU Ships)");
 			for (int x = 0; x < 10; x++) {
 				for (int y = 0; y < 10; y++) {
@@ -1108,30 +1115,48 @@ public class ShipSetupFrame extends JFrame
 				System.out.println("");
 			}
 			this.setVisible(false);
-			playingBoard.setLocationRelativeTo(null);
-			playingBoard.setVisible(true);
-			playingBoard.beginGame();
+			player1GameBoard.setLocationRelativeTo(null);
+			player1GameBoard.setVisible(true);
+			player1GameBoard.beginGame();
 		}
 		else if (currentPlayer == 1 && invalidShipPlacement == false && mode == GameMode.TwoPlayerPassAndPlay) {
-			playingBoard = new 
+			player1GameBoard = new 
 					GameBoard(mode, diffChoice);
-			playingBoard.setPlayer1Values(player1Values);
+			player1GameBoard.setTitle("Player 1 GameBoard");
+			player1GameBoard.setPlayer1Values(player1Values);
 			this.setTitle("Player 2 Set Ships");
 			this.getContentPane().removeAll();
-			shipSetup(mode, 2, diffChoice, playingBoard);
-			//setPlayer2Ships(playingBoard);		
+			shipSetup(mode, 2, diffChoice);		
 		}
 		else if (currentPlayer == 2 && invalidShipPlacement == false && mode == GameMode.TwoPlayerPassAndPlay) {
-			setPlayer2Ships(playingBoard);
+			//player2GameBoard = new GameBoard(mode, diffChoice);
+			//player2GameBoard.setTitle("Player 2 GameBoard");
+			//player2GameBoard.setPlayer1Values(player2Values);
+			player1GameBoard.setPlayer2Values(player2Values);
+			//player2GameBoard.setPlayer2Values(player1GameBoard.getPlayer1Values());
+//			setPlayer2Ships(player1GameBoard);
+//			setPlayer1Ships(player2GameBoard);
+			this.setVisible(false);
+			//GameBoardConnector connector = new GameBoardConnector(player1GameBoard, player2GameBoard);
+			player1GameBoard.beginPassAndPlay();
+			//connector.BeginGame();
 		}
 		
 	}
 	
+	public GameBoard getGameBoard() {
+		while (player1GameBoard == null) {
+			
+		}
+		return player1GameBoard;
+	}
+	
+	private void setPlayer1Ships(GameBoard board) {
+		board.setPlayer2Values(player1GameBoard.getPlayer1Values());
+	}
+	
 	private void setPlayer2Ships(GameBoard board) {
 		board.setPlayer2Values(player2Values);
-		this.setVisible(false);
-		board.setVisible(true);
-		board.beginGame();
 	}
 		
 //		else if (currentPlayer == 2 && invalidShipPlacement2 == false && mode == GameMode.TwoPlayerPassAndPlay) {
@@ -1600,6 +1625,42 @@ public class ShipSetupFrame extends JFrame
 			snapShipToY(cruiser);
 			
 			patrolBoat.setLocation(900, 200);
+			snapShipToX(patrolBoat);
+			snapShipToY(patrolBoat);
+			
+			submit();
+		}
+		else if(e.getKeyCode() == KeyEvent.VK_D) {
+			System.out.println("Keyboard press");
+			
+			aircraftCarrier.rotate();
+			aircraftCarrier.rotate();
+			battleShip.rotate();
+			battleShip.rotate();
+			submarine.rotate();
+			submarine.rotate();
+			cruiser.rotate();
+			cruiser.rotate();
+			patrolBoat.rotate();
+			patrolBoat.rotate();
+			
+			aircraftCarrier.setLocation(516, 76);
+			snapShipToX(aircraftCarrier);
+			snapShipToY(aircraftCarrier);
+			
+			battleShip.setLocation(516,136);
+			snapShipToX(battleShip);
+			snapShipToY(battleShip);
+			
+			submarine.setLocation(516,196);
+			snapShipToX(submarine);
+			snapShipToY(submarine);
+			
+			cruiser.setLocation(516,256);
+			snapShipToX(cruiser);
+			snapShipToY(cruiser);
+			
+			patrolBoat.setLocation(516,316);
 			snapShipToX(patrolBoat);
 			snapShipToY(patrolBoat);
 			

@@ -1005,8 +1005,8 @@ public class BattleShipTest {
 				hpTest.startOnePlayer());
 		
 		//test pass & play button
-		assertNotNull("Verify that ShipSetupFrame is not null",
-				hpTest.startPassAndPlay());
+//		assertNotNull("Verify that ShipSetupFrame is not null",
+//				hpTest.startPassAndPlay());
 		
 	}
 	

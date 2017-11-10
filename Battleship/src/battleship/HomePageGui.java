@@ -351,17 +351,31 @@ public class HomePageGui extends JFrame implements MouseListener,
 	 * Creates ShipSetupFrame for pass and play game.
 	 * @return ShipSetupFrame
 	 */
-	public ShipSetupFrame startPassAndPlay() {
+	public void startPassAndPlay() {	
 		ShipSetupFrame p1 = new 
 			ShipSetupFrame(GameMode.TwoPlayerPassAndPlay, 1, 
 					diffChoice);
-		p1.setLocationRelativeTo(null);
-		p1.setVisible(true);
+		p1.setLocationRelativeTo(null);	
+//		GameBoard player1Board = p1.getGameBoard();
+//		ShipSetupFrame p2 = new 
+//				ShipSetupFrame(GameMode.TwoPlayerPassAndPlay, 2, 
+//						diffChoice);
+//			p2.setLocationRelativeTo(null);
+//			p2.setVisible(true);
+//		GameBoard player1Board = new GameBoard();
+//		player1Board.setPlayer1Values(p1.getPlayer1Values());
+//		GameBoard player2Board = new GameBoard();
+//		player2Board.setPlayer1Values(p2.getPlayer1Values());
+//		player1Board.setPlayer2Values(player2Board.getPlayer1Values());
+//		player2Board.setPlayer2Values(player1Board.getPlayer1Values());
+		
+//		GameBoardConnector connector = new GameBoardConnector(player1Board, player2Board);
+//		connector.BeginGame();
 		System.out.println("Pass & Play");
 		System.out.println("x: " + btnPassPlay.getLocationOnScreen().x 
 			+ " y: " + btnPassPlay.getLocationOnScreen().y);
 		
-		return p1;
+		
 	}
 	
 	/**
