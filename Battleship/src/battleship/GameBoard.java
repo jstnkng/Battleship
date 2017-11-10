@@ -358,12 +358,6 @@ public class GameBoard extends JFrame implements MouseListener {
 	 */
 	private Cpu computer;
 	
-	private Point lastShot;
-	
-	public Point getLastShot() {
-		return lastShot;
-	}
-	
 	private JPanel player1Panel;
 	
 	private JPanel player2Panel;
@@ -378,10 +372,6 @@ public class GameBoard extends JFrame implements MouseListener {
 	
 	private JButton switchPlayers;
 	
-	
-	public void resetLastShot() {
-		lastShot.equals(null);
-	}
 	
 	/**
 	 * Sets the gameMode to the current gameMode.
@@ -510,7 +500,6 @@ public class GameBoard extends JFrame implements MouseListener {
 		loadBoards();
 		this.add(leftBoard);		
 		this.add(rightBoard);
-		lastShot = new Point(0,0);
 	}
 	
 	public void loadBoards() {
