@@ -1,13 +1,15 @@
 package battleship;
 
+
 import java.io.Serializable;
 
 public class ServerInfo implements Serializable {
 	
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -7951921108943135754L;
 	/**
 	 * 
 	 */
@@ -37,5 +39,9 @@ public class ServerInfo implements Serializable {
 		name = serverName;
 		password = serverPass;
 		IP = IPAddress;
+	}
+	
+	public ServerInfo getServerInfo() {
+		return this;
 	}
 }

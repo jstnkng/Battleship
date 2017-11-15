@@ -1,11 +1,16 @@
 package battleship;
 
+
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.List;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -34,10 +39,6 @@ public class MultiplayerMenu extends JFrame implements MouseListener, RowSorterL
 		 * 
 		 */
 		private static final long serialVersionUID = 1L;
-		/**
-		 * Current game mode being played.
-		 */
-		private GameMode modeChoice;
 		/**
 		 * servers.
 		 */
@@ -76,25 +77,34 @@ public class MultiplayerMenu extends JFrame implements MouseListener, RowSorterL
 		 */
 		private DefaultTableModel model;
 		
+		private String server;
+		private int port;
+		
+		private Client client;
+		
+		private int[][] boardValues = new int[10][10];
+		
 		/**
 		 * creates the menu frame.
+		 * @param port 
+		 * @param server 
 		 * @param mode the current mode to be played
 		 */
-		public MultiplayerMenu(final GameMode mode) {
+		public MultiplayerMenu(String server, int port) {
 			//setup the frame
 			this.setTitle("Multiplayer Menu");
 			this.setSize(1200, 700);
 			this.setResizable(false);
-			this.setVisible(true);
 			
-			modeChoice = mode;
+			this.server = server;
+			this.port = port;
 			
 			//create panel
 			JPanel panel = new JPanel();
 			
 			//setLayout and add to frame
 			panel.setLayout(new GridBagLayout());
-			this.add(panel);
+			
 			
 			
 			//Create server table
@@ -132,6 +142,11 @@ public class MultiplayerMenu extends JFrame implements MouseListener, RowSorterL
 			addItem(panel, btnJoinServer, 2, 1, 1, 1, GridBagConstraints.BOTH);
 			btnJoinServer.addMouseListener(this);
 			
+			this.add(panel);
+			this.setVisible(true);
+			
+			start();
+			
 		}
 		
 		/**
@@ -163,6 +178,41 @@ public class MultiplayerMenu extends JFrame implements MouseListener, RowSorterL
 			gbc.weighty = weighty;
 			panel.add(c, gbc);
 		}
+		
+		/*
+		 * add server to table
+		 */
+		public void append(ServerInfo server) {
+			serverList.add(server);
+			
+			String isPrivate = "";
+			if (serverList.get(serverList.size() - 1)
+					.getPassword().length() > 0) {
+				isPrivate = "Yes";
+			} else {
+				isPrivate = "No";
+			}
+
+			model.addRow(new Object[] {
+					serverList.get(serverList.size() - 1).getName() + " " + 
+							serverList.get(serverList.size() - 1).getIP(), isPrivate});
+			
+		}
+		
+		public void start() {
+			client = new Client(server, "sam", port, this);
+			
+			// test if we can start the Client
+			if(!client.start()) 
+				return;
+		}
+		
+		/*
+		 * when connection fails
+		 */
+		public void connectionFailed() {
+			
+		}
 
 		@Override
 		public void mouseClicked(final MouseEvent e) {
@@ -184,6 +234,23 @@ public class MultiplayerMenu extends JFrame implements MouseListener, RowSorterL
 		@Override
 		public void mousePressed(final MouseEvent e) {
 			
+			//set game host port to 5445
+			int portNum = 5445;
+			
+			//get ip address of game creator
+			String ip = "";
+			
+			try {
+			URL whatismyip = new URL("http://checkip.amazonaws.com");
+			BufferedReader in = new BufferedReader(new InputStreamReader(
+			                whatismyip.openStream()));
+
+			ip = in.readLine(); 
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+			System.out.println(ip);
+			
 			//creating server and putting in server table
 			if (e.getSource() == btnCreateServer) {
 				JTextField name = new JTextField();
@@ -201,18 +268,20 @@ public class MultiplayerMenu extends JFrame implements MouseListener, RowSorterL
 					serverName = name.getText();
 					serverPassword = password.getText();
 					ServerInfo server = new ServerInfo(
-							serverName, serverPassword, null);
-					serverList.add(server);
-					String isPrivate = "";
-					if (serverList.get(serverList.size() - 1)
-							.getPassword().length() > 0) {
-						isPrivate = "Yes";
-					} else {
-						isPrivate = "No";
-					}
+							serverName, serverPassword, ip);
+					
+					
+					//add client server to list
+					client.sendServerInfo(server);
+					
+					
+					//create GameServer
+					GameServer gs = new GameServer(ip, portNum);
+					//gs.start();
 
-					model.addRow(new Object[] {
-							serverList.get(serverList.size() - 1).getName(), isPrivate});
+
+					
+					
 				}
 				
 			}
@@ -235,6 +304,9 @@ public class MultiplayerMenu extends JFrame implements MouseListener, RowSorterL
 								
 								System.out.println("Joining server " 
 										+ serverList.get(row).getName());
+								//connect 2nd player to host
+								OnlineGameBoard c = new OnlineGameBoard(serverList.get(row).getIP(), 5445, 1);
+				//				c.start();
 							} else {
 								System.out.println("incorrect password");
 							}
@@ -243,9 +315,32 @@ public class MultiplayerMenu extends JFrame implements MouseListener, RowSorterL
 						System.out.println("Joining " 
 							+ serverList.get(row)
 							.getName());
+						
+						//connect 2nd player to host
+						String ipToConnect = serverList.get(row).getIP();
+						
+						GameClient gc = new GameClient(ip, portNum);
+						//gc.start();
+						
 					}
+					
+					
+					
 				}
 			}
+		}
+		
+		public boolean setShips(int player, ShipSetupFrame ssf) {
+			
+			ShipSetupFrame p1 = ssf;
+				
+			boardValues = p1.getPlayer1Values();
+			
+			if (!p1.getInvalidShipPlacement()) {
+				return false;
+			}
+				
+			return true;
 		}
 
 		@Override
@@ -258,5 +353,13 @@ public class MultiplayerMenu extends JFrame implements MouseListener, RowSorterL
 		public void sorterChanged(RowSorterEvent arg0) {
 			// TODO Auto-generated method stub
 			
+		}
+		
+		/**
+		 * run client
+		 * @param args
+		 */
+		public static void main(String[] args) {
+			new MultiplayerMenu("localhost", 5335);
 		}
 }

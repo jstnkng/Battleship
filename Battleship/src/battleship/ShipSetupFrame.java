@@ -229,6 +229,15 @@ public class ShipSetupFrame extends JFrame
 	public boolean getInvalidShipPlacement() {
 		return invalidShipPlacement;
 	}
+	
+	
+	private volatile boolean areShipsSet = false;
+	public boolean getAreShipsSet() {
+		return areShipsSet;
+	}
+	
+	
+	
 	/**
 	 * Calls shipSetup passing gameMode and current player.
 	 * @param currentMode mode that the game is being played in
@@ -240,6 +249,11 @@ public class ShipSetupFrame extends JFrame
 		shipSetup(currentMode, player, difficulty);
 	}
 	
+	//constructor for online multiplayer game
+	public ShipSetupFrame(final GameMode currentMode, final int player) {
+		// TODO Auto-generated constructor stub
+		shipSetup(currentMode, player, null);
+	}
 	/**
 	 * Creates the frame and populates it with the board,
 	 * the ships, and the submit button.
@@ -1140,6 +1154,11 @@ public class ShipSetupFrame extends JFrame
 			//GameBoardConnector connector = new GameBoardConnector(player1GameBoard, player2GameBoard);
 			player1GameBoard.beginPassAndPlay();
 			//connector.BeginGame();
+		}
+		else if (invalidShipPlacement == false && mode == GameMode.MultiplayerMode) {
+			
+			areShipsSet = true;
+			this.setVisible(false);	
 		}
 		
 	}

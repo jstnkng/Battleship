@@ -384,7 +384,7 @@ public class HomePageGui extends JFrame implements MouseListener,
 	 */
 	public MultiplayerMenu startMultiplayer() {
 		MultiplayerMenu p1 = new 
-			MultiplayerMenu(GameMode.MultiplayerMode);
+			MultiplayerMenu("localhost", 5335);
 		p1.setLocationRelativeTo(null);
 		System.out.println("Multiplayer");
 		System.out.println("x: " + btnMultiplayer.getLocationOnScreen().x 
