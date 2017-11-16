@@ -19,8 +19,6 @@ public class GameServer {
 	public GameServer(String server, int port) {
 		this.port = port;
 		this.server = server;
-		
-		start();
 	}
 	
 	/*
@@ -75,7 +73,7 @@ public class GameServer {
 		System.out.println(ip);
 		
 		GameServer server = new GameServer(ip, portNum);
-		//server.start();
+		server.start();
 	}
 }
 	

@@ -7,6 +7,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
@@ -30,8 +31,11 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
 /**
  * Creates the home screen where
  * a player chooses what game mode
@@ -382,15 +386,15 @@ public class HomePageGui extends JFrame implements MouseListener,
 	 * Creates multiplayer menu for multiplayer game.
 	 * @return MultiplayerMenu
 	 */
-	public MultiplayerMenu startMultiplayer() {
+	public void startMultiplayer() {
 		MultiplayerMenu p1 = new 
-			MultiplayerMenu("localhost", 5335);
+			MultiplayerMenu("35.39.165.205", 5335);
 		p1.setLocationRelativeTo(null);
 		System.out.println("Multiplayer");
 		System.out.println("x: " + btnMultiplayer.getLocationOnScreen().x 
 			+ " y: " + btnMultiplayer.getLocationOnScreen().y);
 		
-		return p1;
+		
 	}
 
 	@Override
