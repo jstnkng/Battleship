@@ -318,7 +318,7 @@ public class MultiplayerMenu extends JFrame implements MouseListener, RowSorterL
 						//connect 2nd player to host
 						String ipToConnect = serverList.get(row).getIP();
 						
-						GameClient gc = new GameClient(ip, portNum);
+						GameClient gc = new GameClient(ipToConnect, portNum);
 						gc.start();
 						
 						this.setVisible(false);
