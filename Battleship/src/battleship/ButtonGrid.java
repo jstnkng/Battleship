@@ -61,7 +61,7 @@ public class ButtonGrid extends Grid {
 					 try {
 				      Image img = 
 					  ImageIO.read(
-						new File("res\\waves.png"));
+						new File("res/waves.png"));
 					  box.setIcon(new ImageIcon(img));
 						  } catch (Exception ex) {
 						    System.out.println(ex);
@@ -98,7 +98,7 @@ public class ButtonGrid extends Grid {
 					 try {
 					      Image img = 
 						  ImageIO.read(
-							new File("res\\waves.png"));
+							new File("res/waves.png"));
 						  button.setIcon(new ImageIcon(img));
 							  } catch (Exception ex) {
 							    System.out.println(ex);

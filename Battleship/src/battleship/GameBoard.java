@@ -515,7 +515,7 @@ public class GameBoard extends JFrame implements MouseListener {
 					    Image img;
 						try {
 						img = ImageIO.read(
-						new File("res\\waves.png"));
+						new File("res/waves.png"));
 						box.setIcon(new ImageIcon(img));
 						} catch (IOException e) {
 							e.printStackTrace();
@@ -524,7 +524,7 @@ public class GameBoard extends JFrame implements MouseListener {
 						 Image img;
 							try {
 							img = ImageIO.read(
-							new File("res\\waves_whitedot.png"));
+							new File("res/waves_whitedot.png"));
 							box.setIcon(new ImageIcon(img));
 							} catch (IOException e) {
 								e.printStackTrace();
@@ -533,7 +533,7 @@ public class GameBoard extends JFrame implements MouseListener {
 						 Image img;
 							try {
 							img = ImageIO.read(
-							new File("res\\ship_reddot.png"));
+							new File("res/ship_reddot.png"));
 							box.setIcon(new ImageIcon(img));
 							} catch (IOException e) {
 								e.printStackTrace();
@@ -713,7 +713,7 @@ public class GameBoard extends JFrame implements MouseListener {
 					    Image img;
 						try {
 						img = ImageIO.read(
-						new File("res\\waves.png"));
+						new File("res/waves.png"));
 						box.setIcon(new ImageIcon(img));
 						} catch (IOException e) {
 							e.printStackTrace();
@@ -722,7 +722,7 @@ public class GameBoard extends JFrame implements MouseListener {
 						 Image img;
 							try {
 							img = ImageIO.read(
-							new File("res\\waves_whitedot.png"));
+							new File("res/waves_whitedot.png"));
 							box.setIcon(new ImageIcon(img));
 							} catch (IOException e) {
 								e.printStackTrace();
@@ -731,7 +731,7 @@ public class GameBoard extends JFrame implements MouseListener {
 						 Image img;
 							try {
 							img = ImageIO.read(
-							new File("res\\ship_reddot.png"));
+							new File("res/ship_reddot.png"));
 							box.setIcon(new ImageIcon(img));
 							} catch (IOException e) {
 								e.printStackTrace();
@@ -790,9 +790,9 @@ public class GameBoard extends JFrame implements MouseListener {
 		try {
 			System.out.println("Button shot name: " + button.getName());
 			Image hit = ImageIO.read(
-					new File("res\\waves_reddot.png"));
+					new File("res/waves_reddot.png"));
 			Image miss = ImageIO.read(
-					new File("res\\waves_whitedot.png"));
+					new File("res/waves_whitedot.png"));
 			if (!button.getName().contains("shot")) {
 				if (button.getName().contains("0")) {
 					button.setIcon(new ImageIcon(miss));
@@ -1099,7 +1099,7 @@ public class GameBoard extends JFrame implements MouseListener {
 					   Image img;
 					   try {
 					   img = ImageIO.read(
-					   new File("res\\ship_reddot.png"));
+					   new File("res/ship_reddot.png"));
 					   box.setIcon(new ImageIcon(img));
 						} catch (IOException e) {
 							e.printStackTrace();
@@ -1119,7 +1119,7 @@ public class GameBoard extends JFrame implements MouseListener {
 				   Image img;
 				   try {
 				   img = ImageIO.read(
-				   new File("res\\ship_reddot.png"));
+				   new File("res/ship_reddot.png"));
 				   box.setIcon(new ImageIcon(img));
 					} catch (IOException e) {
 						e.printStackTrace();
@@ -1139,7 +1139,7 @@ public class GameBoard extends JFrame implements MouseListener {
 				   Image img;
 				   try {
 				   img = ImageIO.read(
-				   new File("res\\ship_reddot.png"));
+				   new File("res/ship_reddot.png"));
 				   box.setIcon(new ImageIcon(img));
 					} catch (IOException e) {
 						e.printStackTrace();
@@ -1156,7 +1156,7 @@ public class GameBoard extends JFrame implements MouseListener {
 			Image hit;
 			try {
 				hit = ImageIO.read(
-				new File("res\\ship_reddot.png"));
+				new File("res/ship_reddot.png"));
 				randomBox
 						.setIcon(new ImageIcon(hit));
 			} catch (IOException e) {
@@ -1171,7 +1171,7 @@ public class GameBoard extends JFrame implements MouseListener {
 			Image hit;
 			try {
 				hit = ImageIO.read(
-				new File("res\\ship_reddot.png"));
+				new File("res/ship_reddot.png"));
 				randomBox
 						.setIcon(new ImageIcon(hit));
 			} catch (IOException e) {
@@ -1186,7 +1186,7 @@ public class GameBoard extends JFrame implements MouseListener {
 			Image hit;
 			try {
 				hit = ImageIO.read(
-				new File("res\\ship_reddot.png"));
+				new File("res/ship_reddot.png"));
 				randomBox
 						.setIcon(new ImageIcon(hit));
 			} catch (IOException e) {
@@ -1201,7 +1201,7 @@ public class GameBoard extends JFrame implements MouseListener {
 			Image hit;
 			try {
 				hit = ImageIO.read(
-				new File("res\\ship_reddot.png"));
+				new File("res/ship_reddot.png"));
 				randomBox
 						.setIcon(new ImageIcon(hit));
 			} catch (IOException e) {
@@ -1216,7 +1216,7 @@ public class GameBoard extends JFrame implements MouseListener {
 			Image hit;
 			try {
 				hit = ImageIO.read(
-				new File("res\\ship_reddot.png"));
+				new File("res/ship_reddot.png"));
 				randomBox
 						.setIcon(new ImageIcon(hit));
 			} catch (IOException e) {
@@ -1230,7 +1230,7 @@ public class GameBoard extends JFrame implements MouseListener {
 			hitValue = 0;
 			try {
 				miss = ImageIO.read(
-				new File("res\\waves_whitedot.png"));
+				new File("res/waves_whitedot.png"));
 				randomBox
 						.setIcon(new ImageIcon(miss));
 			} catch (IOException e) {
@@ -1272,7 +1272,7 @@ public class GameBoard extends JFrame implements MouseListener {
 			Image hit;
 			try {
 				hit = ImageIO.read(
-				new File("res\\ship_reddot.png"));
+				new File("res/ship_reddot.png"));
 				randomBox
 						.setIcon(new ImageIcon(hit));
 			} catch (IOException e) {
@@ -1299,7 +1299,7 @@ public class GameBoard extends JFrame implements MouseListener {
 			Image hit;
 			try {
 				hit = ImageIO.read(
-				new File("res\\ship_reddot.png"));
+				new File("res/ship_reddot.png"));
 				randomBox
 						.setIcon(new ImageIcon(hit));
 			} catch (IOException e) {
@@ -1326,7 +1326,7 @@ public class GameBoard extends JFrame implements MouseListener {
 			Image hit;
 			try {
 				hit = ImageIO.read(
-				new File("res\\ship_reddot.png"));
+				new File("res/ship_reddot.png"));
 				randomBox
 						.setIcon(new ImageIcon(hit));
 			} catch (IOException e) {
@@ -1353,7 +1353,7 @@ public class GameBoard extends JFrame implements MouseListener {
 			Image hit;
 			try {
 				hit = ImageIO.read(
-				new File("res\\ship_reddot.png"));
+				new File("res/ship_reddot.png"));
 				randomBox
 						.setIcon(new ImageIcon(hit));
 			} catch (IOException e) {
@@ -1380,7 +1380,7 @@ public class GameBoard extends JFrame implements MouseListener {
 			Image hit;
 			try {
 				hit = ImageIO.read(
-				new File("res\\ship_reddot.png"));
+				new File("res/ship_reddot.png"));
 				randomBox
 						.setIcon(new ImageIcon(hit));
 			} catch (IOException e) {
@@ -1406,7 +1406,7 @@ public class GameBoard extends JFrame implements MouseListener {
 			hitValue = 0;
 			try {
 				miss = ImageIO.read(
-				new File("res\\waves_whitedot.png"));
+				new File("res/waves_whitedot.png"));
 				randomBox
 						.setIcon(new ImageIcon(miss));
 			} catch (IOException e) {
