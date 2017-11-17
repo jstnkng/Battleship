@@ -130,7 +130,7 @@ public class Client {
 	 */
 	public static void main(String[] args) {
 		int portNum = 5335;
-		String serverAdd = "localhost";
+		String serverAdd = "35.39.165.205";
 		String user = "sam";
 		MultiplayerMenu mm = new MultiplayerMenu(serverAdd, portNum);
 		

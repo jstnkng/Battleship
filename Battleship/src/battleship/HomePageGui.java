@@ -7,6 +7,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
@@ -393,8 +394,6 @@ public class HomePageGui extends JFrame implements MouseListener,
 		System.out.println("x: " + btnMultiplayer.getLocationOnScreen().x 
 			+ " y: " + btnMultiplayer.getLocationOnScreen().y);
 		
-		
-	
 	}
 
 	@Override

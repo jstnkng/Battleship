@@ -20,8 +20,6 @@ public class GameServer extends Thread {
 	public GameServer(String server, int port) {
 		this.port = port;
 		this.server = server;
-		
-		//start();
 	}
 	
 	/*
