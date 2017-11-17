@@ -318,7 +318,7 @@ public class HomePageGui extends JFrame implements MouseListener,
 		try {
 			//gets image from file
 			BufferedImage image = ImageIO.read(
-					new File("res\\background1.jpg"));
+					new File("res/background1.jpg"));
 			
 			//scales the image to panel size
 			Image scaledImage = image.getScaledInstance(
@@ -388,7 +388,7 @@ public class HomePageGui extends JFrame implements MouseListener,
 	 */
 	public void startMultiplayer() {
 		MultiplayerMenu p1 = new 
-			MultiplayerMenu("216.171.57.112", 5335);
+			MultiplayerMenu("35.39.165.209", 5335);
 		p1.setLocationRelativeTo(null);
 		System.out.println("Multiplayer");
 		System.out.println("x: " + btnMultiplayer.getLocationOnScreen().x 

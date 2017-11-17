@@ -181,8 +181,8 @@ public class Ship extends JPanel {
 	public Ship(final ShipType type) {
 		typeOfShip = type;
 		if (type == ShipType.AircraftCarrier) {
-			pathH = "res\\AircraftCarrierH.png";
-			pathV = "res\\AircraftCarrierV.png";			
+			pathH = "res/AircraftCarrierH.png";
+			pathV = "res/AircraftCarrierV.png";			
 //			x = 0;
 //			y = 0;
 			widthH = 325;
@@ -195,8 +195,8 @@ public class Ship extends JPanel {
 
 		} else if (type == ShipType.Battleship) {
 		
-			pathH = "res\\BattleShipH.png";
-			pathV = "res\\BattleShipV.png";		
+			pathH = "res/BattleShipH.png";
+			pathV = "res/BattleShipV.png";		
 //			x = 0;
 //			y = 0;
 			widthH = 258;
@@ -207,8 +207,8 @@ public class Ship extends JPanel {
 			value = 4;
 			setImages(pathH, pathV);
 		} else if (type == ShipType.Cruiser) {
-			pathH = "res\\CruiserH.png";
-			pathV = "res\\CruiserV.png";
+			pathH = "res/CruiserH.png";
+			pathV = "res/CruiserV.png";
 //			x = 0;
 //			y = 0;
 			widthH = 191;
@@ -220,8 +220,8 @@ public class Ship extends JPanel {
 				setImages(pathH, pathV);
 				
 		} else if (type == ShipType.Submarine) {
-			pathH = "res\\SubmarineH.png";
-			pathV = "res\\SubmarineV.png";
+			pathH = "res/SubmarineH.png";
+			pathV = "res/SubmarineV.png";
 //			x = 0;
 //			y = 0;
 			widthH = 191;
@@ -232,8 +232,8 @@ public class Ship extends JPanel {
 			value = 2;
 			setImages(pathH, pathV);
 		} else {
-			pathH = "res\\PatrolBoatH.png";
-			pathV = "res\\PatrolBoatV.png";
+			pathH = "res/PatrolBoatH.png";
+			pathV = "res/PatrolBoatV.png";
 //			x = 0;
 //			y = 0;
 			widthH = 124;
