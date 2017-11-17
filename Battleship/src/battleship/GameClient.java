@@ -11,13 +11,13 @@ import java.net.URL;
 
 import battleship.Client.ListenFromServer;
 
-public class GameClient {
+public class GameClient extends Thread {
 	
 	private int port;
 	private String server;
-	private OnlineGameBoard p2GameBoard;
 	private ShipSetupFrame ssf;
-	private int[][] values = new int[10][10];
+	private int[][] p2Values = new int[10][10];
+	private int[][] p1Values = new int[10][10];
 	private boolean ready = false;
 	private Socket socket;
 	
@@ -26,13 +26,12 @@ public class GameClient {
 		this.port = port;
 		this.server = server;
 		
-		start();
 	}
 	
 	/*
 	 * start
 	 */
-	public void start() {
+	public void run() {
 		
 		ssf = new ShipSetupFrame(GameMode.MultiplayerMode, 2);
 		
@@ -42,7 +41,7 @@ public class GameClient {
 		}
 		System.out.println("p2 ships set");
 		
-		values = ssf.getPlayer1Values();
+		p2Values = ssf.getPlayer2Values();
 		
 		//try to connect to server
 		try {
@@ -60,9 +59,36 @@ public class GameClient {
 		try {
 			ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
 			ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+			
+			//send server ship values
+			out.writeObject(p2Values);
+			
+			//try to get hosts ship values
+			p1Values = (int[][]) in.readObject();
+			
+			//create gameboard
+			//vals switched for player2's board
+//			oh = new OnlineHandler(p2Values, p1Values);
+//			oh.start();
+			
+			(new Thread(new OnlineGameBoard(p2Values, p1Values))).start();
+			
+			
 		} catch (IOException eIO) {
 			eIO.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		
+		
+		
+		while(true) {
+			//play the game
+		}
+		
+		
+		
 	}
 	
 	

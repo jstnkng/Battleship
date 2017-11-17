@@ -360,6 +360,7 @@ public class ShipSetupFrame extends JFrame
 				submit();
 			}
 		});
+
 		
 		board = new Grid(boardSize, "Label");
 		player2Board = new Grid(boardSize, "Label");
@@ -383,18 +384,12 @@ public class ShipSetupFrame extends JFrame
 		layeredPane.add(board, c);
 		layeredPane.setLayer(board, -1);
 		
-		//add layered pane to the JPanel
-		this.add(layeredPane);
-		layeredPane.addMouseListener(this);
-		layeredPane.addMouseMotionListener(this);
-		
 //		contentPane.setOpaque(true);
 //		this.setContentPane(contentPane);
 		
 		//Display;
 		this.setSize(1200, 700);
 		this.setResizable(false);
-		this.setVisible(true);	
 		//Set Ships to starting locations
 		returnShipToStart(aircraftCarrier);
 		returnShipToStart(battleShip);
@@ -404,6 +399,12 @@ public class ShipSetupFrame extends JFrame
 		
 		submit.addKeyListener(this);
 		System.out.println("end of ship set up frame");
+		
+		//add layered pane to the JPanel
+		layeredPane.addMouseListener(this);
+		layeredPane.addMouseMotionListener(this);
+		this.add(layeredPane);
+		this.setVisible(true);	
 	}
 
 	@Override

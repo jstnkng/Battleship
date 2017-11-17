@@ -29,7 +29,7 @@ import javax.swing.event.ChangeListener;
  * Displays the two boards, one with the players ships and one
  * for the user to fire on.
  */
-public class OnlineGameBoard extends JFrame implements MouseListener {
+public class OnlineGameBoard extends JFrame implements MouseListener, Runnable {
 
 	/**
 	 *ID for serializable class.
@@ -397,17 +397,20 @@ public class OnlineGameBoard extends JFrame implements MouseListener {
 	/**
 	 * constructor for multiplayer
 	 */
-	public OnlineGameBoard(String server, int port, int player) {
-		this.setTitle("Player " + player);
+	public OnlineGameBoard(int[][] p1Values, int[][] p2Values) {
+		
+		setPlayer1Values(p1Values);
+		setPlayer2Values(p2Values);
+		
 		this.setSize(1200, 700);
-		this.server = server;
-		this.port = port;
+		this.setLayout(new GridLayout(0, 2));
 		
-		//TODO fix
-		currentMode = GameMode.OnePlayerMode;
-		
+	}
+	
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
 		beginGame();
-		
 	}
 	
 	/*
@@ -444,6 +447,7 @@ public class OnlineGameBoard extends JFrame implements MouseListener {
 		loadBoards();
 		this.add(leftBoard);		
 		this.add(rightBoard);
+		this.setVisible(true);
 	}
 	
 	public void loadBoards() {
@@ -502,7 +506,7 @@ public class OnlineGameBoard extends JFrame implements MouseListener {
 			int y = 0;
 			for (JButton[] row  : rightBoard.getButtonGrid()) {
 				for (JButton button : row) {
-					System.out.print(player2Values[x][y]);
+					System.out.print(player2Values[x][y] +",");
 					button.addMouseListener(this);
 					button.setName(player2Values[x][y] + "");
 					button.setText(x + "," + y);
@@ -1161,7 +1165,8 @@ public class OnlineGameBoard extends JFrame implements MouseListener {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		new OnlineGameBoard("localhost", 5445, 1);
+		//new OnlineGameBoard("localhost", 5445, 1);
 	}
+
 	
 }

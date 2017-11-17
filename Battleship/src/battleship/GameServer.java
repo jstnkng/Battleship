@@ -6,13 +6,14 @@ import java.util.*;
 import battleship.Server.ClientThread;
 
 
-public class GameServer {
+public class GameServer extends Thread {
 	
 	private int port;
 	private String server;
-	private OnlineGameBoard p1GameBoard;
 	private ShipSetupFrame ssf;
-	private int[][] values = new int[10][10];
+	private int[][] p1Values = new int[10][10];
+	private int[][] p2Values = new int[10][10];
+	private int[][] blankValues = new int[10][10];
 	private boolean ready = false;
 	
 	
@@ -20,15 +21,16 @@ public class GameServer {
 		this.port = port;
 		this.server = server;
 		
-		start();
+		//start();
 	}
 	
 	/*
 	 * start
 	 */
-	public void start() {
+	public void run() {
 		
 		ssf = new ShipSetupFrame(GameMode.MultiplayerMode, 1);
+		ssf.setLocationRelativeTo(null);
 		
 		System.out.println("Waiting for host to set ships");
 		while(!ssf.getAreShipsSet()) {
@@ -36,7 +38,7 @@ public class GameServer {
 		}
 		System.out.println("Host ships set");
 		
-		values = ssf.getPlayer1Values();
+		p1Values = ssf.getPlayer1Values();
 		
 		//try to create serverSocket
 		try {
@@ -50,12 +52,32 @@ public class GameServer {
 			ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
 			ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
 			
+			//get p2 ships
+			p2Values = (int[][]) in.readObject();
+			
+			//try to send ship values
+			out.writeObject(p1Values);
+			
+			//create gameboard
+//			oh = new OnlineHandler(p1Values, p2Values);
+//			oh.start();
+			
+			(new Thread(new OnlineGameBoard(p1Values, p2Values))).start();
 			
 			
-			
+
 		} catch (IOException e) {
 			System.out.println("Exception on new ServerSocket: " + e);
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		
+		
+		while(true) {
+			//play the game
+		}
+		
 	}
 	
 	
@@ -75,7 +97,9 @@ public class GameServer {
 		System.out.println(ip);
 		
 		GameServer server = new GameServer(ip, portNum);
-		//server.start();
+		server.start();
 	}
 }
+
+
 	

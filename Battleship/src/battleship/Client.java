@@ -93,6 +93,16 @@ public class Client {
 	}
 	
 	/*
+	 * create game server
+	 */
+	public void createServer(String ip, int portNum) {
+		
+		GameServer gs = new GameServer(ip, portNum);
+		gs.start();
+		//disconnect();
+	}
+	
+	/*
 	 * disconnect
 	 * close input/output streams
 	 */
