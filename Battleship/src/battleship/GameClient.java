@@ -22,6 +22,8 @@ public class GameClient extends Thread {
 	private Socket socket;
 	private boolean isMyTurn = false;
 	private OnlineGameBoard gb;
+	private ObjectOutputStream out;
+	private ObjectInputStream in;
 	
 	
 	public GameClient(String server, int port) {
@@ -59,8 +61,8 @@ public class GameClient extends Thread {
 		
 		//try to create the object streams
 		try {
-			ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-			ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+			out = new ObjectOutputStream(socket.getOutputStream());
+			in = new ObjectInputStream(socket.getInputStream());
 			
 			//send server ship values
 			out.writeObject(p2Values);
@@ -71,7 +73,7 @@ public class GameClient extends Thread {
 			//create gameboard			
 //			(new Thread(new OnlineGameBoard(p2Values, p1Values))).start();
 			
-			gb = new OnlineGameBoard(p1Values, p2Values);
+			gb = new OnlineGameBoard(p2Values, p1Values);
 			gb.start();
 			
 			
@@ -86,6 +88,30 @@ public class GameClient extends Thread {
 		//play the game
 		while(true) {
 			
+			//take my shot
+			if(isMyTurn && gb.getShot() != null) {
+				OnlineShot shot = gb.getShot();
+				try {
+					out.writeObject(shot);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				isMyTurn = false;
+			
+			//get shot
+			} else if(!isMyTurn) {
+				try {
+					OnlineShot shot = (OnlineShot) in.readObject();
+					if(shot != null) {
+						gb.append(shot);
+						isMyTurn = true;
+					}
+				} catch (ClassNotFoundException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 		
 		

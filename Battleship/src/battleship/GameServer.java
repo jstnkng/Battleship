@@ -17,6 +17,8 @@ public class GameServer extends Thread {
 	private boolean ready = false;
 	private boolean isMyTurn = true;
 	private OnlineGameBoard gb;
+	private ObjectOutputStream out;
+	private ObjectInputStream in;
 	
 	
 	public GameServer(String server, int port) {
@@ -49,8 +51,8 @@ public class GameServer extends Thread {
 			System.out.println("Second player connected");
 			
 			//communicate with client(second player)
-			ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-			ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+			out = new ObjectOutputStream(socket.getOutputStream());
+			in = new ObjectInputStream(socket.getInputStream());
 			
 			//get p2 ships
 			p2Values = (int[][]) in.readObject();
@@ -77,11 +79,30 @@ public class GameServer extends Thread {
 		//play the game
 		while(true) {
 			
-			if(isMyTurn) {
-				
+			//take my shot
+			if(isMyTurn && gb.getShot() != null) {
+				OnlineShot shot = gb.getShot();
+				try {
+					out.writeObject(shot);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				isMyTurn = false;
+			
+			//get shot
+			} else if(!isMyTurn) {
+				try {
+					OnlineShot shot = (OnlineShot) in.readObject();
+					if(shot != null) {
+						gb.append(shot);
+						isMyTurn = true;
+					}
+				} catch (ClassNotFoundException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
-			
-			
 			
 		}
 		
