@@ -377,6 +377,14 @@ public class OnlineGameBoard extends JFrame implements MouseListener {
 	
 	private GameClient client;
 	
+	private volatile boolean isMyTurn;
+	public void setIsMyTurn(boolean turn) {
+		isMyTurn = turn;
+	}
+	public boolean getIsMyTurn() {
+		return isMyTurn;
+	}
+	
 	private volatile OnlineShot shotMade;
 	
 	private volatile boolean isGameOver = false;
@@ -409,6 +417,7 @@ public class OnlineGameBoard extends JFrame implements MouseListener {
 		
 		setPlayer1Values(p1Values);
 		setPlayer2Values(p2Values);
+		
 		
 		this.setSize(1200, 700);
 		this.setLayout(new GridLayout(0, 2));
@@ -527,9 +536,10 @@ public class OnlineGameBoard extends JFrame implements MouseListener {
 	@Override
 	public void mousePressed(final MouseEvent e) {
 		// TODO Auto-generated method stub
-
-		JButton button = (JButton) e.getSource();
-		playerShot(button);
+		if(isMyTurn) {
+			JButton button = (JButton) e.getSource();
+			playerShot(button);
+		}
 	}
 	
 	
@@ -789,6 +799,7 @@ public class OnlineGameBoard extends JFrame implements MouseListener {
 	
 	public void clearShot() {
 		shotMade = null;
+		isMyTurn = false;
 	}
 	
 	/**

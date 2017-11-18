@@ -15,7 +15,6 @@ public class GameServer extends Thread {
 	private int[][] p2Values = new int[10][10];
 	private int[][] blankValues = new int[10][10];
 	private boolean ready = false;
-	private boolean isMyTurn = true;
 	private OnlineGameBoard gb;
 	private ObjectOutputStream out;
 	private ObjectInputStream in;
@@ -65,6 +64,7 @@ public class GameServer extends Thread {
 			
 			gb = new OnlineGameBoard(p1Values, p2Values);
 			gb.start();
+			gb.setIsMyTurn(true);
 			System.out.println("board is made");
 			
 
@@ -80,7 +80,7 @@ public class GameServer extends Thread {
 		while(!gb.getIsGameOver()) {
 			
 			//take my shot
-			if(isMyTurn) {
+			if(gb.getIsMyTurn()) {
 				
 				System.out.println("Waiting for host to shoot");
 				while(gb.getShot() == null) {
@@ -95,10 +95,11 @@ public class GameServer extends Thread {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				isMyTurn = false;
+				gb.clearShot();
+				gb.setIsMyTurn(false);
 			
 			//get shot
-			} else if(!isMyTurn) {
+			} else if(!gb.getIsMyTurn()) {
 				
 				System.out.println("waiting for p2 to shoot");
 				try {
@@ -106,7 +107,7 @@ public class GameServer extends Thread {
 					if(shot != null) {
 						gb.append(shot);
 						System.out.println("Shot Recieved");
-						isMyTurn = true;
+						gb.setIsMyTurn(true);
 					}
 				} catch (ClassNotFoundException e) {
 					e.printStackTrace();
