@@ -84,6 +84,7 @@ public class GameServer extends Thread {
 				OnlineShot shot = gb.getShot();
 				try {
 					out.writeObject(shot);
+					System.out.println("Shot Sent");
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -95,6 +96,7 @@ public class GameServer extends Thread {
 					OnlineShot shot = (OnlineShot) in.readObject();
 					if(shot != null) {
 						gb.append(shot);
+						System.out.println("Shot Recieved");
 						isMyTurn = true;
 					}
 				} catch (ClassNotFoundException e) {
