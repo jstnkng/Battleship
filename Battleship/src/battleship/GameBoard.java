@@ -562,11 +562,11 @@ public class GameBoard extends JFrame implements MouseListener {
 					button.addMouseListener(this);
 					button.setName(player2Values[x][y] + "");
 					button.setText(x + "," + y);
-					y++;
+					x++;
 				}
 				System.out.println("");
-				x++;
-				y = 0;
+				y++;
+				x = 0;
 			}
 	}
 	

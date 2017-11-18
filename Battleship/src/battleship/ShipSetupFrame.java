@@ -1227,12 +1227,12 @@ public class ShipSetupFrame extends JFrame
 		if(currentPlayer == 1) {
 			for (int s = 0; s < shipToSet.getShipSize(); s++) {
 				if (shipToSet.isHorizontal()) {
-				 player1Values[shipToSet.getRow()]
-						 [shipToSet.getColumn() + s] 
+				 player1Values[shipToSet.getColumn()+ s]
+						 [shipToSet.getRow()] 
 							= shipToSet.getValue();
 				} else {
-				 player1Values[shipToSet.getRow() + s]
-						 [shipToSet.getColumn()] 
+				 player1Values[shipToSet.getColumn() ]
+						 [shipToSet.getRow() + s] 
 							= shipToSet.getValue();
 				}
 			}
@@ -1240,12 +1240,12 @@ public class ShipSetupFrame extends JFrame
 		else if(currentPlayer == 2) {
 			for (int s = 0; s < shipToSet.getShipSize(); s++) {
 				if (shipToSet.isHorizontal()) {
-				 player2Values[shipToSet.getRow()]
-						 [shipToSet.getColumn() + s] 
+				 player2Values[shipToSet.getColumn()+ s]
+						 [shipToSet.getRow()] 
 							= shipToSet.getValue();
 				} else {
-				 player2Values[shipToSet.getRow() + s]
-						 [shipToSet.getColumn()] 
+				 player2Values[shipToSet.getColumn() ]
+						 [shipToSet.getRow() + s] 
 							= shipToSet.getValue();
 				}
 			}

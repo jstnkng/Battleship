@@ -21,10 +21,10 @@ public class LabelGrid extends Grid{
 		return labels[x][y];
 	}
 	public LabelGrid() {
-		for (int y = 0; y < boardLayout.getColumns() - 1; y++) {
+		for (int x = 0; x < boardLayout.getColumns() - 1; x++) {
 			this.add(
-			 new JLabel("" + (y + 1), SwingConstants.CENTER));
-			for (int x = 0; x < boardLayout.getRows() - 1; x++) {
+			 new JLabel("" + (x + 1), SwingConstants.CENTER));
+			for (int y = 0; y < boardLayout.getRows() - 1; y++) {
 					JLabel box = new JLabel();
 					box.setBackground(Color.WHITE);
 					box.setOpaque(true);
