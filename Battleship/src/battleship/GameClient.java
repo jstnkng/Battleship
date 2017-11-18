@@ -86,10 +86,17 @@ public class GameClient extends Thread {
 		
 		
 		//play the game
-		while(true) {
-			
+		while(!gb.getIsGameOver()) {
+
 			//take my shot
-			if(isMyTurn && gb.getShot() != null) {
+			if(isMyTurn) {
+
+				System.out.println("Waiting for p2 to shoot");
+				while(gb.getShot() == null) {
+
+				}
+				System.out.println("p2 has made shot");
+
 				OnlineShot shot = gb.getShot();
 				try {
 					out.writeObject(shot);
@@ -98,9 +105,11 @@ public class GameClient extends Thread {
 					e.printStackTrace();
 				}
 				isMyTurn = false;
-			
-			//get shot
+
+				//get shot
 			} else if(!isMyTurn) {
+
+				System.out.println("waiting for host to shoot");
 				try {
 					OnlineShot shot = (OnlineShot) in.readObject();
 					if(shot != null) {
@@ -114,10 +123,9 @@ public class GameClient extends Thread {
 					e.printStackTrace();
 				}
 			}
+
 		}
-		
-		
-		
+	
 	}
 	
 	

@@ -377,7 +377,13 @@ public class OnlineGameBoard extends JFrame implements MouseListener {
 	
 	private GameClient client;
 	
-	private OnlineShot shotMade;
+	private volatile OnlineShot shotMade;
+	
+	private volatile boolean isGameOver = false;
+	
+	public boolean getIsGameOver() {
+		return isGameOver;
+	}
 	
 	
 	/**
@@ -526,23 +532,6 @@ public class OnlineGameBoard extends JFrame implements MouseListener {
 		playerShot(button);
 	}
 	
-	public void switchPlayers() {
-		if (!player1Turn) {
-			this.setTitle("Player 2");
-			middlePanel.setVisible(false);
-			player2Panel.setVisible(true);
-			//p2.setVisible(false);
-			//p1.setVisible(true);
-			player2LabelGrid.loadPictures(player2Values, true);
-		} else {
-			this.setTitle("Player 1");
-			middlePanel.setVisible(false);
-			player1Panel.setVisible(true);
-			//p2.setVisible(false);
-			//p1.setVisible(true);
-			player1LabelGrid.loadPictures(player1Values, true);
-		}
-	}
 	
 	/**
 	 * Called by mouseClicked when the player clicks on a JButton
@@ -783,6 +772,7 @@ public class OnlineGameBoard extends JFrame implements MouseListener {
 		if (aircraftCarrierHits + battleShipHits + cruiserHits
 				+ submarineHits + patrolBoatHits == 17) {
 			JOptionPane.showMessageDialog(null, "You Win!");
+			isGameOver = true;
 			this.setVisible(false);
 		}
 
@@ -866,110 +856,7 @@ public class OnlineGameBoard extends JFrame implements MouseListener {
 		}
 	}
 		
-	public void fire(final JLabel randomBox) {
-		if (randomBox
-				.getText().contains("1")) {
-			hitValue = 1;
-			Image hit;
-			try {
-				hit = ImageIO.read(
-				new File("res/ship_reddot.png"));
-				randomBox
-						.setIcon(new ImageIcon(hit));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			cpuPatrolBoatHits++;
-		
-		} else if (randomBox
-				.getText().contains("2")) {
-			hitValue = 2;
-			Image hit;
-			try {
-				hit = ImageIO.read(
-				new File("res/ship_reddot.png"));
-				randomBox
-						.setIcon(new ImageIcon(hit));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			cpuSubmarineHits++;
-		
-		} else if (randomBox
-				.getText().contains("3")) {
-			hitValue = 3;
-			Image hit;
-			try {
-				hit = ImageIO.read(
-				new File("res/ship_reddot.png"));
-				randomBox
-						.setIcon(new ImageIcon(hit));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			cpuCruiserHits++;
-			
-		} else if (randomBox
-				.getText().contains("4")) {
-			hitValue = 4;
-			Image hit;
-			try {
-				hit = ImageIO.read(
-				new File("res/ship_reddot.png"));
-				randomBox
-						.setIcon(new ImageIcon(hit));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			cpuBattleShipHits++;
-			
-		} else if (randomBox
-				.getText().contains("5")) {
-			hitValue = 5;
-			Image hit;
-			try {
-				hit = ImageIO.read(
-				new File("res/ship_reddot.png"));
-				randomBox
-						.setIcon(new ImageIcon(hit));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			cpuAircraftCarrierHits++;
-			
-		} else {
-			Image miss;
-			hitValue = 0;
-			try {
-				miss = ImageIO.read(
-				new File("res/waves_whitedot.png"));
-				randomBox
-						.setIcon(new ImageIcon(miss));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			wasHit = false;
-		}
-		
-		//check if another ship was sunk
-		if (shipsSunk > countSunk) {
-			inPursuit = false;
-			countSunk = shipsSunk;
-		}
-		
-		//check win condition
-		if (countSunk == 5) {
-			JOptionPane.showMessageDialog(null, "Computer wins");
-			
-			this.setVisible(false);
-		}
-	}
+	
 	
 	/**
 	 * Executes the cpu's shot at the given coordinate.
@@ -1142,6 +1029,7 @@ public class OnlineGameBoard extends JFrame implements MouseListener {
 		//check win condition
 		if (countSunk == 5) {
 			JOptionPane.showMessageDialog(null, "Player 2 wins");
+			isGameOver = true;
 			
 			this.setVisible(false);
 		}

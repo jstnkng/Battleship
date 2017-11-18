@@ -77,10 +77,17 @@ public class GameServer extends Thread {
 		
 		System.out.println("loop for game started");
 		//play the game
-		while(true) {
+		while(!gb.getIsGameOver()) {
 			
 			//take my shot
-			if(isMyTurn && gb.getShot() != null) {
+			if(isMyTurn) {
+				
+				System.out.println("Waiting for host to shoot");
+				while(gb.getShot() == null) {
+					
+				}
+				System.out.println("host has made shot");
+	
 				OnlineShot shot = gb.getShot();
 				try {
 					out.writeObject(shot);
@@ -92,6 +99,8 @@ public class GameServer extends Thread {
 			
 			//get shot
 			} else if(!isMyTurn) {
+				
+				System.out.println("waiting for p2 to shoot");
 				try {
 					OnlineShot shot = (OnlineShot) in.readObject();
 					if(shot != null) {
