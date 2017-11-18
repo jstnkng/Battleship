@@ -15,6 +15,8 @@ public class GameServer extends Thread {
 	private int[][] p2Values = new int[10][10];
 	private int[][] blankValues = new int[10][10];
 	private boolean ready = false;
+	private boolean isMyTurn = true;
+	private OnlineGameBoard gb;
 	
 	
 	public GameServer(String server, int port) {
@@ -57,11 +59,11 @@ public class GameServer extends Thread {
 			out.writeObject(p1Values);
 			
 			//create gameboard
-//			oh = new OnlineHandler(p1Values, p2Values);
-//			oh.start();
+//			(new Thread(new OnlineGameBoard(p1Values, p2Values))).start();
 			
-			(new Thread(new OnlineGameBoard(p1Values, p2Values))).start();
-			
+			gb = new OnlineGameBoard(p1Values, p2Values);
+			gb.start();
+			System.out.println("board is made");
 			
 
 		} catch (IOException e) {
@@ -71,9 +73,16 @@ public class GameServer extends Thread {
 			e.printStackTrace();
 		}
 		
-		
+		System.out.println("loop for game started");
+		//play the game
 		while(true) {
-			//play the game
+			
+			if(isMyTurn) {
+				
+			}
+			
+			
+			
 		}
 		
 	}

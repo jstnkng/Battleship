@@ -20,6 +20,8 @@ public class GameClient extends Thread {
 	private int[][] p1Values = new int[10][10];
 	private boolean ready = false;
 	private Socket socket;
+	private boolean isMyTurn = false;
+	private OnlineGameBoard gb;
 	
 	
 	public GameClient(String server, int port) {
@@ -66,12 +68,11 @@ public class GameClient extends Thread {
 			//try to get hosts ship values
 			p1Values = (int[][]) in.readObject();
 			
-			//create gameboard
-			//vals switched for player2's board
-//			oh = new OnlineHandler(p2Values, p1Values);
-//			oh.start();
+			//create gameboard			
+//			(new Thread(new OnlineGameBoard(p2Values, p1Values))).start();
 			
-			(new Thread(new OnlineGameBoard(p2Values, p1Values))).start();
+			gb = new OnlineGameBoard(p1Values, p2Values);
+			gb.start();
 			
 			
 		} catch (IOException eIO) {
@@ -82,9 +83,9 @@ public class GameClient extends Thread {
 		}
 		
 		
-		
+		//play the game
 		while(true) {
-			//play the game
+			
 		}
 		
 		

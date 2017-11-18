@@ -29,7 +29,7 @@ import javax.swing.event.ChangeListener;
  * Displays the two boards, one with the players ships and one
  * for the user to fire on.
  */
-public class OnlineGameBoard extends JFrame implements MouseListener, Runnable {
+public class OnlineGameBoard extends JFrame implements MouseListener {
 
 	/**
 	 *ID for serializable class.
@@ -377,6 +377,8 @@ public class OnlineGameBoard extends JFrame implements MouseListener, Runnable {
 	
 	private GameClient client;
 	
+	private OnlineShot shotMade;
+	
 	
 	/**
 	 * Sets the gameMode to the current gameMode.
@@ -407,18 +409,16 @@ public class OnlineGameBoard extends JFrame implements MouseListener, Runnable {
 		
 	}
 	
-	@Override
-	public void run() {
+	public void start() {
 		// TODO Auto-generated method stub
 		beginGame();
 	}
 	
 	/*
-	 * add shot to board
+	 * add shot from other player to board
 	 */
 	public void append(OnlineShot shot) {
-		
-		
+		cpuFire(shot.getShotLoc());
 	}
 	
 //	public void start() {
@@ -768,11 +768,11 @@ public class OnlineGameBoard extends JFrame implements MouseListener, Runnable {
 				return;
 			}
 			
-			//send shot to server
+			//set shot for server or client to send
 			if (p != null) {
 				OnlineShot shot = new OnlineShot(p, false);
+				setShot(shot);
 				
-			//	client.sendOnlineShot(shot);
 			}
 			
 			
@@ -787,6 +787,18 @@ public class OnlineGameBoard extends JFrame implements MouseListener, Runnable {
 		}
 
 		
+	}
+	
+	public void setShot(OnlineShot shot) {
+		shotMade = shot;
+	}
+	
+	public OnlineShot getShot() {
+		return shotMade;
+	}
+	
+	public void clearShot() {
+		shotMade = null;
 	}
 	
 	/**
