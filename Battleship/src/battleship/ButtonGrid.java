@@ -49,10 +49,10 @@ public class ButtonGrid extends Grid {
 	}
 	
 	public ButtonGrid() {
-		for (int x = 0; x < boardLayout.getColumns() - 1; x++) {
+		for (int y = 0; y < boardLayout.getColumns() - 1; y++) {
 			this.add(
-			 new JLabel("" + (x + 1), SwingConstants.CENTER));
-			for (int y = 0; y < boardLayout.getRows() - 1; y++) {
+			 new JLabel("" + (y + 1), SwingConstants.CENTER));
+			for (int x = 0; x < boardLayout.getRows() - 1; x++) {
 				
 					JButton box = new JButton();
 					//box.setText(x + "," + y);
@@ -105,14 +105,14 @@ public class ButtonGrid extends Grid {
 							  }
 				}
 				button.setBorder(boardBorder);
-				//y++;
-				x++;
+				y++;
+				//x++;
 			}
 			System.out.println("");
-			//x++;
-			y++;
-			x = 0;
-			//y = 0;
+			x++;
+			//y++;
+			//x = 0;
+			y = 0;
 		}
 	}
 	

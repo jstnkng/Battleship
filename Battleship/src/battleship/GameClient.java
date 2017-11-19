@@ -20,7 +20,7 @@ public class GameClient extends Thread {
 	private int[][] p1Values = new int[10][10];
 	private boolean ready = false;
 	private Socket socket;
-	private OnlineGameBoard gb;
+	private GameBoard gb;
 	private ObjectOutputStream out;
 	private ObjectInputStream in;
 	
@@ -72,7 +72,7 @@ public class GameClient extends Thread {
 			//create gameboard			
 //			(new Thread(new OnlineGameBoard(p2Values, p1Values))).start();
 			
-			gb = new OnlineGameBoard(p2Values, p1Values);
+			gb = new GameBoard(p2Values, p1Values);
 			gb.start();
 			gb.setIsMyTurn(false);
 			

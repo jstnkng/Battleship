@@ -102,10 +102,10 @@ public class Grid extends JPanel {
 			this.add(letterLabel, new Integer(0));
 		}
 
-		for (int x = 0; x < boardLayout.getColumns() - 1; x++) {
+		for (int y = 0; y < boardLayout.getColumns() - 1; y++) {
 			this.add(
-			 new JLabel("" + (x + 1), SwingConstants.CENTER));
-			for (int y = 0; y < boardLayout.getRows() - 1; y++) {
+			 new JLabel("" + (y + 1), SwingConstants.CENTER));
+			for (int x = 0; x < boardLayout.getRows() - 1; x++) {
 				if (type.equals("Label")) {
 					JLabel box = new JLabel();
 					box.setBackground(Color.WHITE);

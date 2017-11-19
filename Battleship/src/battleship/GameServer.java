@@ -15,7 +15,7 @@ public class GameServer extends Thread {
 	private int[][] p2Values = new int[10][10];
 	private int[][] blankValues = new int[10][10];
 	private boolean ready = false;
-	private OnlineGameBoard gb;
+	private GameBoard gb;
 	private ObjectOutputStream out;
 	private ObjectInputStream in;
 	
@@ -62,7 +62,7 @@ public class GameServer extends Thread {
 			//create gameboard
 //			(new Thread(new OnlineGameBoard(p1Values, p2Values))).start();
 			
-			gb = new OnlineGameBoard(p1Values, p2Values);
+			gb = new GameBoard(p1Values, p2Values);
 			gb.start();
 			gb.setIsMyTurn(true);
 			System.out.println("board is made");

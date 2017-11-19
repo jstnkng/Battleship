@@ -145,7 +145,7 @@ public class MultiplayerMenu extends JFrame implements MouseListener, RowSorterL
 			this.add(panel);
 			this.setVisible(true);
 			
-			start();
+			//start();
 			
 		}
 		
@@ -278,8 +278,6 @@ public class MultiplayerMenu extends JFrame implements MouseListener, RowSorterL
 					//create GameServer
 					this.setVisible(false);
 					client.createServer(ip, portNum);
-					//client.disconnect();
-					//gs.start();
 
 
 					
@@ -318,10 +316,8 @@ public class MultiplayerMenu extends JFrame implements MouseListener, RowSorterL
 						//connect 2nd player to host
 						String ipToConnect = serverList.get(row).getIP();
 						
-						GameClient gc = new GameClient(ipToConnect, portNum);
-						gc.start();
-						
 						this.setVisible(false);
+						client.joinServer(ipToConnect, portNum);
 						
 					}
 					

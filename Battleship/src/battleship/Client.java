@@ -103,6 +103,17 @@ public class Client {
 	}
 	
 	/*
+	 * join game server
+	 */
+	public void joinServer(String ip, int portNum) {
+		
+		GameClient gc = new GameClient(ip, portNum);
+		gc.start();
+		//disconnect();
+	}
+	
+	
+	/*
 	 * disconnect
 	 * close input/output streams
 	 */

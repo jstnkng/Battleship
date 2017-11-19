@@ -373,6 +373,23 @@ public class GameBoard extends JFrame implements MouseListener {
 	private JButton switchPlayers;
 	
 	
+	private volatile boolean isMyTurn;
+	public void setIsMyTurn(boolean turn) {
+		isMyTurn = turn;
+	}
+	public boolean getIsMyTurn() {
+		return isMyTurn;
+	}
+	
+	private volatile OnlineShot shotMade;
+	
+	private volatile boolean isGameOver = false;
+	
+	public boolean getIsGameOver() {
+		return isGameOver;
+	}
+	
+	
 	/**
 	 * Sets the gameMode to the current gameMode.
 	 * Sets the size and layout of the panel.
@@ -388,6 +405,26 @@ public class GameBoard extends JFrame implements MouseListener {
 			this.setLayout(new GridLayout(0, 2));
 		}
 	}
+	
+	/**
+	 * constructor for multiplayer
+	 */
+	public GameBoard(int[][] p1Values, int[][] p2Values) {
+		
+		setPlayer1Values(p1Values);
+		setPlayer2Values(p2Values);
+		currentMode = GameMode.MultiplayerMode;
+		
+		
+		this.setSize(1200, 700);
+		this.setLayout(new GridLayout(0, 2));
+		
+	}
+	
+	public void start() {
+		beginGame();
+	}
+	
 	
 	public void beginPassAndPlay() {
 		this.setLayout(new GridBagLayout());
@@ -500,6 +537,7 @@ public class GameBoard extends JFrame implements MouseListener {
 		loadBoards();
 		this.add(leftBoard);		
 		this.add(rightBoard);
+		this.setVisible(true);
 	}
 	
 	public void loadBoards() {
@@ -545,11 +583,11 @@ public class GameBoard extends JFrame implements MouseListener {
 					}
 					box.setText(player1Values[x2][y2] + "");
 					
-					x2++;
+					y2++;
 				}
 				System.out.println("");
-				y2++;
-				x2 = 0;
+				x2++;
+				y2 = 0;
 			}
 			System.out.println("");
 			System.out.println("Player 2 values");
@@ -562,144 +600,29 @@ public class GameBoard extends JFrame implements MouseListener {
 					button.addMouseListener(this);
 					button.setName(player2Values[x][y] + "");
 					button.setText(x + "," + y);
-					x++;
+					y++;
 				}
 				System.out.println("");
-				y++;
-				x = 0;
+				x++;
+				y = 0;
 			}
 	}
 	
-//	public void loadGrids() {
-//		System.out.println(this.getTitle());
-//		System.out.println("Player 1 values");
-//		int x2 = 0;
-//		int y2 = 0;
-//			player1LabelGrid.setValues(player1Values);
-//			for (JLabel[] row  : player1LabelGrid.getLabelGrid()) {
-//				for (JLabel box : row) {
-//					System.out.print(player1Values[x2][y2]);
-//					if (player1Values[x2][y2] == 0) {
-//					    Image img;
-//						try {
-//						img = ImageIO.read(
-//						new File("res\\waves.png"));
-//						box.setIcon(new ImageIcon(img));
-//						} catch (IOException e) {
-//							e.printStackTrace();
-//						}
-//					} else if (player1Values[x2][y2] == 70) {
-//						 Image img;
-//							try {
-//							img = ImageIO.read(
-//							new File("res\\waves_whitedot.png"));
-//							box.setIcon(new ImageIcon(img));
-//							} catch (IOException e) {
-//								e.printStackTrace();
-//							}
-//					} else if (player1Values[x2][y2] > 60) {
-//						 Image img;
-//							try {
-//							img = ImageIO.read(
-//							new File("res\\ship_reddot.png"));
-//							box.setIcon(new ImageIcon(img));
-//							} catch (IOException e) {
-//								e.printStackTrace();
-//							}
-//					}
-//					else {
-//						box.setForeground(Color.GRAY);
-//						box.setBackground(Color.GRAY);
-//					}
-//					box.setText(player1Values[x2][y2] + "");
-//					
-//					x2++;
-//				}
-//				System.out.println("");
-//				y2++;
-//				x2 = 0;
-//			}
-//			int x21 = 0;
-//			int y21 = 0;
-//				player2LabelGrid.setValues(player2Values);
-//				for (JLabel[] row  : player2LabelGrid.getLabelGrid()) {
-//					for (JLabel box : row) {
-//						System.out.print(player2Values[x21][y21]);
-//						if (player2Values[x21][y21] == 0) {
-//						    Image img;
-//							try {
-//							img = ImageIO.read(
-//							new File("res\\waves.png"));
-//							box.setIcon(new ImageIcon(img));
-//							} catch (IOException e) {
-//								e.printStackTrace();
-//							}
-//						} else if (player2Values[x21][y21] == 70) {
-//							 Image img;
-//								try {
-//								img = ImageIO.read(
-//								new File("res\\waves_whitedot.png"));
-//								box.setIcon(new ImageIcon(img));
-//								} catch (IOException e) {
-//									e.printStackTrace();
-//								}
-//						} else if (player2Values[x21][y21] > 60) {
-//							 Image img;
-//								try {
-//								img = ImageIO.read(
-//								new File("res\\ship_reddot.png"));
-//								box.setIcon(new ImageIcon(img));
-//								} catch (IOException e) {
-//									e.printStackTrace();
-//								}
-//						}
-//						else {
-//							box.setForeground(Color.GRAY);
-//							box.setBackground(Color.GRAY);
-//						}
-//						box.setText(player2Values[x21][y21] + "");
-//						
-//						x21++;
-//					}
-//					System.out.println("");
-//					y21++;
-//					x21 = 0;
-//				}
-//			System.out.println("");
-//			System.out.println("Player 2 values");
-//			player1ButtonGrid.setValues(player1Values);
-//			int x = 0;
-//			int y = 0;
-//			for (JButton[] row  : player1ButtonGrid.getButtonGrid()) {
-//				for (JButton button : row) {
-//					System.out.print(player1Values[x][y]);
-//					button.addMouseListener(this);
-//					button.setName(player1Values[x][y] + "");
-//					button.setText(x + "," + y);
-//					y++;
-//				}
-//				System.out.println("");
-//				x++;
-//				y = 0;
-//			}
-//			player2ButtonGrid.setValues(player2Values);
-//			int x1 = 0;
-//			int y1 = 0;
-//			for (JButton[] row  : player2ButtonGrid.getButtonGrid()) {
-//				for (JButton button : row) {
-//					System.out.print(player2Values[x1][y1]);
-//					button.addMouseListener(this);
-//					button.setName(player2Values[x1][y1] + "");
-//					button.setText(x1 + "," + y1);
-//					y1++;
-//				}
-//				System.out.println("");
-//				x1++;
-//				y1 = 0;
-//			}
-//	}
-//	
-//	
+	/*
+	 * add shot from other player to board
+	 */
+	public void append(OnlineShot shot) {
+		cpuFire(shot.getShotLoc());
+		
+		System.out.println(shot.getShotLoc());
+	}
+	
+	/*
+	 * when connection fails
+	 */
+	public void connectionFailed() {
+		
+	}
 	
 	private void updateLeftBoard() {
 		int x2 = 0;
@@ -756,7 +679,10 @@ public class GameBoard extends JFrame implements MouseListener {
 		// TODO Auto-generated method stub
 		if (e.getSource() == switchPlayers) {
 			switchPlayers();
-		} else {
+		} else if (currentMode == GameMode.MultiplayerMode && isMyTurn){
+			JButton button = (JButton) e.getSource();
+			playerShot(button);
+		} else if (currentMode != GameMode.MultiplayerMode){
 			JButton button = (JButton) e.getSource();
 			playerShot(button);
 		}
@@ -787,6 +713,10 @@ public class GameBoard extends JFrame implements MouseListener {
 	 * @param button button that player clicks on
 	 */
 	public void playerShot(final JButton button) {
+		
+		//multiplayer only
+		Point p = null;
+		
 		try {
 			System.out.println("Button shot name: " + button.getName());
 			Image hit = ImageIO.read(
@@ -800,6 +730,7 @@ public class GameBoard extends JFrame implements MouseListener {
 					String location = button.getText();
 					int x = Integer.parseInt(location.split(",")[0]);
 					int y = Integer.parseInt(location.split(",")[1]);
+					p = new Point(x, y);
 					if (this.getTitle().contains("2")) {
 						player1Values[x][y] = 70;	
 					}
@@ -808,13 +739,14 @@ public class GameBoard extends JFrame implements MouseListener {
 					String location = button.getText();
 					int x = Integer.parseInt(location.split(",")[0]);
 					int y = Integer.parseInt(location.split(",")[1]);
+					p = new Point(x, y);
 					button.setIcon(new ImageIcon(hit));
 					button.setName("shot5");
 					if (this.getTitle().contains("2")) {
 						player1Values[x][y] = 65;	
 					}
 					else player2Values[x][y] = 65; 		
-					if (currentMode == GameMode.OnePlayerMode) {
+					if (currentMode == GameMode.OnePlayerMode || currentMode == GameMode.MultiplayerMode) {
 						aircraftCarrierHits++;
 						if (aircraftCarrierHits == 5) {
 							showCpuShip(
@@ -846,13 +778,14 @@ public class GameBoard extends JFrame implements MouseListener {
 				String location = button.getText();
 				int x = Integer.parseInt(location.split(",")[0]);
 				int y = Integer.parseInt(location.split(",")[1]);
+				p = new Point(x, y);
 				if (this.getTitle().contains("2")) {
 					player1Values[x][y] = 64;	
 				}
 				else player2Values[x][y] = 64;
 				button.setIcon(new ImageIcon(hit));
 				button.setName("shot4");
-				if (currentMode == GameMode.OnePlayerMode) {
+				if (currentMode == GameMode.OnePlayerMode || currentMode == GameMode.MultiplayerMode) {
 					battleShipHits++;
 					if (battleShipHits == 4) {
 						showCpuShip(
@@ -882,13 +815,14 @@ public class GameBoard extends JFrame implements MouseListener {
 				String location = button.getText();
 				int x = Integer.parseInt(location.split(",")[0]);
 				int y = Integer.parseInt(location.split(",")[1]);
+				p = new Point(x, y);
 				if (this.getTitle().contains("2")) {
 					player1Values[x][y] = 62;	
 				}
 				else player2Values[x][y] = 62;
 				button.setIcon(new ImageIcon(hit));
 				button.setName("shot2");
-				if (currentMode == GameMode.OnePlayerMode) {
+				if (currentMode == GameMode.OnePlayerMode || currentMode == GameMode.MultiplayerMode) {
 					submarineHits++;
 					if (submarineHits == 3) {
 						showCpuShip(
@@ -918,13 +852,14 @@ public class GameBoard extends JFrame implements MouseListener {
 				String location = button.getText();
 				int x = Integer.parseInt(location.split(",")[0]);
 				int y = Integer.parseInt(location.split(",")[1]);
+				p = new Point(x, y);
 				if (this.getTitle().contains("2")) {
 					player1Values[x][y] = 63;	
 				}
 				else player2Values[x][y] = 63;
 				button.setIcon(new ImageIcon(hit));
 				button.setName("shot3");
-				if (currentMode == GameMode.OnePlayerMode) {
+				if (currentMode == GameMode.OnePlayerMode || currentMode == GameMode.MultiplayerMode) {
 					cruiserHits++;
 					if (cruiserHits == 3) {
 						showCpuShip(
@@ -954,13 +889,14 @@ public class GameBoard extends JFrame implements MouseListener {
 				String location = button.getText();
 				int x = Integer.parseInt(location.split(",")[0]);
 				int y = Integer.parseInt(location.split(",")[1]);
+				p = new Point(x, y);
 				if (this.getTitle().contains("2")) {
 					player1Values[x][y] = 61;	
 				}
 				else player2Values[x][y] = 61;
 				button.setIcon(new ImageIcon(hit));
 				button.setName("shot1");
-				if (currentMode == GameMode.OnePlayerMode) {
+				if (currentMode == GameMode.OnePlayerMode || currentMode == GameMode.MultiplayerMode) {
 					patrolBoatHits++;
 					if (patrolBoatHits == 2) {
 						showCpuShip(
@@ -993,6 +929,7 @@ public class GameBoard extends JFrame implements MouseListener {
 						"You already shot here");
 				return;
 			}
+			
 
 		} catch (Exception ex) {
 			System.out.println(ex);
@@ -1000,6 +937,7 @@ public class GameBoard extends JFrame implements MouseListener {
 		if (aircraftCarrierHits + battleShipHits + cruiserHits
 				+ submarineHits + patrolBoatHits == 17) {
 			JOptionPane.showMessageDialog(null, "You Win!");
+			isGameOver = true;
 			this.setVisible(false);
 		}
 
@@ -1039,7 +977,15 @@ public class GameBoard extends JFrame implements MouseListener {
 			
 		}
 		else if (currentMode == GameMode.MultiplayerMode) {
-
+			
+			//set shot for server or client to send
+			if (p != null) {
+				OnlineShot shot = new OnlineShot(p, false);
+				setShot(shot);
+				
+			}
+			
+			
 		}
 		else {
 			if (this.isVisible()) {
@@ -1060,6 +1006,21 @@ public class GameBoard extends JFrame implements MouseListener {
 		}
 		//System.out.println("User Point " + lastShot.x + "," + lastShot.y);
 	}
+	
+	
+	public void setShot(OnlineShot shot) {
+		shotMade = shot;
+	}
+	
+	public OnlineShot getShot() {
+		return shotMade;
+	}
+	
+	public void clearShot() {
+		shotMade = null;
+		isMyTurn = false;
+	}
+	
 	
 	public void showShipMiddle(final int ship ) {
 		
@@ -1425,6 +1386,7 @@ public class GameBoard extends JFrame implements MouseListener {
 		//check win condition
 		if (countSunk == 5) {
 			JOptionPane.showMessageDialog(null, "Player 2 wins");
+			isGameOver = true;
 			
 			this.setVisible(false);
 		}
