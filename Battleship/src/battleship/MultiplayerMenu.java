@@ -52,6 +52,10 @@ public class MultiplayerMenu extends JFrame implements MouseListener, RowSorterL
 		 */
 		private String serverPassword;
 		/**
+		 * server IP
+		 */
+		private String serverIP;
+		/**
 		 * Arraylist of serverInfo.
 		 */
 		private ArrayList<ServerInfo> serverList = 
@@ -77,8 +81,6 @@ public class MultiplayerMenu extends JFrame implements MouseListener, RowSorterL
 		 */
 		private DefaultTableModel model;
 		
-		private String server;
-		private int port;
 		
 		private Client client;
 		
@@ -90,14 +92,12 @@ public class MultiplayerMenu extends JFrame implements MouseListener, RowSorterL
 		 * @param server 
 		 * @param mode the current mode to be played
 		 */
-		public MultiplayerMenu(String server, int port) {
+		public MultiplayerMenu() {
 			//setup the frame
 			this.setTitle("Multiplayer Menu");
 			this.setSize(1200, 700);
 			this.setResizable(false);
 			
-			this.server = server;
-			this.port = port;
 			
 			//create panel
 			JPanel panel = new JPanel();
@@ -119,10 +119,10 @@ public class MultiplayerMenu extends JFrame implements MouseListener, RowSorterL
 			table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 			
 			//TODO also sort arraylist to match
-			TableRowSorter<TableModel> sorter = new TableRowSorter<>(table.getModel());
-			table.setRowSorter(sorter);
-			
-			sorter.addRowSorterListener(this);
+//			TableRowSorter<TableModel> sorter = new TableRowSorter<>(table.getModel());
+//			table.setRowSorter(sorter);
+//			
+//			sorter.addRowSorterListener(this);
 			
 			
 			
@@ -144,8 +144,7 @@ public class MultiplayerMenu extends JFrame implements MouseListener, RowSorterL
 			
 			this.add(panel);
 			this.setVisible(true);
-			
-			//start();
+		
 			
 		}
 		
@@ -199,12 +198,21 @@ public class MultiplayerMenu extends JFrame implements MouseListener, RowSorterL
 			
 		}
 		
-		public void start() {
-			client = new Client(server, "sam", port, this);
-			
-			// test if we can start the Client
-			if(!client.start()) 
-				return;
+		/*
+		 * deletes server from table
+		 */
+		public void delete(ServerInfo server){
+			for (ServerInfo s: serverList) {
+				if(s.getIP() == server.getIP()) {
+					model.removeRow(serverList.indexOf(s));
+					serverList.remove(s);
+					break;
+				}
+			}
+		}
+		
+		public void start(Client c) {
+			client = c;
 		}
 		
 		/*
@@ -214,67 +222,56 @@ public class MultiplayerMenu extends JFrame implements MouseListener, RowSorterL
 			
 		}
 
-		@Override
-		public void mouseClicked(final MouseEvent e) {
-			
-		}
-
-		@Override
-		public void mouseEntered(final MouseEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void mouseExited(final MouseEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
 
 		@Override
 		public void mousePressed(final MouseEvent e) {
 			
-			//set game host port to 5445
 			int portNum = 5445;
 			
-			//get ip address of game creator
+			//get ip of client
 			String ip = "";
-			
 			try {
-			URL whatismyip = new URL("http://checkip.amazonaws.com");
-			BufferedReader in = new BufferedReader(new InputStreamReader(
-			                whatismyip.openStream()));
+				URL whatismyip = new URL("http://checkip.amazonaws.com");
+				BufferedReader in = new BufferedReader(new InputStreamReader(
+						whatismyip.openStream()));
 
-			ip = in.readLine(); 
+				ip = in.readLine(); 
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
 			System.out.println(ip);
 			
+			
+			
 			//creating server and putting in server table
 			if (e.getSource() == btnCreateServer) {
+			
+				//create text fields
 				JTextField name = new JTextField();
 				JTextField password = new JTextField();
+
+				//create message for optionpane
 				Object[] message = {"Server Name: ", name,
 						"Password (Optional): ", password
 				};
-				
+
+				//open optionpane and set result to n
 				int n = JOptionPane.showConfirmDialog(null,
 						message, "Create Server", 
 						JOptionPane.OK_CANCEL_OPTION);
 				System.out.println("Create Button pressed");
-				
+
+				//create serverInfo object if OK is pressed
 				if (n == JOptionPane.OK_OPTION) {
 					serverName = name.getText();
 					serverPassword = password.getText();
 					ServerInfo server = new ServerInfo(
-							serverName, serverPassword, ip);
-					
-					
-					//add client server to list
+							serverName, serverPassword, ip, 0);
+
+					//send to server via client
 					client.sendServerInfo(server);
-					
-					
+
+
 					//create GameServer
 					this.setVisible(false);
 					client.createServer(ip, portNum);
@@ -286,46 +283,57 @@ public class MultiplayerMenu extends JFrame implements MouseListener, RowSorterL
 				
 			}
 			
-			//joining server
+			//join server button is pressed
 			if (e.getSource() == btnJoinServer) {
 				if (table.getSelectedRow() != -1) {
 					int row = table.getSelectedRow();
+
+					//if server is password protected prompt user for the password
 					if (serverList.get(row).getPassword().length() > 0) {
-						
+
 						JTextField password = new JTextField();
 						Object[] message = 
 							{"Enter Server Password: ", password};
-			
+
 						int n = JOptionPane.showConfirmDialog(null, message,
 								"Password", JOptionPane.OK_CANCEL_OPTION);
 						if (n == JOptionPane.OK_OPTION) {
 							String pass = password.getText();
 							if (pass.equals(serverList.get(row).getPassword())) {
-								
+
 								System.out.println("Joining server " 
 										+ serverList.get(row).getName());
+
+								//connect user to host
+								String ipToConnect = serverList.get(row).getIP();
+
+								//Join server
+								this.setVisible(false);
+								client.joinServer(ipToConnect, portNum);
+
 							} else {
 								System.out.println("incorrect password");
 							}
 						}
+
 					} else {
 						System.out.println("Joining " 
-							+ serverList.get(row)
-							.getName());
-						
-						//connect 2nd player to host
+								+ serverList.get(row)
+								.getName());
+
+						//connect user to host
 						String ipToConnect = serverList.get(row).getIP();
-						
+
+						//Join server
 						this.setVisible(false);
 						client.joinServer(ipToConnect, portNum);
-						
+
+
 					}
-					
-					
-					
 				}
 			}
 		}
+
 		
 		public boolean setShips(int player, ShipSetupFrame ssf) {
 			
@@ -352,11 +360,20 @@ public class MultiplayerMenu extends JFrame implements MouseListener, RowSorterL
 			
 		}
 		
-		/**
-		 * run client
-		 * @param args
-		 */
-		public static void main(String[] args) {
-			new MultiplayerMenu("localhost", 5335);
+		@Override
+		public void mouseClicked(final MouseEvent e) {
+			
+		}
+
+		@Override
+		public void mouseEntered(final MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseExited(final MouseEvent e) {
+			// TODO Auto-generated method stub
+			
 		}
 }

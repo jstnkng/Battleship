@@ -47,10 +47,12 @@ public class GameClient extends Thread {
 		p2Values = ssf.getPlayer2Values();
 		
 		//try to connect to server
+		System.out.println("Trying to connect to server, port: " + port + " IP: " + server);
 		try {
 			socket = new Socket(server, port);
 		} catch(Exception e) {
 			e.printStackTrace();
+			System.exit(0);
 		}
 			
 			
@@ -148,6 +150,4 @@ public class GameClient extends Thread {
 		GameClient client = new GameClient(ip, portNum);
 		//client.start();
 	}
-}
-	
-	
+}	

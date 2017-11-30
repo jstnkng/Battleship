@@ -45,7 +45,7 @@ public class GameServer extends Thread {
 		try {
 			ServerSocket serverSocket = new ServerSocket(port);
 			
-			System.out.println("Waiting for second player");
+			System.out.println("Waiting for second player, port: " + port + " IP: " + server);
 			Socket socket = serverSocket.accept();
 			System.out.println("Second player connected");
 			
@@ -140,6 +140,3 @@ public class GameServer extends Thread {
 		server.start();
 	}
 }
-
-
-	

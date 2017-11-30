@@ -5,13 +5,17 @@ import java.util.*;
 
 
 public class Server {
-	
+
 	private int port;
+
 	private boolean keepGoing;
+
 	private static int uniqueId;
+
 	private ArrayList<ClientThread> clients;
+
 	private ArrayList<ServerInfo> serverList;
-	
+
 	/*
 	 * constructor
 	 */
@@ -20,38 +24,45 @@ public class Server {
 		clients = new ArrayList<ClientThread>();
 		serverList = new ArrayList<ServerInfo>();
 	}
-	
+
 	/*
 	 * start
 	 */
 	public void start() {
 		keepGoing = true;
-		
+
 		//try to create serverSocket and wait for connections
 		try {
 			ServerSocket serverSocket = new ServerSocket(port);
-			
+
 			while(keepGoing) {
-				
+
 				System.out.println("Waiting for clients");
-				
+
 				Socket socket = serverSocket.accept();
-				
+
 				//if asked to stop
 				if(!keepGoing) {
 					break;
 				}
-				
+
+				//creates thread for client communication
 				ClientThread thread = new ClientThread(socket);
+
+				//adds the thread to a list of clients
 				clients.add(thread);
+
+				//starts the thread
 				thread.start();
 			}
-			
+
 			//asked to stop
 			try {
 				serverSocket.close();
 				for(int i = 0; i < clients.size(); i ++) {
 					ClientThread tc = clients.get(i);
+
+					//close the input stream, output stream, and socket of all clients
 					try {
 						tc.in.close();
 						tc.out.close();
@@ -68,12 +79,12 @@ public class Server {
 			System.out.println("Exception on new ServerSocket: " + e);
 		}
 	}
-	
+
 	/*
 	 * broadcast server to all clients
 	 */
 	private synchronized void broadcast(ServerInfo server) {
-		
+
 		// we loop in reverse order in case we would have to remove a Client
 		// because it has disconnected
 		for(int i = clients.size(); --i >= 0;) {
@@ -85,70 +96,93 @@ public class Server {
 			}
 		}
 	}
-	
+
+
 	/*
 	 * for a disconnected client
 	 */
 	public void remove(int id) {
+
 		// scan the array list until we found the Id
 		for(int i = 0; i < clients.size(); ++i) {
 			ClientThread ct = clients.get(i);
-			// found it
+			//if client to remove is found
 			if(ct.id == id) {
 				clients.remove(i);
-				return;
+				System.out.println("client removed from list of clients");
+				//return;
+				break;
 			}
 		}
+
+		//find and remove server from list if client started one
+		for (ServerInfo s: serverList) {
+			if (s.getID() == id) {
+				serverList.remove(s);
+				System.out.println("server removed from list of servers");
+
+				//create ServerInfo object with type 1 for deletion
+				ServerInfo server = new ServerInfo(null, null, s.getIP(), 1);
+
+				//broadcast server deletion to all clients
+				broadcast(server);
+				break;
+			}
+		}
+
+
 	}
-	
+
 	/*
 	 * run server
 	 */
 	public static void main(String[] args) {
 		int portNum = 5335;
-		
+
 		Server server = new Server(portNum);
 		server.start();
 	}
-	
-	
-	/** One instance of this thread will run for each client */
+
+
+	/**
+	 * class for communicating with the client
+	 *
+	 */
 	class ClientThread extends Thread {
-		// the socket where to listen/talk
+
 		Socket socket;
 		ObjectInputStream in;
 		ObjectOutputStream out;
-		// my unique id (easier for deconnection)
-		int id;
-		// the Username of the Client
-		//String username;
-		// the only type of message a will receive
-		ServerInfo server;
-		
 
-		// Constructore
+		//unique id for the client
+		int id;
+
+		//serverInfo object that the server receives
+		ServerInfo server;
+
+
+		// Constructor
 		ClientThread(Socket socket) {
 			// a unique id
 			id = ++uniqueId;
 			this.socket = socket;
-			/* Creating both Data Stream */
+
+			//create the input output streams
 			System.out.println("Thread trying to create Object Input/Output Streams");
 			try
 			{
 				// create output first
-				out = new ObjectOutputStream(socket.getOutputStream());
+				out= new ObjectOutputStream(socket.getOutputStream());
 				in  = new ObjectInputStream(socket.getInputStream());
-				// read the username
-				//username = (String) in.readObject();
 				System.out.println(" connected");
-				
+
 			}
 			catch (IOException e) {
 				e.printStackTrace();
 				return;
 			}
-			
-			//try to send arraylist of servers
+
+			//try to send arraylist of servers when client connects
 			try {
 				if(serverList != null) {
 					for(ServerInfo server: serverList) {
@@ -163,22 +197,37 @@ public class Server {
 
 		// what will run forever
 		public void run() {
-			// to loop until LOGOUT
+
 			boolean keepGoing = true;
 			while(keepGoing) {
-				// read a String (which is an object)
+				//Receive serverInfo object from client
 				try {
 					server = (ServerInfo) in.readObject();
+
+					//links client and client created server by ID
+					server.setID(id);
+
 				}
 				catch (IOException e) {
-					e.printStackTrace();
+					System.out.println("Client disconnected");
+					keepGoing = false;
 					break;				
 				}
 				catch(ClassNotFoundException e2) {
 					break;
 				}
-				
+
+				//end thread
+				//type is equal to 1 for disconnect
+				if (server.getType() == 1) {
+					keepGoing = false;
+					break;
+				}
+
+				//send serverInfo object to all clients
 				broadcast(server);
+
+				//add the serverInfo object to the list of servers
 				serverList.add(server);
 			}
 			// remove myself from the arrayList containing the list of the
@@ -186,7 +235,7 @@ public class Server {
 			remove(id);
 			close();
 		}
-		
+
 		// try to close everything
 		private void close() {
 			// try to close the connection
@@ -205,7 +254,7 @@ public class Server {
 		}
 
 		/*
-		 * Write a server to the Client output stream
+		 * Write a serverInfo object to the Client output stream
 		 */
 		private boolean writeMsg(ServerInfo server) {
 			// if Client is still connected send the message to it
@@ -213,12 +262,10 @@ public class Server {
 				close();
 				return false;
 			}
-			// write the message to the stream
+			// write the serverInfo object to the stream
 			try {
 				out.writeObject(server);
-				//out.close();
 			}
-			// if an error occurs, do not abort just inform the user
 			catch(IOException e) {
 				e.printStackTrace();
 			}
@@ -227,3 +274,4 @@ public class Server {
 	}
 
 }
+

@@ -4,25 +4,30 @@ import java.io.*;
 import java.util.*;
 
 
+/**
+ * Client for server menu used to communicate with server
+ * @author Sam Carson
+ *
+ */
 public class Client {
 	
-	private ObjectOutputStream out;
+private ObjectOutputStream out;
+	
 	private ObjectInputStream in;
+	
 	private Socket socket;
 	
-	//Client GUI
 	private MultiplayerMenu gui;
 	
 	private String server;
-	private String username;
+	
 	private int port;
 	
 	/*
 	 * constructor
 	 */
-	public Client(String server, String username, int port, MultiplayerMenu gui) {
+	public Client(String server, int port, MultiplayerMenu gui) {
 		this.server = server;
-		this.username = username;
 		this.port = port;
 		this.gui = gui;
 	}
@@ -57,16 +62,7 @@ public class Client {
 		//create the Thread to listen from server
 		new ListenFromServer().start();
 		
-//		//try to send username to server
-//		try {
-//			out.writeObject(username);
-//		} catch (IOException eIO) {
-//			eIO.printStackTrace();
-//			disconnect();
-//			return false;
-//		}
-		
-		//success
+		//client start was successful
 		return true;
 		
 	}
@@ -121,19 +117,22 @@ public class Client {
 		try { 
 			if(in!= null) in.close();
 		}
-		catch(Exception e) {} // not much else I can do
+		catch(Exception e) {}
 		try {
 			if(out != null) out.close();
 		}
-		catch(Exception e) {} // not much else I can do
+		catch(Exception e) {}
         try{
 			if(socket != null) socket.close();
 		}
-		catch(Exception e) {} // not much else I can do
+		catch(Exception e) {}
 		
 		// inform the GUI
-		if(gui != null)
+		if(gui != null) {
 			gui.connectionFailed();
+		}
+		
+		System.exit(0);
 	}
 	
 	/*
@@ -141,20 +140,19 @@ public class Client {
 	 */
 	public static void main(String[] args) {
 		int portNum = 5335;
-		String serverAdd = "35.39.165.205";
-		String user = "sam";
-		MultiplayerMenu mm = new MultiplayerMenu(serverAdd, portNum);
+		String serverAdd = "localhost";
+		MultiplayerMenu gui = new MultiplayerMenu();
 		
 		//create client
-		Client client = new Client(serverAdd, user, portNum, mm);
+		Client client = new Client(serverAdd, portNum, gui);
+		
+		gui.start(client);
 		
 		if(!client.start()) {
 			return;
 		}
 		
-//		while(true) {
-//			
-//		}
+		
 	}
 	
 	/*
@@ -164,11 +162,25 @@ public class Client {
 	class ListenFromServer extends Thread {
 
 		public void run() {
+
+			//waits for serverInfo objects
 			while(true) {
 				try {
 					ServerInfo server = (ServerInfo) in.readObject();
-					// if console mode print the message and add back the prompt
-					gui.append(server);
+
+					System.out.println("Type: " + server.getType());
+
+					//checks whether to add or delete a server
+					if (server.getType() == 0) {
+						//sends serverInfo to the gui to add to the table
+						gui.append(server);
+					} else {
+						//remove serverInfo from gui
+						gui.delete(server);
+					}
+
+
+
 				}
 				catch(IOException e) {
 					System.out.println("Server has closed the connection: " + e);
@@ -176,16 +188,10 @@ public class Client {
 						gui.connectionFailed();
 					break;
 				}
-				// can't happen with a String object but need the catch anyhow
 				catch(ClassNotFoundException e2) {
 				}
 			}
 		}
 	}
-	
-	
-	
-	
-	
-	
+
 }
