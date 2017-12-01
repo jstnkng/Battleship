@@ -137,7 +137,7 @@ public class Server {
 	 * run server
 	 */
 	public static void main(String[] args) {
-		int portNum = 5335;
+		int portNum = 5445;
 
 		Server server = new Server(portNum);
 		server.start();
