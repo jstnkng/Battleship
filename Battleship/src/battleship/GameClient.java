@@ -1,5 +1,9 @@
 package battleship;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -8,6 +12,11 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URL;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 import battleship.Client.ListenFromServer;
 
@@ -23,6 +32,7 @@ public class GameClient extends Thread {
 	private GameBoard gb;
 	private ObjectOutputStream out;
 	private ObjectInputStream in;
+	private boolean keepGoing = true;
 	
 	
 	public GameClient(String server, int port) {
@@ -36,6 +46,26 @@ public class GameClient extends Thread {
 	 */
 	public void run() {
 		
+		
+		//try to connect to server
+		System.out.println("Trying to connect to server, port: " + port + " IP: " + server);
+		try {
+			socket = new Socket(server, port);
+			
+			//create input and output streams
+			out = new ObjectOutputStream(socket.getOutputStream());
+			in = new ObjectInputStream(socket.getInputStream());
+		} catch(Exception e) {
+			e.printStackTrace();
+			//if it can't connect exit
+			System.exit(0);
+		}
+		
+		//print to console that it is connected
+		System.out.println("Connection accepted " 
+				+ socket.getInetAddress() + ":" + socket.getPort());
+		
+		//create ship setup frame
 		ssf = new ShipSetupFrame(GameMode.MultiplayerMode, 2);
 		
 		System.out.println("Waiting for p2 to set ships");
@@ -46,49 +76,53 @@ public class GameClient extends Thread {
 		
 		p2Values = ssf.getPlayer2Values();
 		
-		//try to connect to server
-		System.out.println("Trying to connect to server, port: " + port + " IP: " + server);
-		try {
-			socket = new Socket(server, port);
-		} catch(Exception e) {
-			e.printStackTrace();
-			System.exit(0);
-		}
-			
-			
-		//print to console that it is connected
-		System.out.println("Connection accepted " 
-				+ socket.getInetAddress() + ":" + socket.getPort());
 		
-		//try to create the object streams
+		//try to send and receive ships
 		try {
-			out = new ObjectOutputStream(socket.getOutputStream());
-			in = new ObjectInputStream(socket.getInputStream());
-			
 			//send server ship values
 			out.writeObject(p2Values);
+			
+			
+			//create wait frame
+			JFrame frame = waitFrame("Waiting for other player to set ships");
+			frame.setVisible(true);
+			
+			frame.addWindowListener(new java.awt.event.WindowAdapter() {
+			    @Override
+			    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+			        if (JOptionPane.showConfirmDialog(frame, 
+			            "Are you sure you want to cancel your game?") == JOptionPane.YES_OPTION){
+			            	shutDown();
+			        }
+			    }
+			});
+			
+			
 			
 			//try to get hosts ship values
 			p1Values = (int[][]) in.readObject();
 			
-			//create gameboard			
-//			(new Thread(new OnlineGameBoard(p2Values, p1Values))).start();
+			//hide wait frame
+			frame.setVisible(false);
 			
-			gb = new GameBoard(p2Values, p1Values);
+			//create gameboard
+			gb = new GameBoard(p2Values, p1Values, this);
 			gb.start();
 			gb.setIsMyTurn(false);
 			
 			
 		} catch (IOException eIO) {
 			eIO.printStackTrace();
+			shutDown();
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			shutDown();
 		}
 		
 		
 		//play the game
-		while(!gb.getIsGameOver()) {
+		while(!gb.getIsGameOver() && keepGoing) {
 
 			//take my shot
 			if(gb.getIsMyTurn()) {
@@ -109,7 +143,7 @@ public class GameClient extends Thread {
 				gb.clearShot();
 				gb.setIsMyTurn(false);
 
-				//get shot
+			//get shot
 			} else if(!gb.getIsMyTurn()) {
 
 				System.out.println("waiting for host to shoot");
@@ -122,15 +156,67 @@ public class GameClient extends Thread {
 					}
 				} catch (ClassNotFoundException e) {
 					e.printStackTrace();
+					break;
 				} catch (IOException e) {
 					e.printStackTrace();
+					break;
 				}
 			}
 
 		}
+		
+		//close everything when game is over
+		shutDown();
 	
 	}
 	
+	/**
+	 * close sockets and exit
+	 */
+	public void shutDown() {
+		
+		//stop loop
+		keepGoing = false;
+		
+		//close everything
+		try { 
+			if(in!= null) in.close();
+		}
+		catch(Exception e) {}
+		try {
+			if(out != null) out.close();
+		}
+		catch(Exception e) {}
+        try{
+			if(socket != null) socket.close();
+		}
+		catch(Exception e) {}
+		// inform the GUI
+		if(gb != null) {
+			gb.connectionFailed();
+		}
+		
+		System.exit(0);
+	}
+	
+	public JFrame waitFrame(String message) {
+		JFrame waitFrame = new JFrame();
+		waitFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		waitFrame.setPreferredSize(new Dimension(500, 200));
+		waitFrame.setLocationRelativeTo(null);
+		
+		JPanel panel = new JPanel(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
+		
+		JLabel label = new JLabel(message);
+		c.anchor = GridBagConstraints.CENTER;
+		panel.add(label, c);
+		
+		waitFrame.add(panel);
+		waitFrame.pack();
+		
+		return waitFrame;
+	}
 	
 	public static void main(String[] args) {
 		int portNum = 5445;

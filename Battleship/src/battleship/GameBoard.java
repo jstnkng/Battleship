@@ -12,6 +12,7 @@ import java.awt.Label;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
@@ -389,6 +390,9 @@ public class GameBoard extends JFrame implements MouseListener {
 		return isGameOver;
 	}
 	
+	private GameServer gsClient;
+	private GameClient gcClient;
+	
 	
 	/**
 	 * Sets the gameMode to the current gameMode.
@@ -409,11 +413,18 @@ public class GameBoard extends JFrame implements MouseListener {
 	/**
 	 * constructor for multiplayer
 	 */
-	public GameBoard(int[][] p1Values, int[][] p2Values) {
+	public GameBoard(int[][] p1Values, int[][] p2Values, Object c) {
 		
 		setPlayer1Values(p1Values);
 		setPlayer2Values(p2Values);
 		currentMode = GameMode.MultiplayerMode;
+		
+		if (c instanceof GameServer) {
+			gsClient = (GameServer) c;
+		} else if (c instanceof GameClient) {
+			gcClient = (GameClient) c;
+		}
+		
 		
 		
 		this.setSize(1200, 700);
@@ -621,7 +632,7 @@ public class GameBoard extends JFrame implements MouseListener {
 	 * when connection fails
 	 */
 	public void connectionFailed() {
-		
+		System.exit(0);
 	}
 	
 	private void updateLeftBoard() {
@@ -1390,6 +1401,23 @@ public class GameBoard extends JFrame implements MouseListener {
 			
 			this.setVisible(false);
 		}
+	}
+	
+	@Override
+	protected void processWindowEvent(WindowEvent e) {
+		if (e.getID() == WindowEvent.WINDOW_CLOSING && currentMode == GameMode.MultiplayerMode) {
+			
+			if(gsClient != null) {
+				gsClient.shutDown();
+			}else if(gcClient != null) {
+				gcClient.shutDown();
+			}
+				
+			super.processWindowEvent(e);
+		} else {
+			super.processWindowEvent(e);
+		}
+
 	}
 	
 	@Override

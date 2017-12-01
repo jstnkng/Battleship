@@ -8,6 +8,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.event.WindowEvent;
 import java.util.Random;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -1687,6 +1688,21 @@ public class ShipSetupFrame extends JFrame
 			submit();
 		}
 	}
+	
+	@Override
+	protected void processWindowEvent(WindowEvent e) {
+		if (e.getID() == WindowEvent.WINDOW_CLOSING && mode == GameMode.MultiplayerMode) {
+			
+			System.exit(0);
+				
+			super.processWindowEvent(e);
+		} else {
+			super.processWindowEvent(e);
+		}
+
+	}
+	
+	
 	@Override
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub

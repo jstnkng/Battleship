@@ -7,6 +7,7 @@ import java.awt.Insets;
 import java.awt.List;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -219,9 +220,8 @@ public class MultiplayerMenu extends JFrame implements MouseListener, RowSorterL
 		 * when connection fails
 		 */
 		public void connectionFailed() {
-			
+			System.exit(0);
 		}
-
 
 		@Override
 		public void mousePressed(final MouseEvent e) {
@@ -346,6 +346,18 @@ public class MultiplayerMenu extends JFrame implements MouseListener, RowSorterL
 			}
 				
 			return true;
+		}
+		
+		@Override
+		protected void processWindowEvent(WindowEvent e) {
+			if (e.getID() == WindowEvent.WINDOW_CLOSING) {
+				//close client
+				client.disconnect();
+				super.processWindowEvent(e);
+			} else {
+				super.processWindowEvent(e);
+			}
+
 		}
 
 		@Override

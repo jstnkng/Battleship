@@ -113,7 +113,7 @@ private ObjectOutputStream out;
 	 * disconnect
 	 * close input/output streams
 	 */
-	private void disconnect() {
+	public void disconnect() {
 		try { 
 			if(in!= null) in.close();
 		}

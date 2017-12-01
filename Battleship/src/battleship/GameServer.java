@@ -1,7 +1,18 @@
 package battleship;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.event.WindowEvent;
 import java.io.*;
 import java.net.*;
 import java.util.*;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 import battleship.Server.ClientThread;
 
@@ -18,6 +29,9 @@ public class GameServer extends Thread {
 	private GameBoard gb;
 	private ObjectOutputStream out;
 	private ObjectInputStream in;
+	private Socket socket;
+	private ServerSocket serverSocket;
+	private boolean keepGoing = true;
 	
 	
 	public GameServer(String server, int port) {
@@ -30,39 +44,78 @@ public class GameServer extends Thread {
 	 */
 	public void run() {
 		
-		ssf = new ShipSetupFrame(GameMode.MultiplayerMode, 1);
-		ssf.setLocationRelativeTo(null);
-		
-		System.out.println("Waiting for host to set ships");
-		while(!ssf.getAreShipsSet()) {
-			//System.out.println("sorry");
-		}
-		System.out.println("Host ships set");
-		
-		p1Values = ssf.getPlayer1Values();
 		
 		//try to create serverSocket
 		try {
-			ServerSocket serverSocket = new ServerSocket(port);
+
+			//create server socket
+			serverSocket = new ServerSocket(port);
 			
+			//create wait frame
+			JFrame frame = waitFrame("Waiting for another player to connect");
+			frame.setVisible(true);
+			
+			frame.addWindowListener(new java.awt.event.WindowAdapter() {
+			    @Override
+			    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+			        if (JOptionPane.showConfirmDialog(frame, 
+			            "Are you sure you want to cancel your game?") == JOptionPane.YES_OPTION){
+			            	shutDown();
+			        }
+			    }
+			});
+			
+			
+			//wait for second player to connect
 			System.out.println("Waiting for second player, port: " + port + " IP: " + server);
-			Socket socket = serverSocket.accept();
+			socket = serverSocket.accept();
 			System.out.println("Second player connected");
 			
-			//communicate with client(second player)
+			//hide wait frame
+			frame.setVisible(false);
+			
+			//create input and output streams
 			out = new ObjectOutputStream(socket.getOutputStream());
 			in = new ObjectInputStream(socket.getInputStream());
+			
+			//create ship setup frame
+			ssf = new ShipSetupFrame(GameMode.MultiplayerMode, 1);
+			ssf.setLocationRelativeTo(null);
+
+			System.out.println("Waiting for host to set ships");
+			while(!ssf.getAreShipsSet()) {
+				//System.out.println("sorry");
+			}
+			System.out.println("Host ships set");
+
+			p1Values = ssf.getPlayer1Values();
+			
+			//create wait frame
+			JFrame frame2 = waitFrame("Waiting for other player to set ships");
+			frame2.setVisible(true);
+			
+			frame2.addWindowListener(new java.awt.event.WindowAdapter() {
+			    @Override
+			    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+			        if (JOptionPane.showConfirmDialog(frame, 
+			            "Are you sure you want to cancel your game?") == JOptionPane.YES_OPTION){
+			            	shutDown();
+			        }
+			    }
+			});
+			
 			
 			//get p2 ships
 			p2Values = (int[][]) in.readObject();
 			
+			//hide wait frame
+			frame2.setVisible(false);
+			
 			//try to send ship values
 			out.writeObject(p1Values);
-			
+		
 			//create gameboard
-//			(new Thread(new OnlineGameBoard(p1Values, p2Values))).start();
-			
-			gb = new GameBoard(p1Values, p2Values);
+			gb = new GameBoard(p1Values, p2Values, this);
 			gb.start();
 			gb.setIsMyTurn(true);
 			System.out.println("board is made");
@@ -70,14 +123,16 @@ public class GameServer extends Thread {
 
 		} catch (IOException e) {
 			System.out.println("Exception on new ServerSocket: " + e);
+			shutDown();
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			shutDown();
 		}
 		
 		System.out.println("loop for game started");
 		//play the game
-		while(!gb.getIsGameOver()) {
+		while(!gb.getIsGameOver() && keepGoing) {
 			
 			//take my shot
 			if(gb.getIsMyTurn()) {
@@ -111,13 +166,70 @@ public class GameServer extends Thread {
 					}
 				} catch (ClassNotFoundException e) {
 					e.printStackTrace();
+					break;
 				} catch (IOException e) {
 					e.printStackTrace();
+					break;
 				}
 			}
 			
 		}
 		
+		//close everything when game is over
+		shutDown();
+		
+	}
+	
+	/**
+	 * close sockets and exit
+	 */
+	public void shutDown() {
+		
+		//stop loop
+		keepGoing = false;
+
+		//close everything
+		try { 
+			if(in!= null) in.close();
+		}
+		catch(Exception e) {}
+		try {
+			if(out != null) out.close();
+		}
+		catch(Exception e) {}
+        try{
+			if(socket != null) socket.close();
+		}
+		catch(Exception e) {}
+        try{
+			if(serverSocket != null) serverSocket.close();
+		}
+		catch(Exception e) {}
+		// inform the GUI
+		if(gb != null) {
+			gb.connectionFailed();
+		}
+		
+		System.exit(0);
+	}
+	
+	public JFrame waitFrame(String message) {
+		JFrame waitFrame = new JFrame();
+		waitFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		waitFrame.setPreferredSize(new Dimension(500, 200));
+		waitFrame.setLocationRelativeTo(null);
+		
+		JPanel panel = new JPanel(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
+		
+		JLabel label = new JLabel(message);
+		c.anchor = GridBagConstraints.CENTER;
+		panel.add(label, c);
+		
+		waitFrame.add(panel);
+		waitFrame.pack();
+		
+		return waitFrame;
 	}
 	
 	
