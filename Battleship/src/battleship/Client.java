@@ -1,17 +1,18 @@
 package battleship;
+
+
 import java.net.*;
 import java.io.*;
 import java.util.*;
 
-
 /**
- * Client for server menu used to communicate with server
+ * Client for MultiplayerMenu used to communicate with server
  * @author Sam Carson
  *
  */
 public class Client {
 	
-private ObjectOutputStream out;
+	private ObjectOutputStream out;
 	
 	private ObjectInputStream in;
 	
@@ -23,6 +24,8 @@ private ObjectOutputStream out;
 	
 	private int port;
 	
+	private String myIP;
+	
 	/*
 	 * constructor
 	 */
@@ -30,6 +33,23 @@ private ObjectOutputStream out;
 		this.server = server;
 		this.port = port;
 		this.gui = gui;
+		
+		//get ip of client
+		String ip = "";
+		try {
+			URL whatismyip = new URL("http://checkip.amazonaws.com");
+			BufferedReader in = new BufferedReader(new InputStreamReader(
+					whatismyip.openStream()));
+
+			ip = in.readLine(); 
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		
+		//set ip of client
+		myIP = ip;
+		
+		
 	}
 	
 
@@ -67,45 +87,23 @@ private ObjectOutputStream out;
 		
 	}
 	
-	public String getInetAddress() {
-		String ip = "";
-		
-		ip = socket.getInetAddress().toString();
-
-		return ip;
-		
-	}
-	
 	
 	/*
 	 * send serverInfo to server
 	 */
 	public void sendServerInfo(ServerInfo server) {
 		try {
-			out.writeObject(server);
+			out.writeObject(server);	
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	/*
-	 * create game server
+	/**
+	 * returns the ip of the client
 	 */
-	public void createServer(String ip, int portNum) {
-		
-		GameServer gs = new GameServer(ip, portNum);
-		gs.start();
-		//disconnect();
-	}
-	
-	/*
-	 * join game server
-	 */
-	public void joinServer(String ip, int portNum) {
-		
-		GameClient gc = new GameClient(ip, portNum);
-		gc.start();
-		//disconnect();
+	public String getMyIP() {
+		return myIP;
 	}
 	
 	
@@ -139,8 +137,9 @@ private ObjectOutputStream out;
 	 * run client
 	 */
 	public static void main(String[] args) {
-		int portNum = 5335;
-		String serverAdd = "localhost";
+		int portNum = 5445;
+		//aws ip = 13.58.209.10
+		String serverAdd = "13.58.209.10";
 		MultiplayerMenu gui = new MultiplayerMenu();
 		
 		//create client
@@ -156,20 +155,20 @@ private ObjectOutputStream out;
 	}
 	
 	/*
-	 * a class that waits for the message from the server and append them to the JTextArea
-	 * if we have a GUI or simply System.out.println() it in console mode
+	 * a class that waits for the serverInfo object from the server and then adds
+	 * it to the table in the gui.
 	 */
 	class ListenFromServer extends Thread {
 
 		public void run() {
-
+			
 			//waits for serverInfo objects
 			while(true) {
 				try {
 					ServerInfo server = (ServerInfo) in.readObject();
-
+					
 					System.out.println("Type: " + server.getType());
-
+					
 					//checks whether to add or delete a server
 					if (server.getType() == 0) {
 						//sends serverInfo to the gui to add to the table
@@ -178,9 +177,9 @@ private ObjectOutputStream out;
 						//remove serverInfo from gui
 						gui.delete(server);
 					}
-
-
-
+					
+					
+					
 				}
 				catch(IOException e) {
 					System.out.println("Server has closed the connection: " + e);
@@ -193,5 +192,5 @@ private ObjectOutputStream out;
 			}
 		}
 	}
-
+	
 }

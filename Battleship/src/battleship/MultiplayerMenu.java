@@ -1,6 +1,5 @@
 package battleship;
 
-
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -9,7 +8,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
@@ -30,7 +28,7 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
 /**
- * Creates the gui menu for multiplayer servers.
+ * Creates the gui menu for the battleship servers
  * @author Sam Carson
  *
  */
@@ -82,10 +80,7 @@ public class MultiplayerMenu extends JFrame implements MouseListener, RowSorterL
 		 */
 		private DefaultTableModel model;
 		
-		
 		private Client client;
-		
-		private int[][] boardValues = new int[10][10];
 		
 		/**
 		 * creates the menu frame.
@@ -95,10 +90,10 @@ public class MultiplayerMenu extends JFrame implements MouseListener, RowSorterL
 		 */
 		public MultiplayerMenu() {
 			//setup the frame
-			this.setTitle("Multiplayer Menu");
+			this.setTitle("Server Menu");
 			this.setSize(1200, 700);
 			this.setResizable(false);
-			
+
 			
 			//create panel
 			JPanel panel = new JPanel();
@@ -108,16 +103,18 @@ public class MultiplayerMenu extends JFrame implements MouseListener, RowSorterL
 			
 			
 			
-			//Create server table
+			//Create server table model
 			model = new DefaultTableModel(0, columns.length);
 			model.setColumnIdentifiers(columns);
 			
+			//set table to the model
 			table = new JTable(model);
 			
+			//make the table scrollable
 			JScrollPane scroller = new JScrollPane(table);
 			table.setFillsViewportHeight(true);
-			
 			table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+			addItem(panel, scroller, 1, 0, 1, 2, GridBagConstraints.BOTH);
 			
 			//TODO also sort arraylist to match
 //			TableRowSorter<TableModel> sorter = new TableRowSorter<>(table.getModel());
@@ -125,9 +122,6 @@ public class MultiplayerMenu extends JFrame implements MouseListener, RowSorterL
 //			
 //			sorter.addRowSorterListener(this);
 			
-			
-			
-			addItem(panel, scroller, 1, 0, 1, 2, GridBagConstraints.BOTH);
 			
 			//make create server button
 			btnCreateServer = new JButton();
@@ -145,7 +139,7 @@ public class MultiplayerMenu extends JFrame implements MouseListener, RowSorterL
 			
 			this.add(panel);
 			this.setVisible(true);
-		
+			
 			
 		}
 		
@@ -183,8 +177,11 @@ public class MultiplayerMenu extends JFrame implements MouseListener, RowSorterL
 		 * add server to table
 		 */
 		public void append(ServerInfo server) {
+			
+			//adds server to the list of servers
 			serverList.add(server);
 			
+			//determines if the server is private
 			String isPrivate = "";
 			if (serverList.get(serverList.size() - 1)
 					.getPassword().length() > 0) {
@@ -192,7 +189,8 @@ public class MultiplayerMenu extends JFrame implements MouseListener, RowSorterL
 			} else {
 				isPrivate = "No";
 			}
-
+			
+			//adds server to the table
 			model.addRow(new Object[] {
 					serverList.get(serverList.size() - 1).getName() + " " + 
 							serverList.get(serverList.size() - 1).getIP(), isPrivate});
@@ -212,72 +210,64 @@ public class MultiplayerMenu extends JFrame implements MouseListener, RowSorterL
 			}
 		}
 		
+		/**
+		 * Sets the client
+		 * 
+		 * @param c Client
+		 */
 		public void start(Client c) {
 			client = c;
+			
 		}
 		
 		/*
 		 * when connection fails
 		 */
 		public void connectionFailed() {
-			System.exit(0);
+			
 		}
+
 
 		@Override
 		public void mousePressed(final MouseEvent e) {
 			
-			int portNum = 5445;
+			//port for created game server
+			int portNum = 5335;
 			
-			//get ip of client
-			String ip = "";
-			try {
-				URL whatismyip = new URL("http://checkip.amazonaws.com");
-				BufferedReader in = new BufferedReader(new InputStreamReader(
-						whatismyip.openStream()));
-
-				ip = in.readLine(); 
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			}
-			System.out.println(ip);
-			
-			
-			
-			//creating server and putting in server table
+			//Create server button is pressed
 			if (e.getSource() == btnCreateServer) {
-			
+				
+				
+				serverIP = client.getMyIP();
+				
 				//create text fields
 				JTextField name = new JTextField();
 				JTextField password = new JTextField();
-
+				
 				//create message for optionpane
 				Object[] message = {"Server Name: ", name,
 						"Password (Optional): ", password
 				};
-
+				
 				//open optionpane and set result to n
 				int n = JOptionPane.showConfirmDialog(null,
 						message, "Create Server", 
 						JOptionPane.OK_CANCEL_OPTION);
 				System.out.println("Create Button pressed");
-
+				
 				//create serverInfo object if OK is pressed
 				if (n == JOptionPane.OK_OPTION) {
 					serverName = name.getText();
 					serverPassword = password.getText();
 					ServerInfo server = new ServerInfo(
-							serverName, serverPassword, ip, 0);
-
+							serverName, serverPassword, serverIP, 0);
+					
 					//send to server via client
 					client.sendServerInfo(server);
-
-
-					//create GameServer
-					this.setVisible(false);
-					client.createServer(ip, portNum);
-
-
 					
+					
+					GameServer gs = new GameServer(server.getIP(), portNum);
+					gs.start();
 					
 				}
 				
@@ -287,65 +277,52 @@ public class MultiplayerMenu extends JFrame implements MouseListener, RowSorterL
 			if (e.getSource() == btnJoinServer) {
 				if (table.getSelectedRow() != -1) {
 					int row = table.getSelectedRow();
-
+					
 					//if server is password protected prompt user for the password
 					if (serverList.get(row).getPassword().length() > 0) {
-
+						
 						JTextField password = new JTextField();
 						Object[] message = 
 							{"Enter Server Password: ", password};
-
+			
 						int n = JOptionPane.showConfirmDialog(null, message,
 								"Password", JOptionPane.OK_CANCEL_OPTION);
 						if (n == JOptionPane.OK_OPTION) {
 							String pass = password.getText();
 							if (pass.equals(serverList.get(row).getPassword())) {
-
+								
 								System.out.println("Joining server " 
 										+ serverList.get(row).getName());
-
+								
 								//connect user to host
 								String ipToConnect = serverList.get(row).getIP();
-
+								
 								//Join server
-								this.setVisible(false);
-								client.joinServer(ipToConnect, portNum);
-
+								GameClient gc = new GameClient(ipToConnect, portNum);
+								gc.start();
+								
 							} else {
 								System.out.println("incorrect password");
 							}
 						}
-
+						
 					} else {
 						System.out.println("Joining " 
-								+ serverList.get(row)
-								.getName());
-
+							+ serverList.get(row)
+							.getName());
+						
 						//connect user to host
 						String ipToConnect = serverList.get(row).getIP();
-
+						
 						//Join server
-						this.setVisible(false);
-						client.joinServer(ipToConnect, portNum);
-
-
+						GameClient gc = new GameClient(ipToConnect, portNum);
+						gc.start();
+						
+						
+						
 					}
 				}
 			}
-		}
-
-		
-		public boolean setShips(int player, ShipSetupFrame ssf) {
-			
-			ShipSetupFrame p1 = ssf;
-				
-			boardValues = p1.getPlayer1Values();
-			
-			if (!p1.getInvalidShipPlacement()) {
-				return false;
-			}
-				
-			return true;
 		}
 		
 		@Override
@@ -354,22 +331,9 @@ public class MultiplayerMenu extends JFrame implements MouseListener, RowSorterL
 				//close client
 				client.disconnect();
 				super.processWindowEvent(e);
-			} else {
-				super.processWindowEvent(e);
 			}
+			super.processWindowEvent(e);
 
-		}
-
-		@Override
-		public void mouseReleased(final MouseEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void sorterChanged(RowSorterEvent arg0) {
-			// TODO Auto-generated method stub
-			
 		}
 		
 		@Override
@@ -385,6 +349,20 @@ public class MultiplayerMenu extends JFrame implements MouseListener, RowSorterL
 
 		@Override
 		public void mouseExited(final MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+
+		@Override
+		public void mouseReleased(final MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+
+		@Override
+		public void sorterChanged(RowSorterEvent arg0) {
 			// TODO Auto-generated method stub
 			
 		}
