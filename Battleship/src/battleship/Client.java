@@ -6,30 +6,55 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Client for MultiplayerMenu used to communicate with server
+ * Client for MultiplayerMenu used to communicate with server.
  * @author Sam Carson
  *
  */
 public class Client {
 	
+	/**
+	 * output stream.
+	 */
 	private ObjectOutputStream out;
 	
+	/**
+	 * input stream.
+	 */
 	private ObjectInputStream in;
 	
+	/**
+	 * socket.
+	 */
 	private Socket socket;
 	
+	/**
+	 * gui for menu.
+	 */
 	private MultiplayerMenu gui;
 	
+	/**
+	 * ip address.
+	 */
 	private String server;
 	
+	/**
+	 * port number.
+	 */
 	private int port;
 	
+	/**
+	 * ip address of this client.
+	 */
 	private String myIP;
 	
-	/*
-	 * constructor
+	/**
+	 * constructor.
+	 * 
+	 * @param server ip address
+	 * @param port number
+	 * @param gui gui
 	 */
-	public Client(String server, int port, MultiplayerMenu gui) {
+	public Client(final String server, final int port, final MultiplayerMenu gui) {
 		this.server = server;
 		this.port = port;
 		this.gui = gui;
@@ -53,15 +78,17 @@ public class Client {
 	}
 	
 
-	/*
-	 * start
+	/**
+	 * start.
+	 * 
+	 * @return if client starts
 	 */
 	public boolean start() {
 		
 		//try to connect to server
 		try {
 			socket = new Socket(server, port);
-		} catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
 		}
@@ -88,53 +115,59 @@ public class Client {
 	}
 	
 	
-	/*
-	 * send serverInfo to server
+	/**
+	 * send serverInfo to server.
+	 * 
+	 * @param server info of server
 	 */
-	public void sendServerInfo(ServerInfo server) {
+	public void sendServerInfo(final ServerInfo server) {
 		try {
 			out.writeObject(server);	
-		} catch(IOException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
 	/**
-	 * returns the ip of the client
+	 * returns the ip of the client.
+	 * 
+	 * @return ip of client
 	 */
 	public String getMyIP() {
 		return myIP;
 	}
 	
 	
-	/*
+	/**
 	 * disconnect
-	 * close input/output streams
+	 * close input/output streams.
 	 */
 	public void disconnect() {
 		try { 
-			if(in!= null) in.close();
+			if (in != null) in.close();
 		}
-		catch(Exception e) {}
+		catch (Exception e) { }
 		try {
-			if(out != null) out.close();
+			if (out != null) out.close();
 		}
-		catch(Exception e) {}
-        try{
-			if(socket != null) socket.close();
+		catch (Exception e) { }
+        try {
+			if (socket != null) socket.close();
 		}
-		catch(Exception e) {}
+		catch (Exception e) { }
 		
 		// inform the GUI
-		if(gui != null) {
+		if (gui != null) {
 			gui.connectionFailed();
 		}
 		
 		System.exit(0);
 	}
-	
-	/*
-	 * run client
+
+	/**
+	 * run client.
+	 * 
+	 * @param args args
 	 */
 	public static void main(String[] args) {
 		int portNum = 5445;
@@ -147,23 +180,26 @@ public class Client {
 		
 		gui.start(client);
 		
-		if(!client.start()) {
+		if (!client.start()) {
 			return;
 		}
 		
 		
 	}
 	
-	/*
+	/**
 	 * a class that waits for the serverInfo object from the server and then adds
 	 * it to the table in the gui.
 	 */
 	class ListenFromServer extends Thread {
-
+		
+		/**
+		 * loops forever.
+		 */
 		public void run() {
 			
 			//waits for serverInfo objects
-			while(true) {
+			while (true) {
 				try {
 					ServerInfo server = (ServerInfo) in.readObject();
 					
@@ -181,13 +217,13 @@ public class Client {
 					
 					
 				}
-				catch(IOException e) {
+				catch (IOException e) {
 					System.out.println("Server has closed the connection: " + e);
-					if(gui != null) 
+					if (gui != null) 
 						gui.connectionFailed();
 					break;
 				}
-				catch(ClassNotFoundException e2) {
+				catch (ClassNotFoundException e2) {
 				}
 			}
 		}

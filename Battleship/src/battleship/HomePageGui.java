@@ -7,7 +7,6 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
@@ -31,11 +30,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
 /**
  * Creates the home screen where
  * a player chooses what game mode
@@ -53,7 +49,7 @@ public class HomePageGui extends JFrame implements MouseListener,
 	 */
 	private JButton btnOnePlayer;
 	/**
-	 * Creates button for multiplayer
+	 * Creates button for multiplayer.
 	 */
 	private JButton btnMultiplayer;
 	/**
@@ -353,7 +349,7 @@ public class HomePageGui extends JFrame implements MouseListener,
 	
 	/**
 	 * Creates ShipSetupFrame for pass and play game.
-	 * @return ShipSetupFrame
+	 * 
 	 */
 	public void startPassAndPlay() {	
 		ShipSetupFrame p1 = new 
@@ -384,7 +380,7 @@ public class HomePageGui extends JFrame implements MouseListener,
 	
 	/**
 	 * Creates multiplayer menu for multiplayer game.
-	 * @return MultiplayerMenu
+	 * 
 	 */
 	public void startMultiplayer() {
 
@@ -399,7 +395,7 @@ public class HomePageGui extends JFrame implements MouseListener,
 		
 		gui.start(client);
 		
-		if(!client.start()) {
+		if (!client.start()) {
 			return;
 		}
 		

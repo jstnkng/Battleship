@@ -5,30 +5,51 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 
-
+/**
+ * Server hosted on aws to keep track of multiplayer games.
+ * @author Sam Carson
+ *
+ */
 public class Server {
-
+	
+	/**
+	 * port number for server.
+	 */
 	private int port;
-
+	
+	/**
+	 * boolean whether to stop or keep going.
+	 */
 	private boolean keepGoing;
-
+	
+	/**
+	 * unique id for clients.
+	 */
 	private static int uniqueId;
 
+	/**
+	 * list of clients connected.
+	 */
 	private ArrayList<ClientThread> clients;
 
+	/**
+	 * list of servers .
+	 */
 	private ArrayList<ServerInfo> serverList;
 
-	/*
-	 * constructor
+	/**
+	 * constructor.
+	 * 
+	 * @param port for the server
 	 */
-	public Server(int port) {
+	public Server(final int port) {
 		this.port = port;
 		clients = new ArrayList<ClientThread>();
 		serverList = new ArrayList<ServerInfo>();
 	}
 
-	/*
-	 * start
+	/**
+	 * start.
 	 */
 	public void start() {
 		keepGoing = true;
@@ -37,14 +58,14 @@ public class Server {
 		try {
 			ServerSocket serverSocket = new ServerSocket(port);
 
-			while(keepGoing) {
+			while (keepGoing) {
 
 				System.out.println("Waiting for clients");
 
 				Socket socket = serverSocket.accept();
 
 				//if asked to stop
-				if(!keepGoing) {
+				if (!keepGoing) {
 					break;
 				}
 
@@ -61,10 +82,11 @@ public class Server {
 			//asked to stop
 			try {
 				serverSocket.close();
-				for(int i = 0; i < clients.size(); i ++) {
+				for (int i = 0; i < clients.size(); i++) {
 					ClientThread tc = clients.get(i);
 
-					//close the input stream, output stream, and socket of all clients
+					//close the input stream, output stream, 
+					//and socket of all clients
 					try {
 						tc.in.close();
 						tc.out.close();
@@ -82,17 +104,19 @@ public class Server {
 		}
 	}
 
-	/*
-	 * broadcast server to all clients
+	/**
+	 * broadcast server to all clients.
+	 * 
+	 * @param server info of the server
 	 */
-	private synchronized void broadcast(ServerInfo server) {
+	private synchronized void broadcast(final ServerInfo server) {
 
 		// we loop in reverse order in case we would have to remove a Client
 		// because it has disconnected
-		for(int i = clients.size(); --i >= 0;) {
+		for (int i = clients.size(); --i >= 0;) {
 			ClientThread ct = clients.get(i);
 			// try to write to the Client if it fails remove it from the list
-			if(!ct.writeMsg(server)) {
+			if (!ct.writeMsg(server)) {
 				clients.remove(i);
 				System.out.println("Disconnected Client");
 			}
@@ -100,16 +124,18 @@ public class Server {
 	}
 
 
-	/*
-	 * for a disconnected client
+	/**
+	 * for a disconnected client to be removed.
+	 * 
+	 * @param id unique id of client
 	 */
-	public void remove(int id) {
+	public void remove(final int id) {
 
 		// scan the array list until we found the Id
-		for(int i = 0; i < clients.size(); ++i) {
+		for (int i = 0; i < clients.size(); ++i) {
 			ClientThread ct = clients.get(i);
 			//if client to remove is found
-			if(ct.id == id) {
+			if (ct.id == id) {
 				clients.remove(i);
 				System.out.println("client removed from list of clients");
 				//return;
@@ -135,8 +161,8 @@ public class Server {
 
 	}
 
-	/*
-	 * run server
+	/**
+	 * run server.
 	 */
 	public static void main(String[] args) {
 		int portNum = 5445;
@@ -147,24 +173,41 @@ public class Server {
 
 
 	/**
-	 * class for communicating with the client
+	 * class for communicating with the client.
 	 *
 	 */
 	class ClientThread extends Thread {
 
+		/**
+		 * socket.
+		 */
 		Socket socket;
+		/**
+		 * input stream to communicate.
+		 */
 		ObjectInputStream in;
+		/**
+		 * output stream to communicate.
+		 */
 		ObjectOutputStream out;
 
-		//unique id for the client
+		/**
+		 * unique id of client.
+		 */
 		int id;
 
-		//serverInfo object that the server receives
+		/**
+		 * serverInfo object that the server recieves.
+		 */
 		ServerInfo server;
 
 
-		// Constructor
-		ClientThread(Socket socket) {
+		/**
+		 * constructor.
+		 * 
+		 * @param socket socket to be used
+		 */
+		ClientThread(final Socket socket) {
 			// a unique id
 			id = ++uniqueId;
 			this.socket = socket;
@@ -174,7 +217,7 @@ public class Server {
 			try
 			{
 				// create output first
-				out= new ObjectOutputStream(socket.getOutputStream());
+				out = new ObjectOutputStream(socket.getOutputStream());
 				in  = new ObjectInputStream(socket.getInputStream());
 				System.out.println(" connected");
 
@@ -186,8 +229,8 @@ public class Server {
 
 			//try to send arraylist of servers when client connects
 			try {
-				if(serverList != null) {
-					for(ServerInfo server: serverList) {
+				if (serverList != null) {
+					for (ServerInfo server: serverList) {
 						out.writeObject(server);
 					}
 				}
@@ -197,11 +240,13 @@ public class Server {
 			}
 		}
 
-		// what will run forever
+		/**
+		 * runs until told not to.
+		 */
 		public void run() {
 
 			boolean keepGoing = true;
-			while(keepGoing) {
+			while (keepGoing) {
 				//Receive serverInfo object from client
 				try {
 					server = (ServerInfo) in.readObject();
@@ -215,7 +260,7 @@ public class Server {
 					keepGoing = false;
 					break;				
 				}
-				catch(ClassNotFoundException e2) {
+				catch (ClassNotFoundException e2) {
 					break;
 				}
 
@@ -238,29 +283,34 @@ public class Server {
 			close();
 		}
 
-		// try to close everything
+		/**
+		 * close the connections.
+		 */
 		private void close() {
 			// try to close the connection
 			try {
-				if(out != null) out.close();
+				if (out != null) out.close();
 			}
-			catch(Exception e) {}
+			catch (Exception e) { }
 			try {
-				if(in != null) in.close();
+				if (in != null) in.close();
 			}
-			catch(Exception e) {};
+			catch (Exception e) { };
 			try {
-				if(socket != null) socket.close();
+				if (socket != null) socket.close();
 			}
-			catch (Exception e) {}
+			catch (Exception e) { }
 		}
 
-		/*
-		 * Write a serverInfo object to the Client output stream
+		/**
+		 * Write a serverInfo object to the Client output stream.
+		 * 
+		 * @param server info of server
+		 * @return boolean if message could be written
 		 */
-		private boolean writeMsg(ServerInfo server) {
+		private boolean writeMsg(final ServerInfo server) {
 			// if Client is still connected send the message to it
-			if(!socket.isConnected()) {
+			if (!socket.isConnected()) {
 				close();
 				return false;
 			}
@@ -268,7 +318,7 @@ public class Server {
 			try {
 				out.writeObject(server);
 			}
-			catch(IOException e) {
+			catch (IOException e) {
 				e.printStackTrace();
 			}
 			return true;

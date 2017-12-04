@@ -3,13 +3,9 @@ package battleship;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.List;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.URL;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -24,11 +20,9 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.RowSorterEvent;
 import javax.swing.event.RowSorterListener;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
-import javax.swing.table.TableRowSorter;
 
 /**
- * Creates the gui menu for the battleship servers
+ * Creates the gui menu for the battleship servers.
  * @author Sam Carson
  *
  */
@@ -51,7 +45,7 @@ public class MultiplayerMenu extends JFrame implements MouseListener, RowSorterL
 		 */
 		private String serverPassword;
 		/**
-		 * server IP
+		 * server IP.
 		 */
 		private String serverIP;
 		/**
@@ -79,14 +73,14 @@ public class MultiplayerMenu extends JFrame implements MouseListener, RowSorterL
 		 * table model for the table of servers.
 		 */
 		private DefaultTableModel model;
-		
+		/**
+		 * client.
+		 */
 		private Client client;
 		
 		/**
 		 * creates the menu frame.
-		 * @param port 
-		 * @param server 
-		 * @param mode the current mode to be played
+		 * 
 		 */
 		public MultiplayerMenu() {
 			//setup the frame
@@ -173,10 +167,12 @@ public class MultiplayerMenu extends JFrame implements MouseListener, RowSorterL
 			panel.add(c, gbc);
 		}
 		
-		/*
-		 * add server to table
+		/**
+		 * add server to table.
+		 * 
+		 * @param server info for server
 		 */
-		public void append(ServerInfo server) {
+		public void append(final ServerInfo server) {
 			
 			//adds server to the list of servers
 			serverList.add(server);
@@ -197,12 +193,14 @@ public class MultiplayerMenu extends JFrame implements MouseListener, RowSorterL
 			
 		}
 		
-		/*
-		 * deletes server from table
+		/**
+		 * deletes server from table.
+		 * 
+		 * @param server info for server
 		 */
-		public void delete(ServerInfo server){
+		public void delete(final ServerInfo server) {
 			for (ServerInfo s: serverList) {
-				if(s.getIP() == server.getIP()) {
+				if (s.getIP() == server.getIP()) {
 					model.removeRow(serverList.indexOf(s));
 					serverList.remove(s);
 					break;
@@ -211,7 +209,7 @@ public class MultiplayerMenu extends JFrame implements MouseListener, RowSorterL
 		}
 		
 		/**
-		 * Sets the client
+		 * Sets the client.
 		 * 
 		 * @param c Client
 		 */
@@ -220,8 +218,8 @@ public class MultiplayerMenu extends JFrame implements MouseListener, RowSorterL
 			
 		}
 		
-		/*
-		 * when connection fails
+		/**
+		 * when connection fails.
 		 */
 		public void connectionFailed() {
 			
@@ -326,7 +324,7 @@ public class MultiplayerMenu extends JFrame implements MouseListener, RowSorterL
 		}
 		
 		@Override
-		protected void processWindowEvent(WindowEvent e) {
+		protected void processWindowEvent(final WindowEvent e) {
 			if (e.getID() == WindowEvent.WINDOW_CLOSING) {
 				//close client
 				client.disconnect();
@@ -362,7 +360,7 @@ public class MultiplayerMenu extends JFrame implements MouseListener, RowSorterL
 		
 
 		@Override
-		public void sorterChanged(RowSorterEvent arg0) {
+		public void sorterChanged(final RowSorterEvent arg0) {
 			// TODO Auto-generated method stub
 			
 		}

@@ -1,46 +1,79 @@
 package battleship;
-import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.event.WindowEvent;
 import java.io.*;
 import java.net.*;
-import java.util.*;
-
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import battleship.Server.ClientThread;
-
-
+/**
+ * Server for a multiplayer game.
+ * 
+ * @author Sam Carson
+ *
+ */
 public class GameServer extends Thread {
 	
+	/**
+	 * port.
+	 */
 	private int port;
+	/**
+	 * server.
+	 */
 	private String server;
+	/**
+	 * ship setup frame.
+	 */
 	private ShipSetupFrame ssf;
+	/**
+	 * p1 board vlaues.
+	 */
 	private int[][] p1Values = new int[10][10];
+	/**
+	 * p2 board values.
+	 */
 	private int[][] p2Values = new int[10][10];
-	private int[][] blankValues = new int[10][10];
-	private boolean ready = false;
+	/**
+	 * gameboard.
+	 */
 	private GameBoard gb;
+	/**
+	 * output stream.
+	 */
 	private ObjectOutputStream out;
+	/**
+	 * input stream.
+	 */
 	private ObjectInputStream in;
+	/**
+	 * socket.
+	 */
 	private Socket socket;
+	/**
+	 * serversocket.
+	 */
 	private ServerSocket serverSocket;
+	/**
+	 * keep going or stop.
+	 */
 	private boolean keepGoing = true;
 	
-	
-	public GameServer(String server, int port) {
+	/**
+	 * constructor. 
+	 * @param server ip address
+	 * @param port number
+	 */
+	public GameServer(final String server, final int port) {
 		this.port = port;
 		this.server = server;
 	}
 	
-	/*
-	 * start
+	/**
+	 * start.
 	 */
 	public void run() {
 		
@@ -59,7 +92,7 @@ public class GameServer extends Thread {
 			    @Override
 			    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
 			        if (JOptionPane.showConfirmDialog(frame, 
-			            "Are you sure you want to cancel your game?") == JOptionPane.YES_OPTION){
+			            "Are you sure you want to cancel your game?") == JOptionPane.YES_OPTION) {
 			            	shutDown();
 			        }
 			    }
@@ -83,7 +116,7 @@ public class GameServer extends Thread {
 			ssf.setLocationRelativeTo(null);
 
 			System.out.println("Waiting for host to set ships");
-			while(!ssf.getAreShipsSet()) {
+			while (!ssf.getAreShipsSet()) {
 				//System.out.println("sorry");
 			}
 			System.out.println("Host ships set");
@@ -98,7 +131,7 @@ public class GameServer extends Thread {
 			    @Override
 			    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
 			        if (JOptionPane.showConfirmDialog(frame, 
-			            "Are you sure you want to cancel your game?") == JOptionPane.YES_OPTION){
+			            "Are you sure you want to cancel your game?") == JOptionPane.YES_OPTION) {
 			            	shutDown();
 			        }
 			    }
@@ -132,13 +165,13 @@ public class GameServer extends Thread {
 		
 		System.out.println("loop for game started");
 		//play the game
-		while(!gb.getIsGameOver() && keepGoing) {
+		while (!gb.getIsGameOver() && keepGoing) {
 			
 			//take my shot
-			if(gb.getIsMyTurn()) {
+			if (gb.getIsMyTurn()) {
 				
 				System.out.println("Waiting for host to shoot");
-				while(gb.getShot() == null) {
+				while (gb.getShot() == null) {
 					
 				}
 				System.out.println("host has made shot");
@@ -154,12 +187,12 @@ public class GameServer extends Thread {
 				gb.setIsMyTurn(false);
 			
 			//get shot
-			} else if(!gb.getIsMyTurn()) {
+			} else if (!gb.getIsMyTurn()) {
 				
 				System.out.println("waiting for p2 to shoot");
 				try {
 					OnlineShot shot = (OnlineShot) in.readObject();
-					if(shot != null) {
+					if (shot != null) {
 						gb.append(shot);
 						System.out.println("Shot Recieved");
 						gb.setIsMyTurn(true);
@@ -181,7 +214,7 @@ public class GameServer extends Thread {
 	}
 	
 	/**
-	 * close sockets and exit
+	 * close sockets and exit.
 	 */
 	public void shutDown() {
 		
@@ -190,30 +223,35 @@ public class GameServer extends Thread {
 
 		//close everything
 		try { 
-			if(in!= null) in.close();
+			if (in != null) in.close();
 		}
-		catch(Exception e) {}
+		catch (Exception e) { }
 		try {
-			if(out != null) out.close();
+			if (out != null) out.close();
 		}
-		catch(Exception e) {}
-        try{
-			if(socket != null) socket.close();
+		catch (Exception e) { }
+        try {
+			if (socket != null) socket.close();
 		}
-		catch(Exception e) {}
-        try{
-			if(serverSocket != null) serverSocket.close();
+		catch (Exception e) { }
+        try {
+			if (serverSocket != null) serverSocket.close();
 		}
-		catch(Exception e) {}
+		catch (Exception e) { }
 		// inform the GUI
-		if(gb != null) {
+		if (gb != null) {
 			gb.connectionFailed();
 		}
 		
 		System.exit(0);
 	}
 	
-	public JFrame waitFrame(String message) {
+	/**
+	 * frame for when host is waiting.
+	 * 
+	 * @param message to display
+	 */
+	public JFrame waitFrame(final String message) {
 		JFrame waitFrame = new JFrame();
 		waitFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		waitFrame.setPreferredSize(new Dimension(500, 200));
@@ -232,7 +270,9 @@ public class GameServer extends Thread {
 		return waitFrame;
 	}
 	
-	
+	/**
+	 * run gameserver.
+	 */
 	public static void main(String[] args) {
 		int portNum = 5445;
 		String ip = "";
