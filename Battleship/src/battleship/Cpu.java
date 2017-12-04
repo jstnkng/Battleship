@@ -157,7 +157,7 @@ public class Cpu {
 					for (int x = 0; x < 10; x++) {
 						for (int y = 0; y < 10; y++) {
 							if (values[x][y] == target) {
-								p = new Point(y,x);
+								p = new Point(x,y);
 								if (cpuShots.contains(p)) {
 									
 								}
