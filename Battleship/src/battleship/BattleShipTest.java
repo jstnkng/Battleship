@@ -5,6 +5,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import org.junit.Test;
@@ -1234,44 +1236,71 @@ public class BattleShipTest {
 //		assertEquals(2, testBoard.getPatrolBoatHits());
 //	}
 	
+	
 	/**
-	 * Creates a ShipSetupFrame for testing.
-	 * @return a ShipSetupFrame
+	 * test the server.
 	 */
-	public ShipSetupFrame createSSF() {
+	@Test 
+	public void testServer() {
+		Server server = new Server(5445);
+		server.start();
 		
-		ShipSetupFrame testFrame = 
-				new ShipSetupFrame(GameMode.OnePlayerMode, 1, Difficulty.Easy);
+		MultiplayerMenu gui = new MultiplayerMenu();
 		
-		//snaps aircraft carrier to column 1 row 1
-		testFrame.getAircraftCarrier().setLocation(600, 130);
-		testFrame.snapShipToX(testFrame.getAircraftCarrier());
-		testFrame.snapShipToY(testFrame.getAircraftCarrier());
+		Client client = new Client("localhost", 5445, gui);
+		client.start();
 		
-		//snaps battleShip to column 1 row 2
-		testFrame.getBattleShip().setLocation(600, 165);
-		testFrame.snapShipToX(testFrame.getBattleShip());
-		testFrame.snapShipToY(testFrame.getBattleShip());
+		String ip = client.getMyIP();
 		
-		//snaps cruiser to column 1 row 3
-		testFrame.getCruiser().setLocation(600, 223);
-		testFrame.snapShipToX(testFrame.getCruiser());
-		testFrame.snapShipToY(testFrame.getCruiser());
+		ServerInfo si = new ServerInfo("name", "password", ip, 0);
 		
-		//snaps submarine to column 1 row 4
-		testFrame.getSubmarine().setLocation(600, 281);
-		testFrame.snapShipToX(testFrame.getSubmarine());
-		testFrame.snapShipToY(testFrame.getSubmarine());
+		assertEquals("name", si.getName());
+		assertEquals("password", si.getPassword());
+		assertEquals(ip, si.getIP());
+		assertEquals(0, si.getType());
+		assertEquals(si, si.getServerInfo());
 		
-		//snaps patrol boat to column 1 row 5
-		testFrame.getPatrolBoat().setLocation(600, 339);
-		testFrame.snapShipToX(testFrame.getPatrolBoat());
-		testFrame.snapShipToY(testFrame.getPatrolBoat());
 		
-		testFrame.submit();
-		
-		return testFrame;
 	}
+	
+//	/**
+//	 * Creates a ShipSetupFrame for testing.
+//	 * @return a ShipSetupFrame
+//	 */
+//	public ShipSetupFrame createSSF() {
+//		
+//		ShipSetupFrame testFrame = 
+//				new ShipSetupFrame(GameMode.OnePlayerMode, 1, Difficulty.Easy);
+//		
+//		//snaps aircraft carrier to column 1 row 1
+//		testFrame.getAircraftCarrier().setLocation(600, 130);
+//		testFrame.snapShipToX(testFrame.getAircraftCarrier());
+//		testFrame.snapShipToY(testFrame.getAircraftCarrier());
+//		
+//		//snaps battleShip to column 1 row 2
+//		testFrame.getBattleShip().setLocation(600, 165);
+//		testFrame.snapShipToX(testFrame.getBattleShip());
+//		testFrame.snapShipToY(testFrame.getBattleShip());
+//		
+//		//snaps cruiser to column 1 row 3
+//		testFrame.getCruiser().setLocation(600, 223);
+//		testFrame.snapShipToX(testFrame.getCruiser());
+//		testFrame.snapShipToY(testFrame.getCruiser());
+//		
+//		//snaps submarine to column 1 row 4
+//		testFrame.getSubmarine().setLocation(600, 281);
+//		testFrame.snapShipToX(testFrame.getSubmarine());
+//		testFrame.snapShipToY(testFrame.getSubmarine());
+//		
+//		//snaps patrol boat to column 1 row 5
+//		testFrame.getPatrolBoat().setLocation(600, 339);
+//		testFrame.snapShipToX(testFrame.getPatrolBoat());
+//		testFrame.snapShipToY(testFrame.getPatrolBoat());
+//		
+//		testFrame.submit();
+//		
+//		return testFrame;
+//	}
 	
 
 }

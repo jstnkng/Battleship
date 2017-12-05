@@ -10,7 +10,7 @@ import java.util.*;
  * @author Sam Carson
  *
  */
-public class Server {
+public class Server extends Thread{
 	
 	/**
 	 * port number for server.
@@ -37,6 +37,7 @@ public class Server {
 	 */
 	private ArrayList<ServerInfo> serverList;
 
+	
 	/**
 	 * constructor.
 	 * 
@@ -51,7 +52,7 @@ public class Server {
 	/**
 	 * start.
 	 */
-	public void start() {
+	public void run() {
 		keepGoing = true;
 
 		//try to create serverSocket and wait for connections
@@ -95,6 +96,9 @@ public class Server {
 						e.printStackTrace();
 					}
 				}
+				
+				System.exit(0);
+				
 			} catch (Exception e) {
 				System.out.println("Exception, closing server and clients");
 				e.printStackTrace();
@@ -160,7 +164,7 @@ public class Server {
 
 
 	}
-
+	
 	/**
 	 * run server.
 	 */
