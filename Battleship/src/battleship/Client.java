@@ -164,28 +164,28 @@ public class Client {
 		System.exit(0);
 	}
 
-	/**
-	 * run client.
-	 * 
-	 * @param args args
-	 */
-	public static void main(String[] args) {
-		int portNum = 5445;
-		//aws ip = 13.58.209.10
-		String serverAdd = "13.58.209.10";
-		MultiplayerMenu gui = new MultiplayerMenu();
-		
-		//create client
-		Client client = new Client(serverAdd, portNum, gui);
-		
-		gui.start(client);
-		
-		if (!client.start()) {
-			return;
-		}
-		
-		
-	}
+//	/**
+//	 * run client.
+//	 * 
+//	 * @param args args
+//	 */
+//	public static void main(String[] args) {
+//		int portNum = 5445;
+//		//aws ip = 13.58.209.10
+//		String serverAdd = "13.58.209.10";
+//		MultiplayerMenu gui = new MultiplayerMenu();
+//		
+//		//create client
+//		Client client = new Client(serverAdd, portNum, gui);
+//		
+//		gui.start(client);
+//		
+//		if (!client.start()) {
+//			return;
+//		}
+//		
+//		
+//	}
 	
 	/**
 	 * a class that waits for the serverInfo object from the server and then adds
