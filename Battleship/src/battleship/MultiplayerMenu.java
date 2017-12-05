@@ -263,6 +263,7 @@ public class MultiplayerMenu extends JFrame implements MouseListener, RowSorterL
 					//send to server via client
 					client.sendServerInfo(server);
 					
+					this.setVisible(false);
 					
 					GameServer gs = new GameServer(server.getIP(), portNum);
 					gs.start();
@@ -295,6 +296,8 @@ public class MultiplayerMenu extends JFrame implements MouseListener, RowSorterL
 								//connect user to host
 								String ipToConnect = serverList.get(row).getIP();
 								
+								this.setVisible(false);
+								
 								//Join server
 								GameClient gc = new GameClient(ipToConnect, portNum);
 								gc.start();
@@ -311,6 +314,8 @@ public class MultiplayerMenu extends JFrame implements MouseListener, RowSorterL
 						
 						//connect user to host
 						String ipToConnect = serverList.get(row).getIP();
+						
+						this.setVisible(false);
 						
 						//Join server
 						GameClient gc = new GameClient(ipToConnect, portNum);
