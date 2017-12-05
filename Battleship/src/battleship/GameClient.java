@@ -160,7 +160,7 @@ public class GameClient extends Thread {
 
 			//take my shot
 			if (gb.getIsMyTurn()) {
-
+				gb.setTitle("Your turn");
 				System.out.println("Waiting for p2 to shoot");
 				while (gb.getShot() == null) {
 
@@ -179,7 +179,7 @@ public class GameClient extends Thread {
 
 			//get shot
 			} else if (!gb.getIsMyTurn()) {
-
+				gb.setTitle("Waiting for other player's shot");
 				System.out.println("waiting for host to shoot");
 				try {
 					OnlineShot shot = (OnlineShot) in.readObject();
