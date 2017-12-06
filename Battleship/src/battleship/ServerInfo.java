@@ -14,6 +14,7 @@ public class ServerInfo implements Serializable {
 	private String name;
 	/**
 	 * returns the name of the server
+	 * @return name Name of server
 	 */
 	public String getName() { return name;}
 	/**
@@ -22,6 +23,7 @@ public class ServerInfo implements Serializable {
 	private String password;
 	/**
 	 * returns the password of the server
+	 * @return password the password of the server
 	 */
 	public String getPassword() { return password;}
 	/**
@@ -30,6 +32,7 @@ public class ServerInfo implements Serializable {
 	private String IP;
 	/**
 	 * returns the IP of the server
+	 * @return IP Ip address of server
 	 */
 	public String getIP() { return IP;}
 	/**
@@ -38,6 +41,7 @@ public class ServerInfo implements Serializable {
 	private int type;
 	/**
 	 * returns the type of ServerInfo message
+	 * @return type Type of server
 	 */
 	public int getType() {return type;}
 	/**
@@ -46,19 +50,23 @@ public class ServerInfo implements Serializable {
 	public int ID;
 	/**
 	 * sets ID
+	 * @param id ID to set for server
 	 */
 	public void setID(int id) {ID = id;}
 	/**
 	 * returns ID
+	 * @return ID ID of server
 	 */
 	public int getID() {return ID;}
 	
 	
 	/**
 	 * constructor 
-	 * @param serverName
-	 * @param serverPass
-	 * @param IPAddress
+	 * @param serverName name of the server
+	 * @param serverPass password of the server
+	 * @param IPAddress IPAddress of the server
+	 * @param t Type of server
+	 * 
 	 */
 	public ServerInfo(String serverName, String serverPass, String IPAddress, int t) {
 		name = serverName;
@@ -69,6 +77,7 @@ public class ServerInfo implements Serializable {
 	
 	/**
 	 * returns the ServerInfo object
+	 * @return this Returns itself
 	 */
 	public ServerInfo getServerInfo() {
 		return this;

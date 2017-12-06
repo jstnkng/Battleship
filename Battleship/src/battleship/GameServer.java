@@ -251,6 +251,7 @@ public class GameServer extends Thread {
 	 * frame for when host is waiting.
 	 * 
 	 * @param message to display
+	 * @return JFrame frame to display wait message
 	 */
 	public JFrame waitFrame(final String message) {
 		JFrame waitFrame = new JFrame();
@@ -273,6 +274,7 @@ public class GameServer extends Thread {
 	
 	/**
 	 * run gameserver.
+	 * @param args Array of strings for main method
 	 */
 	public static void main(String[] args) {
 		int portNum = 5445;

@@ -15,7 +15,7 @@ public class OnlineShot implements Serializable{
 	 */
 	private Point shotLoc;
 	/**
-	 * 
+	 * @return Point point shot
 	 */
 	public Point getShotLoc() { return shotLoc;}
 	/**
@@ -23,7 +23,7 @@ public class OnlineShot implements Serializable{
 	 */
 	private Boolean isGameOver = false;
 	/**
-	 * 
+	 * @return isGameOver Boolean whether game is over or not
 	 */
 	public Boolean getIsGameOver() { return isGameOver;}
 	

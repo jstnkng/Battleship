@@ -167,6 +167,7 @@ public class Server extends Thread{
 	
 	/**
 	 * run server.
+	 * @param args Array of strings for main method
 	 */
 	public static void main(String[] args) {
 		int portNum = 5445;

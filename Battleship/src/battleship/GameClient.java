@@ -237,6 +237,7 @@ public class GameClient extends Thread {
 	 * frame when client is waiting.
 	 * 
 	 * @param message to display
+	 * @return JFrame the frame to display wait message
 	 */
 	public JFrame waitFrame(final String message) {
 		JFrame waitFrame = new JFrame();
@@ -259,6 +260,7 @@ public class GameClient extends Thread {
 	
 	/**
 	 * run gameclient.
+	 * @param args Array of strings passed to main
 	 */
 	public static void main(String[] args) {
 		int portNum = 5445;

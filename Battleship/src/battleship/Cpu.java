@@ -85,10 +85,10 @@ public class Cpu {
 		
 		/**
 		 * chooses the shot for the cpu for normal difficulty.
-		 * @param firstHitLoc first shot location
-		 * @param lastHitLoc last shit location
-		 * @param wasHit if last shot was hit
-		 * @param inPursuit if in pursuit
+		 * @param firstHit first shot location
+		 * @param lastHit last shit location
+		 * @param hit if last shot was hit
+		 * @param pursuit if in pursuit
 		 * @return Point point to shoot
 		 */
 		public Point fireNormal(final Point firstHit, 

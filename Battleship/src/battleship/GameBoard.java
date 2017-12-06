@@ -412,6 +412,9 @@ public class GameBoard extends JFrame implements MouseListener {
 	
 	/**
 	 * constructor for multiplayer
+	 * @param p1Values array of values for player 1
+	 * @param p2Values array of values for player 2
+	 * @param c Object passed to create GameBoard on
 	 */
 	public GameBoard(int[][] p1Values, int[][] p2Values, Object c) {
 		
